@@ -1,0 +1,5 @@
+Host *
+  FallBackToRsh no
+  UseRsh no
+  GatewayPorts no
+  StrictHostKeyChecking ask

@@ -1,0 +1,181 @@
+call plug#begin('~/.vim/plugged')
+
+" file explorer
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+" mysql
+Plug 'NLKNguyen/pipe.vim'
+Plug 'NLKNguyen/pipe-mysql.vim'
+" linting
+Plug 'dense-analysis/ale'
+" theme
+Plug 'NLKNguyen/papercolor-theme'
+" speaks for itself
+Plug 'tpope/vim-markdown'
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
+Plug 'leafgarland/typescript-vim'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+" comment toggling
+Plug 'tpope/vim-commentary'
+" surround things with things
+Plug 'tpope/vim-surround'
+" nice minimal/pluggable statusline
+Plug 'tpope/vim-flagship'
+" vim and git make love
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
+Plug 'shumphrey/fugitive-gitlab.vim'
+Plug 'tommcdo/vim-fugitive-blame-ext'
+" enable repeating supported plugin maps with "."
+Plug 'tpope/vim-repeat'
+" pairs of handy bracket mappings
+Plug 'tpope/vim-unimpaired'
+" gist magic
+Plug 'mattn/gist-vim'
+" vim interface to web api, gist-vim depends on it
+Plug 'mattn/webapi-vim'
+" show vim status in gutter
+Plug 'airblade/vim-gitgutter'
+" navigate tmux and vim splits seamlessly
+Plug 'christoomey/vim-tmux-navigator'
+" exchange any two text values
+Plug 'tommcdo/vim-exchange'
+" enable text object user plugins
+Plug 'kana/vim-textobj-user'
+" ae/ie for the entire region of the current buffer
+Plug 'kana/vim-textobj-entire'
+" telescope
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+" better quickfix lists
+Plug 'kevinhwang91/nvim-bqf'
+
+call plug#end()
+
+set nocompatible
+
+" leader
+let mapleader="\<Space>"
+:noremap , <Esc>:echoerr 'NEW LEADER KEY IS SPACEBAR!!'<CR>
+
+filetype plugin on
+
+filetype indent plugin on
+
+" editing prefs
+set tabstop=2
+set smarttab
+set autoindent
+set smartindent
+set shiftwidth=2
+set shiftround
+set ignorecase
+set smartcase
+set nohlsearch
+set incsearch
+set expandtab
+set ai
+set copyindent
+set nowrap
+set ruler
+set backspace=eol,start,indent
+set cmdwinheight=15
+
+set hidden
+set cursorline
+set colorcolumn=80
+set history=1000
+set nofoldenable
+set list
+" make split direction more natural (or, like tmux at least)
+set splitbelow
+set splitright
+" NOTE here we map literal characters to something
+"      hopefully more palatable
+set listchars=tab:\|\ ,trail:.,extends:#,nbsp:.
+set tabstop=4
+set expandtab
+" NOTE turned off by default because it breaks indentation
+" set paste
+set pastetoggle=<F2>
+set number
+" recommended by flagship
+set laststatus=2
+set showtabline=2
+set guioptions-=e
+
+" more history
+set history=200
+
+" " backups
+" " via http://www.gmarks.org/vi_backups.html
+" set backup
+" set writebackup
+" " some nice naming, places them all in a single directory with a boatload of
+" " metadata in the file name.
+" au BufWritePre * let &backupext = '%' . substitute(expand("%:p:h"), "/" , "%" , "g") . "%" . strftime("%Y.%m.%d.%H.%M.%S")
+" au VimLeave * !cp % ~/.vim/backups/$(echo %:p | sed 's/\(.*\/\)\(.*\)/\2\/\1/g' | sed 's/\//\%/g')$(date +\%Y.\%m.\%d.\%H.\%M.\%S).wq
+" " backup files
+" set backupdir=~/.vim/backups/
+" " swap files
+" set directory=./.vim/backups,/tmp
+
+" tab to next buffer
+nnoremap <silent> <Tab> :bn<CR>
+" shift tab to previous buffer
+nnoremap <silent> <S-Tab> :bp<CR>
+
+" quick save
+noremap <Leader>j :update<CR>
+" quick save + quit
+noremap <Leader>a :update<CR>:quit<CR>
+
+" a binding for closing things, closes:
+" * the current buffer :bd
+" * the quickfix list :lclose
+noremap Q :bd<CR>:lclose<CR>
+
+" select last paste in visual mode
+nnoremap <expr> gb '`[' . strpart(getregtype(), 0, 1) . '`]'
+
+" colors
+syntax enable
+syntax on
+set t_Co=256
+set background=dark
+colorscheme PaperColor
+
+" setup gist
+let g:gist_show_privates = 1
+let g:gist_post_private = 1
+let g:gist_detect_filetype = 1
+let g:gist_get_multiplefile = 1
+
+" setup vim markdown
+let g:vim_markdown_folding_disabled=1
+" fuzzy find file in project
+nnoremap <leader>l <cmd>Telescope git_files<cr>
+nnoremap <leader>k <cmd>Telescope live_grep<cr>
+nnoremap <leader>f <cmd>Telescope grep_string<cr>
+nnoremap <leader>s <cmd>Telescope find_files<cr>
+
+let NERDTreeChDirMode=2
+let NERDTreeWinSize=35
+let NERDTreeQuitOnOpen=1
+let NERDTreeShowHidden=1
+nnoremap <leader>; :NERDTreeToggle<CR>
+
+" linting
+let g:ale_fixers = {'javascript': ['prettier-standard', 'prettier'], 'typescript': ['prettier'], 'python': ['black']}
+let g:ale_linters = {'javascript': ['prettier-standard'], 'typescript': []}
+let g:ale_fix_on_save = 1
+let g:ale_list_window_size = 5
+let g:ale_python_flake8_options = '--builtins="show_object" --max-line-length=88 --extend-ignore=E203,E501'
+
+
+" Highlight tsx
+augroup SyntaxSettings
+    autocmd!
+    autocmd BufNewFile,BufRead *.tsx set filetype=typescript
+augroup END
