@@ -83,7 +83,6 @@ hc keybind $Mod-space                                                           
                      . cycle_layout +1 vertical horizontal max vertical grid    \
                , cycle_layout +1
 
-# mouse
 hc mouseunbind --all
 hc mousebind $Mod-Button1 move
 hc mousebind $Mod-Button2 zoom
