@@ -4,7 +4,7 @@ A brutally minimal work environment
 
 ## Usage
 
-Use preseed file with Debian 11.2.0 ISO by pressing `<ESC>` when installer starts
+Use preseed file with Debian 11.3.0 ISO by pressing `<ESC>` when installer starts
 
 ```
 auto url=https://raw.githubusercontent.com/possibilities/dotfiles-next/main/preseed.cfg
