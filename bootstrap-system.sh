@@ -22,6 +22,8 @@ QUTEBROWSER_VERSION="v2.5.1"
 
 echo "configure basics"
 
+mkdir -p /home/mike/src
+
 arch="`uname -r | sed 's/^.*[0-9]\{1,\}\.[0-9]\{1,\}\.[0-9]\{1,\}\(-[0-9]\{1,2\}\)-//'`"
 debian_version="`lsb_release -r | awk '{print $2}'`";
 major_version="`echo $debian_version | awk -F. '{print $1}'`";
@@ -226,9 +228,9 @@ sudo apt install --yes \
   xsltproc \
   xterm
 
-rm -rf /tmp/herbstluftwm
-git clone https://github.com/herbstluftwm/herbstluftwm.git /tmp/herbstluftwm
-cd /tmp/herbstluftwm
+rm -rf /home/mike/src/herbstluftwm
+git clone https://github.com/herbstluftwm/herbstluftwm.git /home/mike/src/herbstluftwm
+cd /home/mike/src/herbstluftwm
 git checkout ${HERBSTLUFTWM_VERSION}
 mkdir build && cd build
 cmake ..
@@ -266,9 +268,9 @@ sudo apt --yes install \
   unzip \
   doxygen
 
-rm -rf /tmp/neovim
-git clone https://github.com/neovim/neovim.git /tmp/neovim
-cd /tmp/neovim
+rm -rf /home/mike/src/neovim
+git clone https://github.com/neovim/neovim.git /home/mike/src/neovim
+cd /home/mike/src/neovim
 git checkout ${NEOVIM_VERSION}
 make CMAKE_BUILD_TYPE=Release
 sudo make install
@@ -282,9 +284,9 @@ sudo apt install --yes \
   automake \
   bison
 
-rm -rf /tmp/tmux
-git clone https://github.com/tmux/tmux.git /tmp/tmux
-cd /tmp/tmux
+rm -rf /home/mike/src/tmux
+git clone https://github.com/tmux/tmux.git /home/mike/src/tmux
+cd /home/mike/src/tmux
 git checkout ${TMUX_VERSION}
 sh autogen.sh
 ./configure && make
@@ -305,9 +307,9 @@ curl https://sh.rustup.rs -sSf | sudo sh -s -- -y
 sudo /root/.cargo/bin/rustup override set stable
 sudo /root/.cargo/bin/rustup update stable
 
-rm -rf /tmp/alacritty
-git clone https://github.com/alacritty/alacritty.git /tmp/alacritty
-cd /tmp/alacritty
+rm -rf /home/mike/src/alacritty
+git clone https://github.com/alacritty/alacritty.git /home/mike/src/alacritty
+cd /home/mike/src/alacritty
 git checkout ${ALACRITTY_VERSION}
 sudo /root/.cargo/bin/cargo build --release
 sudo cp target/release/alacritty /usr/local/bin
@@ -321,9 +323,9 @@ sudo /root/.cargo/bin/rustup self uninstall -y
 
 echo "install slack"
 
-rm -rf /tmp/slack
-mkdir /tmp/slack
-cd /tmp/slack
+rm -rf /home/mike/src/slack
+mkdir /home/mike/src/slack
+cd /home/mike/src/slack
 wget https://ftp.us.debian.org/debian/pool/main/libi/libindicator/libindicator3-7_0.5.0-4_amd64.deb
 wget https://ftp.us.debian.org/debian/pool/main/liba/libappindicator/libappindicator3-1_0.4.92-7_amd64.deb
 sudo apt install --yes ./libindicator3-7_0.5.0-4_amd64.deb
