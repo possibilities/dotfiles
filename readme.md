@@ -14,7 +14,6 @@ Install everything
 
 ```
 wget -O - https://raw.githubusercontent.com/possibilities/dotfiles-next/main/bootstrap-system.sh | sh
-wget -O - https://raw.githubusercontent.com/possibilities/dotfiles-next/main/bootstrap-dotfiles.sh | sh
 ```
 
 Install dotfiles only (after bootstrap)
