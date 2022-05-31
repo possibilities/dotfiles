@@ -249,7 +249,7 @@ sudo apt --yes --no-install-recommends install \
   gcc \
   python3-dev \
   libnss3 \
-  libasound-dev
+  libasound2
 
 mkdir -p /home/mike/src/
 rm -rf /home/mike/src/qutebrowser
