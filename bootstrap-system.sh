@@ -1,6 +1,13 @@
 #!/bin/sh
 
 # TODO
+# * Git from source
+# * OBS
+# * Lab
+# * Hub
+# * NVM
+# * Tmuxp
+# * Fonts
 # * Screenshots
 # * Notifications
 # * Time/weather
