@@ -239,16 +239,37 @@ sudo make prefix=/usr/local install
 
 echo "install qutebrowser"
 
-sudo apt --yes install \
+sudo apt --yes --no-install-recommends install \
+  ca-certificates \
   python3 \
-  python3-venv
+  python3-venv \
+  asciidoc \
+  libglib2.0-0 \
+  libgl1 \
+  libfontconfig1 \
+  libxcb-icccm4 \
+  libxcb-image0 \
+  libxcb-keysyms1 \
+  libxcb-randr0 \
+  libxcb-render-util0 \
+  libxcb-shape0 \
+  libxcb-xfixes0 \
+  libxcb-xinerama0 \
+  libxcb-xkb1 \
+  libxkbcommon-x11-0 \
+  libdbus-1-3 \
+  libyaml-dev \
+  gcc \
+  python3-dev \
+  libnss3 \
+  libasound-dev
 
 mkdir -p /home/mike/src/
 rm -rf /home/mike/src/qutebrowser
 git clone https://github.com/qutebrowser/qutebrowser.git /home/mike/src/qutebrowser
 cd /home/mike/src/qutebrowser
 git checkout ${QUTEBROWSER_VERSION}
-python3 scripts/mkvenv.py
+python3 scripts/mkvenv.py --skip-smoke-test
 
 echo "install neovim"
 
