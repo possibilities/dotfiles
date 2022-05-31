@@ -22,6 +22,10 @@ TMUX_VERSION="3.2a"
 NODE_VERSION="14"
 QUTEBROWSER_VERSION="v2.5.1"
 
+echo "update apt"
+
+sudo apt update
+
 echo "configure basics"
 
 mkdir -p /home/mike/src
@@ -47,8 +51,6 @@ APT::Periodic::Download-Upgradeable-Packages "0";
 APT::Periodic::AutocleanInterval "0";
 APT::Periodic::Unattended-Upgrade "0";
 EOF
-
-sudo apt update;
 
 sudo apt -y upgrade linux-image-$arch;
 sudo apt -y install linux-headers-`uname -r`;
@@ -167,10 +169,6 @@ if [ "x${swapuuid}" != "x" ]; then
 fi
 
 sync;
-
-echo "update apt"
-
-sudo apt update
 
 echo "install misc tools"
 
