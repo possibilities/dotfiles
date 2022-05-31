@@ -347,8 +347,8 @@ echo "install slack"
 rm -rf /home/mike/src/slack
 mkdir /home/mike/src/slack
 cd /home/mike/src/slack
-wget https://ftp.us.debian.org/debian/pool/main/libi/libindicator/libindicator3-7_0.5.0-4_amd64.deb
-wget https://ftp.us.debian.org/debian/pool/main/liba/libappindicator/libappindicator3-1_0.4.92-7_amd64.deb
+wget https://mirrors.wikimedia.org/debian/pool/main/libi/libindicator/libindicator3-7_0.5.0-4_amd64.deb
+wget https://mirrors.wikimedia.org/debian/pool/main/liba/libappindicator/libappindicator3-1_0.4.92-7_amd64.deb
 sudo apt install --yes ./libindicator3-7_0.5.0-4_amd64.deb
 sudo apt install --yes ./libappindicator3-1_0.4.92-7_amd64.deb
 wget https://downloads.slack-edge.com/releases/linux/4.26.1/prod/x64/slack-desktop-4.26.1-amd64.deb
