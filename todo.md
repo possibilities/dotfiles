@@ -4,13 +4,18 @@
 * OBS
 * Lab
 * Hub
+* Gist
 * NVM
+* Tree sitter install error
+* Node tools
+  * serve
+  * nodemon
 * Tmuxp
 * Fonts
 * Screenshots
 * Notifications
 * Time/weather
-* Prevent qute browser quickstart from opening first time
+* System status
 * Prevent fetching gitstatus for zsh when opening shell for the first time
 * Restore
   * Ssh key
