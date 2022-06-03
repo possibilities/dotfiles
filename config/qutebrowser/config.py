@@ -8,6 +8,8 @@ config.bind("J", "tab-prev")
 config.bind("<<", "tab-move -")
 config.bind(">>", "tab-move +")
 
+config.set('scrolling.bar', 'when-searching')
+
 config.set("tabs.show", "multiple")
 config.set("statusbar.show", "in-mode")
 
