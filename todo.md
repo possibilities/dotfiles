@@ -17,6 +17,7 @@
 * Time/weather
 * System status
 * Prevent fetching gitstatus for zsh when opening shell for the first time
+* Use duplicity -> S3 for backup/restore
 * Restore
   * Ssh key
   * Zsh history
