@@ -23,6 +23,8 @@ setopt EXTENDED_GLOB
 export EDITOR='nvim'
 export VISUAL='nvim'
 
+# Prompt helpers
+
 function prompt-length() {
   emulate -L zsh
   local COLUMNS=${2:-$COLUMNS}
@@ -75,6 +77,8 @@ function set-prompt() {
 
   PROMPT="$(fill-line "$top_left" "$top_right")"$'\n'$bottom_left
 }
+
+# Set prompt using helpers
 
 autoload -Uz add-zsh-hook
 add-zsh-hook precmd set-prompt
