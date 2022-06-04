@@ -165,7 +165,8 @@ sudo apt install --yes \
   curl \
   zsh \
   dmenu \
-  git
+  git \
+  xclip
 
 echo "install node"
 
