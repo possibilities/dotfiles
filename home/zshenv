@@ -1,7 +1,9 @@
 setopt prompt_subst
-setopt hist_ignore_dups
+export WORDCHARS='*?[]~=&;!#$%^(){}'
 
-# Lines configured by zsh-newuser-install
+# History settings
+
+setopt hist_ignore_dups
 HISTFILE=~/.zsh_history
 HISTSIZE=1000000
 SAVEHIST=1000000
@@ -11,17 +13,20 @@ setopt inc_append_history
 unsetopt autocd
 bindkey -e
 
+# Completions
+
 autoload -Uz compinit
 compinit
 setopt complete_in_word
-
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 
-export WORDCHARS='*?[]~=&;!#$%^(){}'
+# Auto escape carets
 
 bindkey '^' self-insert-backslash
 function self-insert-backslash() { LBUFFER+='\'; zle .self-insert }
 zle -N self-insert-backslash
+
+# Some helpers that are bound to aliases
 
 tmux_name_window_after_directory() {
   tmux rename-window -t${TMUX_PANE} `basename $PWD`
@@ -34,8 +39,3 @@ tmux_name_window() {
 grep_history() {
   cat ~/.zsh_history | grep $1
 }
-
-# pip uses this when you install with --use
-export PATH=$HOME/.local/bin:$PATH
-# for personal scripts
-export PATH=$HOME/local/bin:$PATH
