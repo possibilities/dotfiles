@@ -27,16 +27,11 @@ git_prompt() {
   BRANCH=$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/*\(.*\)/\1/')
 
   if [ ! -z $BRANCH ]; then
-    echo -n "%F{yellow}$BRANCH"
-
-    STATUS=$(git status --short 2> /dev/null)
-
-    if [ -z "$STATUS" ]; then
-      echo " %F{STATUS}✗"
-    fi
+    STATUS=$(git rev-parse --short HEAD)
+    echo "%F{238}$BRANCH@${STATUS}"
   fi
 }
 
 PS1='
-%F{blue}%~$(git_prompt)
-%F{244}%# %F{reset}'
+%F{238}%~$(git_prompt)
+%F{240}%B∴%b %F{reset}'
