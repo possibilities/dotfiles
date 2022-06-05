@@ -12,8 +12,10 @@ echo TODO restore selective files only
 # * Ssh key
 # * Zsh history
 # * Gist creds
+# * Gist-vim creds
 # * Slack creds
 # * Browser meta
+# * Lab creds
 
 # duplicity \
 #   --force \

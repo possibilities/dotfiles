@@ -2,7 +2,6 @@
 
 ## Needed
 
-* Lab
 * Gist
 * Tree sitter install error
 * Tmuxp

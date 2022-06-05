@@ -354,6 +354,12 @@ sudo apt install --yes ./libappindicator3-1_0.4.92-7_amd64.deb
 wget https://downloads.slack-edge.com/releases/linux/4.26.1/prod/x64/slack-desktop-4.26.1-amd64.deb
 sudo apt install --yes ./slack-desktop-*.deb
 
+echo "install lab"
+
+curl -s https://raw.githubusercontent.com/zaquestion/lab/master/install.sh | sudo bash
+
+echo "bootstrap dotfiles"
+
 if [ ! -d "/home/mike/code/dotfiles" ]; then
   wget -O - https://raw.githubusercontent.com/possibilities/dotfiles-next/main/bootstrap-dotfiles.sh | sh
 fi
