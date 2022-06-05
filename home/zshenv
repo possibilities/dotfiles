@@ -1,6 +1,11 @@
 setopt prompt_subst
 export WORDCHARS='*?[]~=&;!#$%^(){}'
 
+# Set up path
+
+# Needed for pip installations
+export PATH=$HOME/.local/bin:$PATH
+
 # History settings
 
 setopt hist_ignore_dups
