@@ -8,6 +8,7 @@ HERBSTLUFTWM_VERSION="v0.9.4"
 TMUX_VERSION="3.2a"
 NODE_VERSION="14"
 QUTEBROWSER_VERSION="v2.5.1"
+DUPLICITY_VERSION="rel.0.8.23"
 
 echo "update apt"
 
@@ -167,6 +168,17 @@ sudo apt install --yes \
   dmenu \
   git \
   xclip
+
+echo "install duplicity"
+
+sudo apt install --yes librsync-dev python3-pip
+
+rm -rf /home/mike/src/duplicity
+git clone https://gitlab.com/duplicity/duplicity.git /home/mike/src/duplicity
+cd /home/mike/src/duplicity
+git checkout ${DUPLICITY_VERSION}
+pip3 install -r requirements.txt
+sudo python3 setup.py install
 
 echo "install node"
 
