@@ -1,26 +1,27 @@
 # TODO
 
-* Git from source
-* OBS
+## Needed
+
 * Lab
-* Hub
 * Gist
-* NVM
-* Difftastic?
 * Tree sitter install error
+* Tmuxp
 * Node tools
   * serve
   * nodemon
-* Tmuxp
+
+## Kinda needed
+
 * Fonts
 * Screenshots
+
+## Wanted
+
+* OBS
+* Hub
+* NVM
+* Difftastic?
 * Notifications
 * Time/weather
 * System status
-* Use duplicity -> S3 for backup/restore
-* Restore
-  * Ssh key
-  * Zsh history
-  * Gist creds
-  * Slack creds
-  * Browser meta
+* Git from source
