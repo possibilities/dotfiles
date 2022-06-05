@@ -22,6 +22,7 @@ default_term='alacritty'
 hc keybind $Mod-Return spawn ${TERMINAL:-$default_term}
 
 hc keybind $Mod-d spawn dmenu_run
+hc keybind $Mod-b spawn qutebrowser
 
 hc keybind $Mod-Left  focus left
 hc keybind $Mod-Down  focus down
