@@ -3,6 +3,11 @@ if [ -e "$HOME/.aliases" ]; then
   source "$HOME/.aliases"
 fi
 
+# Load private environment variables
+if [ -e "$HOME/.private_environment" ]; then
+  source "$HOME/.private_environment"
+fi
+
 # Ignore duplicate history entries
 setopt histignoredups
 
