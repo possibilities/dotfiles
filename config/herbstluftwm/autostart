@@ -89,10 +89,16 @@ hc mousebind $Mod-Button2 zoom
 hc mousebind $Mod-Button3 resize
 
 hc keybind $Mod-BackSpace   cycle_monitor
-hc keybind $Mod-Tab         cycle_all +1
-hc keybind $Mod-Shift-Tab   cycle_all -1
 hc keybind $Mod-c cycle
 hc keybind $Mod-i jumpto urgent
+
+# Cycle clients
+hc keybind $Mod-Tab         cycle_all +1
+hc keybind $Mod-Shift-Tab   cycle_all -1
+# Eventually get rid of this some way and use the above binding
+hc keybind Mod1-Tab         cycle_all +1
+hc keybind Mod1-Shift-Tab   cycle_all -1
+
 
 hc attr theme.tiling.reset 1
 hc attr theme.floating.reset 1
