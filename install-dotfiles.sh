@@ -47,10 +47,6 @@ do
   sudo ln -sfT $PWD/$file /usr/local/bin/$file_name
 done
 
-echo "install power level 10k"
-rm -rf ${HOME}/.powerlevel10k
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${HOME}/.powerlevel10k
-
 echo "setup vim plugins"
 
 mkdir -p ${HOME}/.vim/backups
