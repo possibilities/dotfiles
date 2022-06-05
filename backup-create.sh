@@ -7,12 +7,18 @@ if [ -z "${BACKUP_NAME}" ]; then
   exit 1
 fi
 
+# TODO
+# * Slack creds
+# * Browser meta
+# * Lab creds
+
 duplicity \
-  --exclude='/home/mike/.cache' \
-  --exclude='/home/mike/.local' \
-  --exclude='/home/mike/.vim' \
-  --exclude='/home/mike/src' \
-  --exclude='/home/mike/code/**/node_modules' \
-  --copy-links \
+  --include=/home/mike/.private_environment \
+  --include=/home/mike/.ssh/id_ed25519 \
+  --include=/home/mike/.ssh/id_ed25519.pub \
+  --include=/home/mike/.gist \
+  --include=/home/mike/.gist-vim \
+  --include=/home/mike/.zsh_history \
+  --exclude="**" \
   /home/mike \
   "s3:///mike-backups-4c256a80-e412-11ec-94cf-5f96b9da8566/${BACKUP_NAME}"
