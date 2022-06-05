@@ -170,17 +170,6 @@ sudo apt install --yes \
   xclip \
   xsel
 
-echo "install duplicity"
-
-sudo apt install --yes librsync-dev python3-pip gettext
-
-rm -rf /home/mike/src/duplicity
-git clone https://gitlab.com/duplicity/duplicity.git /home/mike/src/duplicity
-cd /home/mike/src/duplicity
-git checkout ${DUPLICITY_VERSION}
-pip3 install -r requirements.txt
-sudo python3 setup.py install
-
 echo "install node"
 
 curl -fsSL https://deb.nodesource.com/setup_${NODE_VERSION}.x | sudo bash -
@@ -362,6 +351,17 @@ curl -s https://raw.githubusercontent.com/zaquestion/lab/master/install.sh | sud
 echo "install gist"
 
 sudo gem install gist
+
+echo "install duplicity"
+
+sudo apt install --yes librsync-dev python3-pip gettext
+
+rm -rf /home/mike/src/duplicity
+git clone https://gitlab.com/duplicity/duplicity.git /home/mike/src/duplicity
+cd /home/mike/src/duplicity
+git checkout ${DUPLICITY_VERSION}
+pip3 install -r requirements.txt
+sudo python3 setup.py install
 
 echo "bootstrap dotfiles"
 
