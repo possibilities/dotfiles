@@ -2,8 +2,12 @@
 
 set -e
 
-[ -z "$BACKUP_ROOT_PATH" ] && echo 'BACKUP_ROOT_PATH is required' && exit 1
-[ ! -d ${BACKUP_ROOT_PATH} ] && echo "BACKUP_ROOT_PATH does not exist: ${BACKUP_ROOT_PATH}"
-
-rm -rf ${BACKUP_ROOT_PATH}/secrets.tar.gz
-tar -cvzf ${BACKUP_ROOT_PATH}/secrets.tar.gz ${HOME}/.zsh_history
+duplicity \
+  --exclude='/home/mike/.cache' \
+  --exclude='/home/mike/.local' \
+  --exclude='/home/mike/.vim' \
+  --exclude='/home/mike/src' \
+  --exclude='/home/mike/code/**/node_modules' \
+  --copy-links \
+  /home/mike \
+  "s3:///mike-backups-4c256a80-e412-11ec-94cf-5f96b9da8566/$(hostname)"

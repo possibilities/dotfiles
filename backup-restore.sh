@@ -2,9 +2,12 @@
 
 set -e
 
-[ -z "$BACKUP_ROOT_PATH" ] && echo 'BACKUP_ROOT_PATH is required' && exit 1
-[ ! -d ${BACKUP_ROOT_PATH} ] && echo "BACKUP_ROOT_PATH does not exist: ${BACKUP_ROOT_PATH}"
+if [ -z "${BACKUP_NAME}" ]; then
+  echo BACKUP_NAME environment variable is required
+  exit 1
+fi
 
-cp -r ${BACKUP_ROOT_PATH}/secrets.tar.gz /tmp
-cd /tmp
-tar xvzf ./secrets.tar.gz
+duplicity \
+  --force \
+  "s3:///mike-backups-4c256a80-e412-11ec-94cf-5f96b9da8566/${BACKUP_NAME}" \
+  /home/mike
