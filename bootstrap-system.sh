@@ -358,6 +358,10 @@ echo "install lab"
 
 curl -s https://raw.githubusercontent.com/zaquestion/lab/master/install.sh | sudo bash
 
+echo "install gist"
+
+sudo gem install gist
+
 echo "bootstrap dotfiles"
 
 if [ ! -d "/home/mike/code/dotfiles" ]; then

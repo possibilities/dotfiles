@@ -2,7 +2,6 @@
 
 ## Needed
 
-* Gist
 * Tree sitter install error
 * Tmuxp
 * Node tools
