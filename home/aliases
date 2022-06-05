@@ -16,7 +16,7 @@ alias ip="curl ifconfig.me/ip"
 alias tnd="tmux_name_window_after_directory"
 alias tn="tmux_name_window"
 alias gh="grep_history"
-alias gist="gist --open --private"
+alias gist="gist --open --private 2&> /dev/null"
 alias gbrlt="git brl | tail"
 
 # For windows/putty
