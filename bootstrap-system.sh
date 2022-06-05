@@ -167,7 +167,8 @@ sudo apt install --yes \
   zsh \
   dmenu \
   git \
-  xclip
+  xclip \
+  xsel
 
 echo "install duplicity"
 
