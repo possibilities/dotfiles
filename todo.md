@@ -17,6 +17,7 @@
 ## Wanted
 
 * Fonts
+* Aws CLI
 * OBS
 * Hub
 * NVM
