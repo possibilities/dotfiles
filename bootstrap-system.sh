@@ -6,7 +6,6 @@ ALACRITTY_VERSION="v0.10.1"
 NEOVIM_VERSION="v0.7.0"
 HERBSTLUFTWM_VERSION="v0.9.4"
 TMUX_VERSION="3.2a"
-NODE_VERSION="14"
 QUTEBROWSER_VERSION="v2.5.1"
 DUPLICITY_VERSION="rel.0.8.23"
 
@@ -29,18 +28,6 @@ sudo apt install --yes \
   git \
   xclip \
   xsel
-
-echo "install node"
-
-curl -fsSL https://deb.nodesource.com/setup_${NODE_VERSION}.x | sudo bash -
-sudo apt install -y nodejs
-
-echo "install yarn"
-
-curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee -a /etc/apt/sources.list.d/yarn.list
-sudo apt update
-sudo apt install --yes --no-install-recommends yarn
 
 echo "install xorg"
 
