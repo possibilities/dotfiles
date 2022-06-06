@@ -18,146 +18,6 @@ echo "configure basics"
 
 mkdir -p /home/mike/src
 
-arch="`uname -r | sed 's/^.*[0-9]\{1,\}\.[0-9]\{1,\}\.[0-9]\{1,\}\(-[0-9]\{1,2\}\)-//'`"
-debian_version="`lsb_release -r | awk '{print $2}'`";
-major_version="`echo $debian_version | awk -F. '{print $1}'`";
-
-# Disable systemd apt timers/services
-sudo systemctl stop apt-daily.timer;
-sudo systemctl stop apt-daily-upgrade.timer;
-sudo systemctl disable apt-daily.timer;
-sudo systemctl disable apt-daily-upgrade.timer;
-sudo systemctl mask apt-daily.service;
-sudo systemctl mask apt-daily-upgrade.service;
-sudo systemctl daemon-reload;
-
-# Disable periodic activities of apt
-cat <<EOF | sudo tee -a /etc/apt/apt.conf.d/10periodic;
-APT::Periodic::Enable "0";
-APT::Periodic::Update-Package-Lists "0";
-APT::Periodic::Download-Upgradeable-Packages "0";
-APT::Periodic::AutocleanInterval "0";
-APT::Periodic::Unattended-Upgrade "0";
-EOF
-
-sudo apt -y upgrade linux-image-$arch;
-sudo apt -y install linux-headers-`uname -r`;
-
-echo "configure networking"
-
-# Adding a 2 sec delay to the interface up, to make the dhclient happy
-echo "pre-up sleep 2" | sudo tee -a /etc/network/interfaces
-
-# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=751636
-sudo apt install libpam-systemd
-
-echo "install open-vm-tools"
-sudo apt install -y open-vm-tools;
-sudo mkdir -p /mnt/hgfs;
-sudo systemctl enable open-vm-tools
-sudo systemctl start open-vm-tools
-
-echo "remove cron"
-dpkg --list \
-  | awk '{ print $2 }' \
-  | grep 'cron' \
-  | sudo xargs apt -y purge;
-
-echo "remove linux-headers"
-dpkg --list \
-  | awk '{ print $2 }' \
-  | grep 'linux-headers' \
-  | sudo xargs apt -y purge;
-
-echo "remove specific Linux kernels, such as linux-image-4.9.0-13-amd64 but keeps the current kernel and does not touch the virtual packages"
-dpkg --list \
-    | awk '{ print $2 }' \
-    | grep 'linux-image-[234].*' \
-    | grep -v `uname -r` \
-    | sudo xargs apt -y purge;
-
-echo "remove linux-source package"
-dpkg --list \
-    | awk '{ print $2 }' \
-    | grep linux-source \
-    | sudo xargs apt -y purge;
-
-echo "remove all development packages"
-dpkg --list \
-    | awk '{ print $2 }' \
-    | grep -- '-dev\(:[a-z0-9]\+\)\?$' \
-    | sudo xargs apt -y purge;
-
-echo "remove X11 libraries"
-sudo apt -y purge libx11-data xauth libxmuu1 libxcb1 libx11-6 libxext6;
-
-echo "remove obsolete networking packages"
-sudo apt -y purge ppp pppconfig pppoeconf;
-
-echo "remove popularity-contest package"
-sudo apt -y purge popularity-contest;
-
-echo "remove installation-report package"
-sudo apt -y purge installation-report;
-
-echo "autoremoving packages and cleaning apt data"
-sudo apt -y autoremove;
-sudo apt -y clean;
-
-echo "remove /var/cache"
-sudo find /var/cache -type f -exec rm -rf {} \;
-
-echo "truncate any logs that have built up during the install"
-sudo find /var/log -type f -exec truncate --size=0 {} \;
-
-echo "blank netplan machine-id (DUID) so machines get unique ID generated on boot"
-sudo truncate -s 0 /etc/machine-id
-
-echo "remove the contents of /tmp and /var/tmp"
-sudo rm -rf /tmp/* /var/tmp/*
-
-echo "force a new random seed to be generated"
-sudo rm -f /var/lib/systemd/random-seed
-
-echo "clear the history so our install isn't there"
-sudo rm -f /root/.wget-hsts
-export HISTSIZE=0
-
-echo "whiteout root"
-
-count=$(df --sync -kP / | tail -n1  | awk -F ' ' '{print $4}')
-count=$(($count-1))
-sudo dd if=/dev/zero of=/tmp/whitespace bs=1M count=$count || echo "dd exit code $? is suppressed";
-sudo rm /tmp/whitespace
-
-echo "whiteout /boot"
-
-count=$(df --sync -kP /boot | tail -n1 | awk -F ' ' '{print $4}')
-count=$(($count-1))
-sudo dd if=/dev/zero of=/boot/whitespace bs=1M count=$count || echo "dd exit code $? is suppressed";
-sudo rm /boot/whitespace
-
-echo "cleanup misc"
-
-set +e
-swapuuid="`/sbin/blkid -o value -l -s UUID -t TYPE=swap`";
-case "$?" in
-    2|0) ;;
-    *) exit 1 ;;
-esac
-set -e
-
-if [ "x${swapuuid}" != "x" ]; then
-    # Whiteout the swap partition to reduce box size
-    # Swap is disabled till reboot
-    swappart="`readlink -f /dev/disk/by-uuid/$swapuuid`";
-    /sbin/swapoff "$swappart" || true;
-    dd if=/dev/zero of="$swappart" bs=1M || echo "dd exit code $? is suppressed";
-    /sbin/mkswap -U "$swapuuid" "$swappart";
-fi
-
-sync;
-
 echo "install misc tools"
 
 sudo apt install --yes \
@@ -362,6 +222,149 @@ cd /home/mike/src/duplicity
 git checkout ${DUPLICITY_VERSION}
 pip3 install -r requirements.txt
 sudo python3 setup.py install
+
+echo "start cleanup process"
+
+arch="`uname -r | sed 's/^.*[0-9]\{1,\}\.[0-9]\{1,\}\.[0-9]\{1,\}\(-[0-9]\{1,2\}\)-//'`"
+debian_version="`lsb_release -r | awk '{print $2}'`";
+major_version="`echo $debian_version | awk -F. '{print $1}'`";
+
+# Disable systemd apt timers/services
+sudo systemctl stop apt-daily.timer;
+sudo systemctl stop apt-daily-upgrade.timer;
+sudo systemctl disable apt-daily.timer;
+sudo systemctl disable apt-daily-upgrade.timer;
+sudo systemctl mask apt-daily.service;
+sudo systemctl mask apt-daily-upgrade.service;
+sudo systemctl daemon-reload;
+
+# Disable periodic activities of apt
+cat <<EOF | sudo tee -a /etc/apt/apt.conf.d/10periodic;
+APT::Periodic::Enable "0";
+APT::Periodic::Update-Package-Lists "0";
+APT::Periodic::Download-Upgradeable-Packages "0";
+APT::Periodic::AutocleanInterval "0";
+APT::Periodic::Unattended-Upgrade "0";
+EOF
+
+sudo apt -y upgrade linux-image-$arch;
+sudo apt -y install linux-headers-`uname -r`;
+
+echo "configure networking"
+
+# Adding a 2 sec delay to the interface up, to make the dhclient happy
+echo "pre-up sleep 2" | sudo tee -a /etc/network/interfaces
+
+# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=751636
+sudo apt install libpam-systemd
+
+echo "install open-vm-tools"
+sudo apt install -y open-vm-tools;
+sudo mkdir -p /mnt/hgfs;
+sudo systemctl enable open-vm-tools
+sudo systemctl start open-vm-tools
+
+echo "remove cron"
+dpkg --list \
+  | awk '{ print $2 }' \
+  | grep 'cron' \
+  | sudo xargs apt -y purge;
+
+echo "remove linux-headers"
+dpkg --list \
+  | awk '{ print $2 }' \
+  | grep 'linux-headers' \
+  | sudo xargs apt -y purge;
+
+echo "remove specific Linux kernels, such as linux-image-4.9.0-13-amd64 but keeps the current kernel and does not touch the virtual packages"
+dpkg --list \
+    | awk '{ print $2 }' \
+    | grep 'linux-image-[234].*' \
+    | grep -v `uname -r` \
+    | sudo xargs apt -y purge;
+
+echo "remove linux-source package"
+dpkg --list \
+    | awk '{ print $2 }' \
+    | grep linux-source \
+    | sudo xargs apt -y purge;
+
+echo "remove all development packages"
+dpkg --list \
+    | awk '{ print $2 }' \
+    | grep -- '-dev\(:[a-z0-9]\+\)\?$' \
+    | sudo xargs apt -y purge;
+
+echo "remove X11 libraries"
+sudo apt -y purge libx11-data xauth libxmuu1 libxcb1 libx11-6 libxext6;
+
+echo "remove obsolete networking packages"
+sudo apt -y purge ppp pppconfig pppoeconf;
+
+echo "remove popularity-contest package"
+sudo apt -y purge popularity-contest;
+
+echo "remove installation-report package"
+sudo apt -y purge installation-report;
+
+echo "autoremoving packages and cleaning apt data"
+sudo apt -y autoremove;
+sudo apt -y clean;
+
+echo "remove /var/cache"
+sudo find /var/cache -type f -exec rm -rf {} \;
+
+echo "truncate any logs that have built up during the install"
+sudo find /var/log -type f -exec truncate --size=0 {} \;
+
+echo "blank netplan machine-id (DUID) so machines get unique ID generated on boot"
+sudo truncate -s 0 /etc/machine-id
+
+echo "remove the contents of /tmp and /var/tmp"
+sudo rm -rf /tmp/* /var/tmp/*
+
+echo "force a new random seed to be generated"
+sudo rm -f /var/lib/systemd/random-seed
+
+echo "clear the history so our install isn't there"
+sudo rm -f /root/.wget-hsts
+export HISTSIZE=0
+
+echo "whiteout root"
+
+count=$(df --sync -kP / | tail -n1  | awk -F ' ' '{print $4}')
+count=$(($count-1))
+sudo dd if=/dev/zero of=/tmp/whitespace bs=1M count=$count || echo "dd exit code $? is suppressed";
+sudo rm /tmp/whitespace
+
+echo "whiteout /boot"
+
+count=$(df --sync -kP /boot | tail -n1 | awk -F ' ' '{print $4}')
+count=$(($count-1))
+sudo dd if=/dev/zero of=/boot/whitespace bs=1M count=$count || echo "dd exit code $? is suppressed";
+sudo rm /boot/whitespace
+
+echo "cleanup misc"
+
+set +e
+swapuuid="`/sbin/blkid -o value -l -s UUID -t TYPE=swap`";
+case "$?" in
+    2|0) ;;
+    *) exit 1 ;;
+esac
+set -e
+
+if [ "x${swapuuid}" != "x" ]; then
+    # Whiteout the swap partition to reduce box size
+    # Swap is disabled till reboot
+    swappart="`readlink -f /dev/disk/by-uuid/$swapuuid`";
+    /sbin/swapoff "$swappart" || true;
+    dd if=/dev/zero of="$swappart" bs=1M || echo "dd exit code $? is suppressed";
+    /sbin/mkswap -U "$swapuuid" "$swappart";
+fi
+
+sync;
+
 
 echo "bootstrap dotfiles"
 
