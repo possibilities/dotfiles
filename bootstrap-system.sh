@@ -265,38 +265,7 @@ sudo systemctl enable open-vm-tools
 sudo systemctl start open-vm-tools
 
 echo "remove cron"
-dpkg --list \
-  | awk '{ print $2 }' \
-  | grep 'cron' \
-  | sudo xargs apt -y purge;
-
-echo "remove linux-headers"
-dpkg --list \
-  | awk '{ print $2 }' \
-  | grep 'linux-headers' \
-  | sudo xargs apt -y purge;
-
-echo "remove specific Linux kernels, such as linux-image-4.9.0-13-amd64 but keeps the current kernel and does not touch the virtual packages"
-dpkg --list \
-    | awk '{ print $2 }' \
-    | grep 'linux-image-[234].*' \
-    | grep -v `uname -r` \
-    | sudo xargs apt -y purge;
-
-echo "remove linux-source package"
-dpkg --list \
-    | awk '{ print $2 }' \
-    | grep linux-source \
-    | sudo xargs apt -y purge;
-
-echo "remove all development packages"
-dpkg --list \
-    | awk '{ print $2 }' \
-    | grep -- '-dev\(:[a-z0-9]\+\)\?$' \
-    | sudo xargs apt -y purge;
-
-echo "remove X11 libraries"
-sudo apt -y purge libx11-data xauth libxmuu1 libxcb1 libx11-6 libxext6;
+sudo apt -y purge cron;
 
 echo "remove obsolete networking packages"
 sudo apt -y purge ppp pppconfig pppoeconf;
@@ -364,7 +333,6 @@ if [ "x${swapuuid}" != "x" ]; then
 fi
 
 sync;
-
 
 echo "bootstrap dotfiles"
 
