@@ -18,7 +18,7 @@ hc keybind $Mod-Shift-c close
 monitor=${1:-0}
 hc pad $monitor 3
 
-default_term='/home/mike/local/bin/alacritty'
+default_term='alacritty'
 hc keybind $Mod-Return spawn ${TERMINAL:-$default_term}
 
 hc keybind $Mod-d spawn dmenu_run
@@ -99,7 +99,6 @@ hc keybind $Mod-Shift-Tab   cycle_all -1
 # Eventually get rid of this some way and use the above binding
 hc keybind Mod1-Tab         cycle_all +1
 hc keybind Mod1-Shift-Tab   cycle_all -1
-
 
 hc attr theme.tiling.reset 1
 hc attr theme.floating.reset 1

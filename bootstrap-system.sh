@@ -211,11 +211,14 @@ rm -rf /home/mike/src/alacritty
 git clone https://github.com/alacritty/alacritty.git /home/mike/src/alacritty
 cd /home/mike/src/alacritty
 git checkout ${ALACRITTY_VERSION}
+
 /home/mike/.cargo/bin/cargo build --release
-cp target/release/alacritty /home/mike/local/bin/alacritty
+sudo ln -sfT /home/mike/src/alacritty/target/release/alacritty /usr/local/bin/alacritty
+
 mkdir -p /usr/local/share/man/man1
 gzip -c extra/alacritty.man | sudo tee /usr/local/share/man/man1/alacritty.1.gz > /dev/null
 gzip -c extra/alacritty-msg.man | sudo tee /usr/local/share/man/man1/alacritty-msg.1.gz > /dev/null
+
 mkdir -p /home/mike/.zsh_functions
 cp extra/completions/_alacritty /home/mike/.zsh_functions/_alacritty
 
