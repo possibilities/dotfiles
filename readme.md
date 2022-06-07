@@ -1,9 +1,5 @@
 # Dotfiles
 
-A brutally minimal work environment
-
-## Usage
-
 Use preseed file with Debian 11.3.0 ISO by pressing `<ESC>` when installer starts
 
 ```
