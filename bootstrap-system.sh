@@ -29,6 +29,21 @@ sudo apt install --yes \
   git \
   xclip
 
+echo "install cargo"
+
+sudo apt install --yes \
+  cmake \
+  python3 \
+  pkg-config \
+  libfreetype6-dev \
+  libfontconfig1-dev \
+  libxcb-xfixes0-dev \
+  libxkbcommon-dev
+
+curl https://sh.rustup.rs -sSf | sudo sh -s -- -y
+sudo /root/.cargo/bin/rustup override set stable
+sudo /root/.cargo/bin/rustup update stable
+
 echo "install xorg"
 
 sudo apt install --yes \
@@ -191,19 +206,6 @@ sudo make install
 
 echo "install alacritty"
 
-sudo apt install --yes \
-  cmake \
-  python3 \
-  pkg-config \
-  libfreetype6-dev \
-  libfontconfig1-dev \
-  libxcb-xfixes0-dev \
-  libxkbcommon-dev
-
-curl https://sh.rustup.rs -sSf | sudo sh -s -- -y
-sudo /root/.cargo/bin/rustup override set stable
-sudo /root/.cargo/bin/rustup update stable
-
 rm -rf /home/mike/src/alacritty
 git clone https://github.com/alacritty/alacritty.git /home/mike/src/alacritty
 cd /home/mike/src/alacritty
@@ -216,7 +218,6 @@ gzip -c extra/alacritty-msg.man | sudo tee /usr/local/share/man/man1/alacritty-m
 mkdir -p /home/mike/.zsh_functions
 echo 'fpath+=/home/mike/.zsh_functions' >> /home/mike/.zshrc
 cp extra/completions/_alacritty /home/mike/.zsh_functions/_alacritty
-sudo /root/.cargo/bin/rustup self uninstall -y
 
 echo "install slack"
 
@@ -325,6 +326,10 @@ sudo rm -f /var/lib/systemd/random-seed
 echo "clear the history so our install isn't there"
 sudo rm -f /root/.wget-hsts
 export HISTSIZE=0
+
+echo "uninstall cargo"
+
+sudo /root/.cargo/bin/rustup self uninstall -y
 
 echo "bootstrap dotfiles"
 
