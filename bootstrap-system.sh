@@ -326,6 +326,8 @@ export HISTSIZE=0
 
 echo "bootstrap dotfiles"
 
-if [[ ! -v SKIP_BOOTSTRAP_DOTFILES ]] && [ ! -d "/home/mike/code/dotfiles" ]; then
+if [ ! -n "$SKIP_BOOTSTRAP_DOTFILES" ] && [ ! -d "/home/mike/code/dotfiles" ]; then
   wget -O - https://raw.githubusercontent.com/possibilities/dotfiles-next/main/bootstrap-dotfiles.sh | sh
+else
+  echo "skip bootstrapping dotfiles"
 fi
