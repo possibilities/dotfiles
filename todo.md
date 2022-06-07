@@ -4,16 +4,18 @@
 
 * Tree sitter install error
 * Tmuxp
+  * Setup config directory and add to backups
 
 ## Kinda needed
 
-* Screenshots
+* Screenshot tool
 
 ## Wanted
 
 * Fonts
 * Aws CLI
 * OBS
+* Chrome
 * Hub
 * Difftastic?
 * Notifications
