@@ -27,8 +27,7 @@ sudo apt install --yes \
   zsh \
   dmenu \
   git \
-  xclip \
-  xsel
+  xclip
 
 echo "install xorg"
 
@@ -104,6 +103,7 @@ npm install --global nodemon
 
 echo "install serve"
 
+sudo apt install --yes xsel
 npm install --global serve
 
 echo "install qutebrowser"
