@@ -4,9 +4,6 @@
 
 * Tree sitter install error
 * Tmuxp
-* Node tools
-  * serve (move apt install xsel to the installation stanza for serve)
-  * nodemon
 
 ## Kinda needed
 
@@ -18,7 +15,6 @@
 * Aws CLI
 * OBS
 * Hub
-* NVM
 * Difftastic?
 * Notifications
 * Time/weather
