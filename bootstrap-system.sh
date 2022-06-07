@@ -221,7 +221,7 @@ cp extra/completions/_alacritty /home/mike/.zsh_functions/_alacritty
 
 echo "install difftastic"
 
-cargo install difftastic
+sudo /root/.cargo/bin/cargo install difftastic
 
 echo "install slack"
 
@@ -330,10 +330,6 @@ sudo rm -f /var/lib/systemd/random-seed
 echo "clear the history so our install isn't there"
 sudo rm -f /root/.wget-hsts
 export HISTSIZE=0
-
-echo "uninstall cargo"
-
-sudo /root/.cargo/bin/rustup self uninstall -y
 
 echo "bootstrap dotfiles"
 

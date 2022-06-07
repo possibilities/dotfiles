@@ -3,8 +3,10 @@ export WORDCHARS='*?[]~=&;!#$%^(){}'
 
 # Set up path
 
-# Needed for pip installations
+# Pip installations
 export PATH=$HOME/.local/bin:$PATH
+# Cargo installation
+export PATH=/root/.cargo/bin:$PATH
 
 # History settings
 
