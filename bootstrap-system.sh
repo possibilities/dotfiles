@@ -219,6 +219,10 @@ mkdir -p /home/mike/.zsh_functions
 echo 'fpath+=/home/mike/.zsh_functions' >> /home/mike/.zshrc
 cp extra/completions/_alacritty /home/mike/.zsh_functions/_alacritty
 
+echo "install difftastic"
+
+cargo install difftastic
+
 echo "install slack"
 
 rm -rf /home/mike/src/slack
