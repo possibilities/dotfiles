@@ -92,7 +92,7 @@ echo "install yarn"
 
 sudo apt --yes install gnupg2
 
-echo " - installing yarn"
+echo " - install yarn"
 curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 sudo apt update && sudo apt install --yes --no-install-recommends yarn
@@ -105,6 +105,9 @@ echo "install serve"
 
 sudo apt install --yes xsel
 npm install --global serve
+
+echo "install tmuxp"
+sudo pip3 install tmuxp
 
 echo "install qutebrowser"
 
