@@ -18,7 +18,7 @@ hc keybind $Mod-Shift-c close
 monitor=${1:-0}
 hc pad $monitor 3
 
-default_term='alacritty'
+default_term='/home/mike/local/bin/alacritty'
 hc keybind $Mod-Return spawn ${TERMINAL:-$default_term}
 
 hc keybind $Mod-d spawn dmenu_run
