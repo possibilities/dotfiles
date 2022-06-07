@@ -1,5 +1,6 @@
 [diff]
     tool = opendiff
+    external = difft
 
 [core]
     pager = less -FRSX
