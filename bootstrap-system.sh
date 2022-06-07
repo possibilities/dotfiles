@@ -8,6 +8,7 @@ HERBSTLUFTWM_VERSION="v0.9.4"
 TMUX_VERSION="3.2a"
 QUTEBROWSER_VERSION="v2.5.1"
 DUPLICITY_VERSION="rel.0.8.23"
+NVM_VERSION="v0.39.1"
 
 echo "update apt"
 
@@ -73,6 +74,29 @@ mkdir build && cd build
 cmake ..
 make
 sudo make prefix=/usr/local install
+
+echo "install nvm"
+
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/install.sh | bash
+. ~/.nvm/nvm.sh
+
+# Load NVM so we can use it right away
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+nvm install 14
+nvm install 16
+nvm alias default 14
+
+echo "install yarn"
+
+sudo apt --yes install gnupg2
+
+echo " - installing yarn"
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+sudo apt update && sudo apt install --yes --no-install-recommends yarn
 
 echo "install qutebrowser"
 
