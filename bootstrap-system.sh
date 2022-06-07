@@ -40,9 +40,9 @@ sudo apt install --yes \
   libxcb-xfixes0-dev \
   libxkbcommon-dev
 
-curl https://sh.rustup.rs -sSf | sudo sh -s -- -y
-sudo /root/.cargo/bin/rustup override set stable
-sudo /root/.cargo/bin/rustup update stable
+curl https://sh.rustup.rs -sSf | sh -s -- -y
+/home/mike/.cargo/bin/rustup override set stable
+/home/mike/.cargo/bin/rustup update stable
 
 echo "install xorg"
 
@@ -210,18 +210,18 @@ rm -rf /home/mike/src/alacritty
 git clone https://github.com/alacritty/alacritty.git /home/mike/src/alacritty
 cd /home/mike/src/alacritty
 git checkout ${ALACRITTY_VERSION}
-sudo /root/.cargo/bin/cargo build --release
-sudo cp target/release/alacritty /usr/local/bin
+$HOME/.cargo/bin/cargo build --release
+cp target/release/alacritty /usr/local/bin
 mkdir -p /usr/local/share/man/man1
-gzip -c extra/alacritty.man | sudo tee /usr/local/share/man/man1/alacritty.1.gz > /dev/null
-gzip -c extra/alacritty-msg.man | sudo tee /usr/local/share/man/man1/alacritty-msg.1.gz > /dev/null
+gzip -c extra/alacritty.man | tee /usr/local/share/man/man1/alacritty.1.gz > /dev/null
+gzip -c extra/alacritty-msg.man | tee /usr/local/share/man/man1/alacritty-msg.1.gz > /dev/null
 mkdir -p /home/mike/.zsh_functions
 echo 'fpath+=/home/mike/.zsh_functions' >> /home/mike/.zshrc
 cp extra/completions/_alacritty /home/mike/.zsh_functions/_alacritty
 
 echo "install difftastic"
 
-sudo /root/.cargo/bin/cargo install difftastic
+$HOME/.cargo/bin/cargo install difftastic
 
 echo "install slack"
 
