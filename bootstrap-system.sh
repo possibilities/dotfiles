@@ -107,6 +107,8 @@ sudo apt install --yes xsel
 npm install --global serve
 
 echo "install tmuxp"
+
+sudo apt install --yes python3-pip
 sudo pip3 install tmuxp
 
 echo "install qutebrowser"
