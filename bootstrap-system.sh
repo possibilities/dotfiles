@@ -98,6 +98,14 @@ curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 sudo apt update && sudo apt install --yes --no-install-recommends yarn
 
+echo "install nodemon"
+
+npm install --global nodemon
+
+echo "install serve"
+
+npm install --global serve
+
 echo "install qutebrowser"
 
 sudo apt --yes --no-install-recommends install \
