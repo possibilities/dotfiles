@@ -2,7 +2,6 @@
 
 ## Needed
 
-* Tree sitter install error
 * Tmuxp
   * Setup config directory and add to backups
 
@@ -17,7 +16,6 @@
 * OBS
 * Chrome
 * Hub
-* Difftastic?
 * Notifications
 * Time/weather
 * System status
