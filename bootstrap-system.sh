@@ -147,6 +147,8 @@ python3 scripts/mkvenv.py --skip-smoke-test
 
 echo "install neovim"
 
+npm install --global tree-sitter
+
 # For telescope
 sudo apt install --yes ripgrep
 
