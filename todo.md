@@ -1,16 +1,5 @@
 # TODO
 
-## Needed
-
-* Tmuxp
-  * Setup config directory and add to backups
-
-## Kinda needed
-
-* Screenshot tool
-
-## Wanted
-
 * OBS
 * Hub
 * Notifications
