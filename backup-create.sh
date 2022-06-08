@@ -15,6 +15,7 @@ duplicity \
   --include=/home/mike/.gist-vim \
   --include=/home/mike/.zsh_history \
   --include=/home/mike/.config/lab \
+  --include=/home/mike/.config/tmuxp \
   --include=/home/mike/.config/google-chrome \
   --include=/home/mike/.config/Slack \
   --exclude="**" \
