@@ -11,9 +11,7 @@
 
 ## Wanted
 
-* Aws CLI
 * OBS
-* Chrome
 * Hub
 * Notifications
 * Time/weather

@@ -267,6 +267,13 @@ git checkout ${DUPLICITY_VERSION}
 pip3 install -r requirements.txt
 sudo python3 setup.py install
 
+echo "install chrome"
+
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo apt install --yes ./google-chrome-stable_current_amd64.deb
+
+sudo gem install gist
+
 echo "start cleanup process"
 
 arch="`uname -r | sed 's/^.*[0-9]\{1,\}\.[0-9]\{1,\}\.[0-9]\{1,\}\(-[0-9]\{1,2\}\)-//'`"
