@@ -1,7 +1,7 @@
 font:
   size: 16.0
   normal:
-    famil: Fira Code
+    family: "Fira Code"
 scrolling:
   history: 0
   multiplier: 0
