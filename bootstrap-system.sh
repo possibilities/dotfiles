@@ -30,6 +30,10 @@ sudo apt install --yes \
   git \
   xclip
 
+echo "install fira font"
+
+sudo apt install fonts-firacode
+
 echo "install cargo"
 
 sudo apt install --yes \
