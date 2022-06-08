@@ -15,7 +15,7 @@ echo "update apt"
 
 sudo apt update
 
-echo "configure basics"
+echo "create dirs"
 
 mkdir -p /home/mike/src
 mkdir -p /home/mike/local/bin
@@ -370,10 +370,9 @@ echo "clear the history so our install isn't there"
 sudo rm -f /root/.wget-hsts
 export HISTSIZE=0
 
-echo "bootstrap dotfiles"
-
 if [ ! -n "$SKIP_BOOTSTRAP_DOTFILES" ] && [ ! -d "/home/mike/code/dotfiles" ]; then
+  echo "bootstrap dotfiles"
   wget -O - https://raw.githubusercontent.com/possibilities/dotfiles-next/main/bootstrap-dotfiles.sh | sh
 else
-  echo "skip bootstrapping dotfiles"
+  echo "skip bootstrap dotfiles"
 fi
