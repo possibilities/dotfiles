@@ -9,6 +9,7 @@ TMUX_VERSION="3.2a"
 QUTEBROWSER_VERSION="v2.5.1"
 DUPLICITY_VERSION="rel.0.8.23"
 NVM_VERSION="v0.39.1"
+JQ_VERSION="1.6"
 
 echo "update apt"
 
@@ -271,6 +272,25 @@ echo "install chrome"
 
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 sudo apt install --yes ./google-chrome-stable_current_amd64.deb
+
+echo "install jq"
+
+sudo apt --yes install libonig-dev
+
+rm -rf /home/mike/src/jq*
+wget \
+  --output-document /home/mike/src/jq.tar.gz \
+  https://github.com/stedolan/jq/releases/download/jq-${JQ_VERSION}/jq-${JQ_VERSION}.tar.gz
+
+cd /home/mike/src
+tar xzvf jq.tar.gz
+cd /home/mike/src/jq-${JQ_VERSION}
+
+./configure
+make
+sudo make install
+
+echo "install gist"
 
 sudo gem install gist
 
