@@ -232,10 +232,6 @@ gzip -c extra/alacritty-msg.man | sudo tee /usr/local/share/man/man1/alacritty-m
 mkdir -p /home/mike/.zsh_functions
 cp extra/completions/_alacritty /home/mike/.zsh_functions/_alacritty
 
-echo "install difftastic"
-
-$HOME/.cargo/bin/cargo install difftastic
-
 echo "install slack"
 
 rm -rf /home/mike/src/slack
