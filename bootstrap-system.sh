@@ -171,6 +171,15 @@ cd /home/mike/src/qutebrowser
 git checkout ${QUTEBROWSER_VERSION}
 python3 scripts/mkvenv.py --skip-smoke-test
 
+echo "set qutebrowser as default"
+
+sudo update-alternatives \
+  --install \
+  /usr/bin/x-www-browser \
+  x-www-browser \
+  /usr/local/bin/qutebrowser \
+  199
+
 echo "install neovim"
 
 npm install --global tree-sitter
