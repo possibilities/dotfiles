@@ -54,4 +54,13 @@ mkdir -p ${HOME}/.vim/backups
 curl -sfLo ${HOME}/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 nvim +'PlugInstall --sync' +qa
 
+echo "set qutebrowser as default"
+
+sudo update-alternatives \
+  --install \
+  /usr/bin/x-www-browser \
+  x-www-browser \
+  /usr/local/bin/qutebrowser \
+  199
+
 echo "done install dotfiles"
