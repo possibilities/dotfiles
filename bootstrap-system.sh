@@ -261,7 +261,6 @@ rm -rf /home/mike/src/duplicity
 git clone https://gitlab.com/duplicity/duplicity.git /home/mike/src/duplicity
 cd /home/mike/src/duplicity
 git checkout ${DUPLICITY_VERSION}
-# TODO do we need this pip install and if not do we need python3-pip above
 pip3 install -r requirements.txt
 sudo python3 setup.py install
 
