@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+hc() { "${herbstclient_command[@]:-herbstclient}" "$@" ;}
+
+move_direction=${1}
+move_size=${2}
+
+
+move_left() {
+  local move_direction=${1}
+  local move_size=${2}
+  local window_geometry=( $(hc attr clients.focus.floating_geometry) )
+  echo "geometry" ${window_geometry}
+  IFS="+-x" read -a window_coordinates <<< $window_geometry
+  local width=${window_coordinates[0]}
+  local height=${window_coordinates[1]}
+  local x=${window_coordinates[2]}
+  local y=${window_coordinates[3]}
+  echo move_size ${move_size}
+  echo move_direction ${move_direction}
+  echo width ${width}
+  echo height ${height}
+  echo x ${x}
+  echo y ${y}
+  if [ "$move_direction" = "left" ]; then
+    hc set_attr clients.focus.floating_geometry "${width}x${height}+$((x - ${move_size}))+${y}"
+  fi
+  if [ "$move_direction" = "right" ]; then
+    hc set_attr clients.focus.floating_geometry "${width}x${height}+$((x + ${move_size}))+${y}"
+  fi
+  if [ "$move_direction" = "up" ]; then
+    hc set_attr clients.focus.floating_geometry "${width}x${height}+${x}+$((y - ${move_size}))"
+  fi
+  if [ "$move_direction" = "down" ]; then
+    hc set_attr clients.focus.floating_geometry "${width}x${height}+${x}+$((y + ${move_size}))"
+  fi
+}
+
+move_left $move_direction $move_size
