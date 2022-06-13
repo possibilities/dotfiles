@@ -11,6 +11,21 @@ xsetroot -solid 'black'
 hc keyunbind --all
 Mod=Mod4
 
+hc keybind $Mod-space                                                           \
+            or , and . compare tags.focus.curframe_wcount = 2                   \
+                     . cycle_layout +1 vertical horizontal max vertical grid    \
+               , cycle_layout +1
+
+# Contrain fullscreen inside frame
+hc keybind $Mod-Control-Shift-f chain \
+  , attr clients.focus.ewmhrequests off \
+  , attr clients.focus.ewmhnotify on \
+  , attr clients.focus.fullscreen on \
+  , attr clients.focus.ewmhnotify off \
+  , set_attr clients.focus.fullscreen off \
+  , set_attr clients.focus.ewmhnotify on \
+  , sprintf CMD 'sleep 2 ; herbstclient attr clients.%s.ewmhrequests on' clients.focus.winid spawn bash -c CMD
+
 hc keybind $Mod-Shift-q quit
 hc keybind $Mod-Shift-r reload
 hc keybind $Mod-Shift-c close
