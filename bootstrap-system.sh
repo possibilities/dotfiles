@@ -10,7 +10,6 @@ QUTEBROWSER_VERSION="v2.5.1"
 DUPLICITY_VERSION="rel.0.8.23"
 NVM_VERSION="v0.39.1"
 JQ_VERSION="1.6"
-SLACK_VERSION="4.26.1"
 
 echo "update apt"
 
@@ -232,18 +231,6 @@ gzip -c extra/alacritty-msg.man | sudo tee /usr/local/share/man/man1/alacritty-m
 
 mkdir -p /home/mike/.zsh_functions
 cp extra/completions/_alacritty /home/mike/.zsh_functions/_alacritty
-
-echo "install slack"
-
-rm -rf /home/mike/src/slack
-mkdir /home/mike/src/slack
-cd /home/mike/src/slack
-wget https://mirrors.wikimedia.org/debian/pool/main/libi/libindicator/libindicator3-7_0.5.0-4_amd64.deb
-wget https://mirrors.wikimedia.org/debian/pool/main/liba/libappindicator/libappindicator3-1_0.4.92-7_amd64.deb
-sudo apt install --yes ./libindicator3-7_0.5.0-4_amd64.deb
-sudo apt install --yes ./libappindicator3-1_0.4.92-7_amd64.deb
-wget https://downloads.slack-edge.com/releases/linux/${SLACK_VERSION}/prod/x64/slack-desktop-${SLACK_VERSION}-amd64.deb
-sudo apt install --yes ./slack-desktop-*.deb
 
 echo "install lab"
 
