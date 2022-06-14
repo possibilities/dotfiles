@@ -130,7 +130,6 @@ npm install --global serve
 echo "install tmuxp"
 
 sudo apt install --yes python3-pip
-# TODO does this need to be sudo?
 sudo pip3 install tmuxp
 
 echo "install aws cli"
