@@ -1,5 +1,6 @@
 # TODO
 
+* File browser
 * Hub
 * Notifications
 * Time/weather
