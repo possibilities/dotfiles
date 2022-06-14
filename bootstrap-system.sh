@@ -120,11 +120,17 @@ sudo apt update && sudo apt install --yes --no-install-recommends yarn
 
 echo "install nodemon"
 
+nvm use 14
+npm install --global nodemon
+nvm use 16
 npm install --global nodemon
 
 echo "install serve"
 
 sudo apt install --yes xsel
+nvm use 14
+npm install --global serve
+nvm use 16
 npm install --global serve
 
 echo "install tmuxp"
