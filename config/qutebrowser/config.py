@@ -10,6 +10,8 @@ config.bind(">>", "tab-move +")
 
 config.set('scrolling.bar', 'when-searching')
 
+config.set("tabs.background", True)
+
 config.set("tabs.show", "multiple")
 config.set("statusbar.show", "in-mode")
 
