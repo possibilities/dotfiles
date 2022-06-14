@@ -276,6 +276,40 @@ echo "install gist"
 
 sudo gem install gist
 
+echo "install flatpak"
+
+sudo apt install flatpak --yes
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+
+echo "install desktop apps"
+
+install_flatpak () {
+  APP_NAME=${1}
+  FLATPAK_NAME=${2}
+  echo "install ${APP_NAME}"
+  sudo flatpak install ${FLATPAK_NAME} --assumeyes
+  flatpak override --user --filesystem=home ${FLATPAK_NAME}
+  sudo ln -sf /var/lib/flatpak/exports/bin/${FLATPAK_NAME} /usr/bin/${APP_NAME}
+}
+
+install_flatpak slack com.slack.Slack
+install_flatpak discord com.discordapp.Discord
+install_flatpak obs com.obsproject.Studio
+install_flatpak spotify com.spotify.Client
+install_flatpak hexchat io.github.Hexchat
+install_flatpak flameshot org.flameshot.Flameshot
+install_flatpak chrome com.google.Chrome
+install_flatpak chromium org.chromium.Chromium
+install_flatpak chrome-dev com.google.ChromeDev
+install_flatpak vscode com.visualstudio.code
+install_flatpak vlc org.videolan.VLC
+install_flatpak shotcut org.shotcut.Shotcut
+install_flatpak skype com.skype.Client
+install_flatpak firefox org.mozilla.firefox
+install_flatpak gimp org.gimp.GIMP
+install_flatpak audacity org.audacityteam.Audacity
+install_flatpak blue sa.sy.bluerecorder
+
 echo "start cleanup process"
 
 arch="`uname -r | sed 's/^.*[0-9]\{1,\}\.[0-9]\{1,\}\.[0-9]\{1,\}\(-[0-9]\{1,2\}\)-//'`"
