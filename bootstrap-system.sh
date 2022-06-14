@@ -309,13 +309,13 @@ install_flatpak chromium org.chromium.Chromium
 install_flatpak chrome-dev com.google.ChromeDev
 install_flatpak vscode com.visualstudio.code
 install_flatpak vlc org.videolan.VLC
-install_flatpak shotcut org.shotcut.Shotcut
 install_flatpak skype com.skype.Client
 install_flatpak firefox org.mozilla.firefox
 install_flatpak gimp org.gimp.GIMP
 install_flatpak audacity org.audacityteam.Audacity
 install_flatpak blue sa.sy.bluerecorder
 install_flatpak photos org.photoqt.PhotoQt
+install_flatpak video org.olivevideoeditor.Olive
 
 echo "start cleanup process"
 
