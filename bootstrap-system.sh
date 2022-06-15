@@ -249,7 +249,7 @@ echo "install duplicity"
 
 sudo apt install --yes librsync-dev python3-pip gettext
 
-rm -rf /home/mike/src/duplicity
+sudo rm -rf /home/mike/src/duplicity
 git clone https://gitlab.com/duplicity/duplicity.git /home/mike/src/duplicity
 cd /home/mike/src/duplicity
 git checkout ${DUPLICITY_VERSION}
