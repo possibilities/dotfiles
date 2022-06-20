@@ -70,9 +70,13 @@ hc keybind $Mod-r remove
 hc keybind $Mod-s floating toggle
 hc keybind $Mod-f fullscreen toggle
 hc keybind $Mod-Shift-f set_attr clients.focus.floating toggle
-hc keybind $Mod-space                                                           \
+hc keybind $Mod-Shift-space                                                           \
             or , and . compare tags.focus.curframe_wcount = 2                   \
                      . cycle_layout +1 vertical horizontal max vertical grid    \
+               , cycle_layout +1
+hc keybind $Mod-space                                                           \
+            or , and . compare tags.focus.curframe_wcount = 2                   \
+                     . cycle_layout +1 horizontal max    \
                , cycle_layout +1
 
 hc mouseunbind --all
