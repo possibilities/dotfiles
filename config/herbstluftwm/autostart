@@ -60,23 +60,32 @@ done
 hc keybind $Mod-period use_index +1 --skip-visible
 hc keybind $Mod-comma  use_index -1 --skip-visible
 
-move_step=30
-hc keybind Control-Alt-h spawn hc_move_floated left +$move_step
-hc keybind Control-Alt-j spawn hc_move_floated down +$move_step
-hc keybind Control-Alt-k spawn hc_move_floated up +$move_step
-hc keybind Control-Alt-l spawn hc_move_floated right +$move_step
+move_floated_step=30
+hc keybind Control-Alt-h spawn hc_move_floated left +$move_floated_step
+hc keybind Control-Alt-j spawn hc_move_floated down +$move_floated_step
+hc keybind Control-Alt-k spawn hc_move_floated up +$move_floated_step
+hc keybind Control-Alt-l spawn hc_move_floated right +$move_floated_step
+
+resize_floated_step=15
+hc keybind Control-Alt-Shift-h spawn hc_resize_floated left +$resize_floated_step
+hc keybind Control-Alt-Shift-j spawn hc_resize_floated down +$resize_floated_step
+hc keybind Control-Alt-Shift-k spawn hc_resize_floated up +$resize_floated_step
+hc keybind Control-Alt-Shift-l spawn hc_resize_floated right +$resize_floated_step
 
 hc keybind $Mod-r remove
 hc keybind $Mod-s floating toggle
 hc keybind $Mod-f fullscreen toggle
 hc keybind $Mod-Shift-f set_attr clients.focus.floating toggle
-hc keybind $Mod-Shift-space                                                           \
-            or , and . compare tags.focus.curframe_wcount = 2                   \
-                     . cycle_layout +1 vertical horizontal max vertical grid    \
+
+# Cycle all layouts
+hc keybind $Mod-Shift-space \
+            or , and . compare tags.focus.curframe_wcount = 2 \
+                     . cycle_layout +1 vertical horizontal max vertical grid \
                , cycle_layout +1
-hc keybind $Mod-space                                                           \
-            or , and . compare tags.focus.curframe_wcount = 2                   \
-                     . cycle_layout +1 horizontal max    \
+# Cycle horizontal and maximized
+hc keybind $Mod-space \
+            or , and . compare tags.focus.curframe_wcount = 2 \
+                     . cycle_layout +1 horizontal max \
                , cycle_layout +1
 
 hc mouseunbind --all

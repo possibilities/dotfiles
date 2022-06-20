@@ -5,8 +5,7 @@ hc() { "${herbstclient_command[@]:-herbstclient}" "$@" ;}
 move_direction=${1}
 move_size=${2}
 
-
-move_left() {
+move_window() {
   local move_direction=${1}
   local move_size=${2}
   local window_geometry=( $(hc attr clients.focus.floating_geometry) )
@@ -36,4 +35,4 @@ move_left() {
   fi
 }
 
-move_left $move_direction $move_size
+move_window $move_direction $move_size
