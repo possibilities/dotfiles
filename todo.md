@@ -12,3 +12,7 @@
   * Find a darker, subtler, less colorful vim theme
   * When in insert mode in vim the INSERT indicator is yellowish, should be greyscale
 * Consider adding the font package from old dotfiles for improving browser fonts
+* Fix clipboard issues
+  * xclip
+  * Qutebrowser
+  * Vim
