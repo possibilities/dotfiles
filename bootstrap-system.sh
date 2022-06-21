@@ -256,11 +256,6 @@ git checkout ${DUPLICITY_VERSION}
 pip3 install -r requirements.txt
 sudo python3 setup.py install
 
-echo "install chrome"
-
-wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-sudo apt install --yes ./google-chrome-stable_current_amd64.deb
-
 echo "install jq"
 
 sudo apt --yes install libonig-dev
