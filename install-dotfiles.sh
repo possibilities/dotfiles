@@ -63,4 +63,4 @@ sudo update-alternatives \
   /usr/local/bin/qutebrowser \
   199
 
-echo "done install dotfiles"
+echo "done installing dotfiles."

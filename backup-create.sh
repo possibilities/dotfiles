@@ -21,3 +21,5 @@ duplicity \
   --exclude="**" \
   /home/mike \
   "s3:///mike-backups-4c256a80-e412-11ec-94cf-5f96b9da8566/${BACKUP_NAME}"
+
+echo "done creating backup."

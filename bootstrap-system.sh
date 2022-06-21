@@ -371,3 +371,5 @@ if [ ! -n "$SKIP_INSTALL_APPS" ]; then
 else
   echo "skip bootstrap apps"
 fi
+
+echo "done bootstrapping system."
