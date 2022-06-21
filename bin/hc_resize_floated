@@ -2,11 +2,11 @@
 
 hc() { "${herbstclient_command[@]:-herbstclient}" "$@" ;}
 
-resize_direction=${1}
+resize_axis=${1}
 resize_size=${2}
 
 resize_window() {
-  local resize_direction=${1}
+  local resize_axis=${1}
   local resize_size=${2}
   local window_geometry=( $(hc attr clients.focus.floating_geometry) )
   echo "geometry" ${window_geometry}
@@ -16,23 +16,17 @@ resize_window() {
   local x=${window_coordinates[2]}
   local y=${window_coordinates[3]}
   echo resize_size ${resize_size}
-  echo resize_direction ${resize_direction}
+  echo resize_axis ${resize_axis}
   echo width ${width}
   echo height ${height}
   echo x ${x}
   echo y ${y}
-  if [ "$resize_direction" = "left" ]; then
+  if [ "$resize_axis" = "x-axis" ]; then
     hc set_attr clients.focus.floating_geometry "$((width - ${resize_size}))x${height}+${x}+${y}"
   fi
-  if [ "$resize_direction" = "right" ]; then
-    hc set_attr clients.focus.floating_geometry "$((width + ${resize_size}))x${height}+${x}+${y}"
-  fi
-  if [ "$resize_direction" = "up" ]; then
+  if [ "$resize_axis" = "y-axis" ]; then
     hc set_attr clients.focus.floating_geometry "${width}x$((height - ${resize_size}))+${x}+${y}"
-  fi
-  if [ "$resize_direction" = "down" ]; then
-    hc set_attr clients.focus.floating_geometry "${width}x$((height + ${resize_size}))+${x}+${y}"
   fi
 }
 
-resize_window $resize_direction $resize_size
+resize_window $resize_axis $resize_size
