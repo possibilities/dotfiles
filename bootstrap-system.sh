@@ -358,18 +358,18 @@ echo "clear the history so our install isn't there"
 sudo rm -f /root/.wget-hsts
 export HISTSIZE=0
 
-if [ ! -n "$SKIP_BOOTSTRAP_DOTFILES" ] && [ ! -d "/home/mike/code/dotfiles" ]; then
-  echo "bootstrap dotfiles"
-  wget -O - https://raw.githubusercontent.com/possibilities/dotfiles-next/main/bootstrap-dotfiles.sh | sh
-else
-  echo "skip bootstrap dotfiles"
-fi
-
-if [ ! -n "$SKIP_INSTALL_APPS" ]; then
+if [ ! -n "$SKIP_POST_BOOTSTRAP" ]; then
   echo "bootstrap apps"
   wget -O - https://raw.githubusercontent.com/possibilities/dotfiles-next/main/install-apps.sh | sh
+
+  if [ ! -d "/home/mike/code/dotfiles" ]; then
+    echo "bootstrap dotfiles"
+    wget -O - https://raw.githubusercontent.com/possibilities/dotfiles-next/main/bootstrap-dotfiles.sh | sh
+  else
+    echo "skip bootstrap dotfiles"
+  fi
 else
-  echo "skip bootstrap apps"
+  echo "skip post bootstrap"
 fi
 
 echo "done bootstrapping system."
