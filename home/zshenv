@@ -6,7 +6,9 @@ export WORDCHARS='*?[]~=&;!#$%^(){}'
 # Pip installations
 export PATH=$HOME/.local/bin:$PATH
 # Cargo installation
+# TODO might not need the export due to the line that follows it
 export PATH=$HOME/.cargo/bin:$PATH
+. "$HOME/.cargo/env"
 
 # History settings
 
