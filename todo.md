@@ -13,6 +13,8 @@
   * When in insert mode in vim the INSERT indicator is yellowish, should be greyscale
 * Consider adding the font package from old dotfiles for improving browser fonts
 * Default qutebrowser
+* Fix initial slack configuration
+  * Or resolve by restoring from backup
 * Fix clipboard issues
   * xclip
   * Qutebrowser
