@@ -62,14 +62,14 @@ hc keybind $Mod-comma  use_index -1 --skip-visible
 
 move_floated_step=30
 hc keybind Control-Alt-h spawn hc_move_floated x-axis +$move_floated_step
-hc keybind Control-Alt-j spawn hc_move_floated y-axis +$move_floated_step
-hc keybind Control-Alt-k spawn hc_move_floated y-axis -$move_floated_step
+hc keybind Control-Alt-j spawn hc_move_floated y-axis -$move_floated_step
+hc keybind Control-Alt-k spawn hc_move_floated y-axis +$move_floated_step
 hc keybind Control-Alt-l spawn hc_move_floated x-axis -$move_floated_step
 
 resize_floated_step=30
 hc keybind Control-Alt-Shift-h spawn hc_resize_floated x-axis +$resize_floated_step
-hc keybind Control-Alt-Shift-j spawn hc_resize_floated y-axis +$resize_floated_step
-hc keybind Control-Alt-Shift-k spawn hc_resize_floated y-axis -$resize_floated_step
+hc keybind Control-Alt-Shift-j spawn hc_resize_floated y-axis -$resize_floated_step
+hc keybind Control-Alt-Shift-k spawn hc_resize_floated y-axis +$resize_floated_step
 hc keybind Control-Alt-Shift-l spawn hc_resize_floated x-axis -$resize_floated_step
 
 hc keybind $Mod-r remove
