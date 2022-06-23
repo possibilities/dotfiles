@@ -10,6 +10,7 @@ QUTEBROWSER_VERSION="v2.5.1"
 DUPLICITY_VERSION="rel.0.8.23"
 NVM_VERSION="v0.39.1"
 JQ_VERSION="1.6"
+PICOM_VERSION="v9.1"
 
 echo "update apt"
 
@@ -95,6 +96,43 @@ cmake ..
 make
 sudo make prefix=/usr/local install
 
+echo "install picom"
+
+sudo apt install --yes \
+  libxext-dev \
+  libxcb1-dev \
+  libxcb-damage0-dev \
+  libxcb-xfixes0-dev \
+  libxcb-shape0-dev \
+  libxcb-render-util0-dev \
+  libxcb-render0-dev \
+  libxcb-randr0-dev \
+  libxcb-composite0-dev \
+  libxcb-image0-dev \
+  libxcb-present-dev \
+  libxcb-xinerama0-dev \
+  libxcb-glx0-dev \
+  libpixman-1-dev \
+  libdbus-1-dev \
+  libconfig-dev \
+  libgl1-mesa-dev \
+  libpcre2-dev \
+  libpcre3-dev \
+  libevdev-dev \
+  uthash-dev \
+  libev-dev \
+  libx11-xcb-dev \
+  meson
+
+rm -rf /home/mike/src/picom
+git clone https://github.com/yshui/picom.git /home/mike/src/picom
+cd /home/mike/src/picom
+git checkout ${PICOM_VERSION}
+git submodule update --init --recursive
+meson --buildtype=release . build
+ninja -C build
+sudo ninja -C build install
+
 echo "install nvm"
 
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/install.sh | bash
@@ -137,6 +175,11 @@ echo "install tmuxp"
 
 sudo apt install --yes python3-pip
 sudo pip3 install tmuxp
+
+echo "install dotfiles dependencies"
+
+# For bin/move_window
+sudo apt install --yes python3-numpy
 
 echo "install aws cli"
 

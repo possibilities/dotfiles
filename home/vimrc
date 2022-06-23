@@ -50,6 +50,8 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 " better quickfix lists
 Plug 'kevinhwang91/nvim-bqf'
+" show colors
+Plug 'chrisbra/Colorizer'
 
 call plug#end()
 
