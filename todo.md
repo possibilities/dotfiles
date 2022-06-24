@@ -3,13 +3,15 @@
 * File browser
 * Via
 * Audio/video
+* Bluetooth
+* Networking
 * Hub
 * Notifications
 * Time/weather
 * System status
+* Figure out colors plugin not working in vim
 * Herbsluftwm
   * Consider alt-tab going to previous active and/or skipping floating windows
-  * Consider differentiating floating window borders
 * Colors
   * The bottom bar in vim should be darker
   * Find a darker, subtler, less colorful vim theme
@@ -18,6 +20,7 @@
 * Default qutebrowser
 * Fix initial slack configuration
   * Or resolve by restoring from backup
+* Tmuxp configs
 * Fix clipboard issues
   * xclip
   * Qutebrowser
