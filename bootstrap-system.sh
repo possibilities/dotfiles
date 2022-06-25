@@ -10,6 +10,7 @@ QUTEBROWSER_VERSION="v2.5.1"
 DUPLICITY_VERSION="rel.0.8.23"
 NVM_VERSION="v0.39.1"
 JQ_VERSION="1.6"
+ROFI_VERSION="1.7.3"
 
 echo "update apt"
 
@@ -27,7 +28,6 @@ sudo apt install --yes \
   tree \
   curl \
   zsh \
-  dmenu \
   git \
   xclip
 
@@ -220,6 +220,10 @@ sh autogen.sh
 ./configure && make
 sudo make install
 
+echo "install nord tmux theme"
+
+git clone https://github.com/arcticicestudio/nord-tmux.git ~/.tmux/themes/nord-tmux
+
 echo "install alacritty"
 
 rm -rf /home/mike/src/alacritty
@@ -276,6 +280,47 @@ sudo make install
 echo "install gist"
 
 sudo gem install gist
+
+echo "install nord dircolors"
+
+rm -rf /home/mike/src/nord-dircolors
+git clone https://github.com/arcticicestudio/nord-dircolors.git /home/mike/src/nord-dircolors
+cd /home/mike/src/nord-dircolors
+ln -sfr "/home/mike/src/nord-dircolors/src/dir_colors" ${HOME}/.dir_colors
+
+echo "install rofi"
+
+sudo apt install --yes \
+  libglib2.0-dev \
+  flex \
+  libxcb-xkb-dev \
+  libxcb-ewmh-dev \
+  libxcb-ewmh2 \
+  libxcb-icccm4 \
+  libxcb-randr0 \
+  libxcb-util0-dev \
+  libxcb-xinerama0 \
+  libxcb-xkb1 \
+  libxcb-xrm0 \
+  libxcb1 \
+  libxkbcommon-x11-dev \
+  libxcb-cursor0 \
+  libcairo-dev \
+  libpango1.0-dev \
+  libstartup-notification0-dev \
+  libgdk-pixbuf2.0-dev \
+  check
+
+rm -rf /home/mike/src/rofi
+git clone https://github.com/davatorium/rofi.git /home/mike/src/rofi
+cd /home/mike/src/rofi
+git checkout ${rofi_version}
+git submodule update --init
+autoreconf -i
+mkdir build && cd build
+../configure
+make
+sudo make prefix=/usr/local install
 
 echo "start cleanup process"
 

@@ -15,7 +15,7 @@ Plug 'NLKNguyen/pipe-mysql.vim'
 " linting
 Plug 'dense-analysis/ale'
 " theme
-Plug 'NLKNguyen/papercolor-theme'
+Plug 'arcticicestudio/nord-vim'
 " speaks for itself
 Plug 'tpope/vim-markdown'
 Plug 'pangloss/vim-javascript'
@@ -153,7 +153,7 @@ syntax enable
 syntax on
 set t_Co=256
 set background=dark
-colorscheme PaperColor
+colorscheme nord
 
 " setup gist
 let g:gist_show_privates = 1
