@@ -9,7 +9,6 @@
 * Notifications
 * Time/weather
 * System status
-* Figure out colors plugin not working in vim
 * Herbsluftwm
   * Consider alt-tab going to previous active and/or skipping floating windows
 * Colors
@@ -21,6 +20,8 @@
 * Fix initial slack configuration
   * Or resolve by restoring from backup
 * Tmuxp configs
+* Color and fonts for dmenu
+* Move dmenu to bottom
 * Fix clipboard issues
   * xclip
   * Qutebrowser
