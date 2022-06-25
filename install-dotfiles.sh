@@ -47,12 +47,9 @@ do
   sudo ln -sfT $PWD/$file /usr/local/bin/$file_name
 done
 
-echo "setup vim plugins"
+echo "setup vim backup dir"
 
 mkdir -p ${HOME}/.vim/backups
-
-curl -sfLo ${HOME}/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-nvim +'PlugInstall --sync' +qa
 
 echo "set qutebrowser as default"
 
