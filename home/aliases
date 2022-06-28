@@ -32,3 +32,5 @@ alias mr="lab mr create origin develop --assignee possibilities --remove-source-
 alias pr="hub pull-request"
 alias wts="nodemon --exec 'yarn tsc' --ext 'ts,tsx'"
 alias wl="nodemon --exec 'yarn lint' --ext 'ts,tsx,js'"
+
+alias ls="ls --color=auto"
