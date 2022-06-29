@@ -6,8 +6,6 @@ hc() {
 
 hc emit_hook reload
 
-xsetroot -solid '#3B4252'
-
 hc keyunbind --all
 Mod=Mod4
 Alt=Mod1
@@ -114,36 +112,45 @@ hc keybind $Mod-Control-f chain \
   , set_attr clients.focus.ewmhnotify on \
   , sprintf CMD 'sleep 2 ; herbstclient attr clients.%s.ewmhrequests on' clients.focus.winid spawn bash -c CMD
 
+inner_width=4
+outer_width=7
+background_color='#3B4252'
+active_border_color='#D8DEE9'
+urgent_color='#B48EAD'
+
+xsetroot -solid $background_color
+
+
 hc attr theme.tiling.reset 1
 hc attr theme.floating.reset 1
-hc set frame_border_active_color '#3B4252'
-hc set frame_border_normal_color '#3B4252'
-hc set frame_bg_normal_color '#3B4252'
-hc set frame_bg_active_color '#D8DEE9'
+hc set frame_border_active_color $background_color
+hc set frame_border_normal_color $background_color
+hc set frame_bg_normal_color $background_color
+hc set frame_bg_active_color $active_border_color
 hc set frame_border_width 1
 hc set always_show_frame on
 hc set frame_bg_transparent on
-hc set frame_transparent_width 5
-hc set frame_gap 2
+hc set frame_transparent_width $outer_width
+hc set frame_gap $inner_width
 
 hc attr theme.title_height 0
-hc attr theme.active.color '#3B4252'
-hc attr theme.normal.color '#3B4252'
-hc attr theme.urgent.color '#B48EAD'
-hc attr theme.inner_width 2
-hc attr theme.inner_color '#3B4252'
-hc attr theme.border_width 5
-hc attr theme.floating.border_width 4
+hc attr theme.active.color $background_color
+hc attr theme.normal.color $background_color
+hc attr theme.urgent.color $urgent_color
+hc attr theme.inner_width $inner_width
+hc attr theme.inner_color $background_color
+hc attr theme.border_width $outer_width
+hc attr theme.floating.border_width $inner_width
 hc attr theme.floating.outer_width 1
-hc attr theme.floating.outer_color '#3B4252'
-hc attr theme.active.inner_color '#D8DEE9'
-hc attr theme.urgent.inner_color '#3B4252'
-hc attr theme.normal.inner_color '#3B4252'
-hc attr theme.active.outer_color '#3B4252'
-hc attr theme.urgent.outer_color '#3B4252'
-hc attr theme.normal.outer_color '#3B4252'
+hc attr theme.floating.outer_color $background_color
+hc attr theme.active.inner_color $active_border_color
+hc attr theme.urgent.inner_color $background_color
+hc attr theme.normal.inner_color $background_color
+hc attr theme.active.outer_color $background_color
+hc attr theme.urgent.outer_color $background_color
+hc attr theme.normal.outer_color $background_color
 hc attr theme.active.outer_width 1
-hc attr theme.background_color '#3B4252'
+hc attr theme.background_color $background_color
 
 hc set window_gap 0
 hc set frame_padding 0
