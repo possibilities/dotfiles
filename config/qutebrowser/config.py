@@ -5,8 +5,8 @@ c.url.searchengines = {"DEFAULT": "https://google.com/search?hl=en&q={}"}
 config.bind("K", "tab-next")
 config.bind("J", "tab-prev")
 
-config.bind("<<", "tab-move -")
-config.bind(">>", "tab-move +")
+config.bind("<", "tab-move -")
+config.bind(">", "tab-move +")
 
 config.set('scrolling.bar', 'when-searching')
 
