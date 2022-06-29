@@ -22,3 +22,5 @@ config.set("auto_save.session", True)
 
 c.url.default_page = "about:blank"
 c.url.start_pages = ["about:blank"]
+
+config.source('nord-qutebrowser.py')
