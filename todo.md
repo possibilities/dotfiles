@@ -13,6 +13,9 @@
 * Time/weather
 * System status
 * Consider adding the font package from old dotfiles for improving browser fonts
+* Nord
+  * VS Code
+  * Slack
 * Qutebrowser
   * Set dark background on about:blank only
   * Default browser
