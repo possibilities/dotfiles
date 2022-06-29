@@ -57,6 +57,8 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug 'kevinhwang91/nvim-bqf'
 " display colors inline
 Plug 'ap/vim-css-color'
+" status bar
+Plug 'itchyny/lightline.vim'
 
 call plug#end()
 
@@ -150,6 +152,12 @@ syntax on
 set t_Co=256
 set background=dark
 colorscheme nord
+
+" lightline
+set noshowmode " avoid duplicate modes displayed
+let g:lightline = {
+      \ 'colorscheme': 'nord',
+      \ }
 
 " setup gist
 let g:gist_show_privates = 1
