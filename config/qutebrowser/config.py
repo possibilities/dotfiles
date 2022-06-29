@@ -16,9 +16,10 @@ config.set("tabs.show", "multiple")
 config.set("statusbar.show", "in-mode")
 
 config.set("window.hide_decoration", True)
-config.set("colors.webpage.bg", "#1c1c1c")
 
 config.set("auto_save.session", True)
 
 c.url.default_page = "about:blank"
 c.url.start_pages = ["about:blank"]
+
+config.source('nord-qutebrowser.py')

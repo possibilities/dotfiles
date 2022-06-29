@@ -13,7 +13,9 @@
 * Time/weather
 * System status
 * Consider adding the font package from old dotfiles for improving browser fonts
-* Default qutebrowser
+* Qutebrowser
+  * Set dark background on about:blank only
+  * Default browser
 * Fix initial slack configuration
   * Or resolve by restoring from backup
 * Tmuxp configs

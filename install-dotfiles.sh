@@ -51,7 +51,11 @@ echo "setup vim backup dir"
 
 mkdir -p ${HOME}/.vim/backups
 
-echo "set qutebrowser as default"
+echo "configure qutebrowser"
+
+rm -rf /home/mike/src/nord-qutebrowser
+git clone https://github.com/Linuus/nord-qutebrowser.git /home/mike/src/nord-qutebrowser
+ln -sfT /home/mike/src/nord-qutebrowser/nord-qutebrowser.py /home/mike/.config/qutebrowser/nord-qutebrowser.py
 
 sudo update-alternatives \
   --install \
