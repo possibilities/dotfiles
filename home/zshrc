@@ -28,6 +28,9 @@ setopt EXTENDED_GLOB
 export EDITOR='nvim'
 export VISUAL='nvim'
 
+# Default terminal
+export TERMINAL='alacritty'
+
 source ${HOME}/.igloo.zsh
 source ${HOME}/.git-prompt.sh
 
