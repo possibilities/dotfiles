@@ -17,7 +17,8 @@ hc keybind $Mod-Shift-c close
 default_term='alacritty'
 hc keybind $Mod-Return spawn ${TERMINAL:-$default_term}
 
-hc keybind $Mod-d spawn rofi -show run
+hc keybind $Mod-d spawn rofi -show drun
+hc keybind $Mod-Shift-d spawn rofi -show run
 hc keybind $Mod-b spawn qutebrowser
 
 hc keybind $Mod-h     focus left
