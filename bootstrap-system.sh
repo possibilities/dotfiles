@@ -98,7 +98,7 @@ sudo make prefix=/usr/local install
 echo "install nvm"
 
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/install.sh | bash
-. ~/.nvm/nvm.sh
+. /home/mike/.nvm/nvm.sh
 
 # Load NVM so we can use it right away
 export NVM_DIR="$HOME/.nvm"
@@ -222,7 +222,8 @@ sudo make install
 
 echo "install nord tmux theme"
 
-git clone https://github.com/arcticicestudio/nord-tmux.git ~/.tmux/themes/nord-tmux
+rm -rf /home/mike/.tmux/themes/nord-tmux
+git clone https://github.com/arcticicestudio/nord-tmux.git /home/mike/.tmux/themes/nord-tmux
 
 echo "install alacritty"
 
@@ -296,16 +297,16 @@ sudo apt install --yes \
   libxcb-xkb-dev \
   libxcb-ewmh-dev \
   libxcb-ewmh2 \
-  libxcb-icccm4 \
-  libxcb-randr0 \
+  libxcb-icccm4-dev \
+  libxcb-randr0-dev \
   libxcb-util0-dev \
-  libxcb-xinerama0 \
   libxcb-xkb1 \
   libxcb-xrm0 \
   libxcb1 \
   libxkbcommon-x11-dev \
-  libxcb-cursor0 \
-  libcairo-dev \
+  libxcb-cursor-dev \
+  libxcb-xinerama0-dev \
+  libcairo2-dev \
   libpango1.0-dev \
   libstartup-notification0-dev \
   libgdk-pixbuf2.0-dev \
