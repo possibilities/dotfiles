@@ -1,1 +1,5 @@
+configuration {
+  font: "Fira Code 10";
+}
+
 @theme "nord"

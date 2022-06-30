@@ -22,4 +22,6 @@ config.set("auto_save.session", True)
 c.url.default_page = "about:blank"
 c.url.start_pages = ["about:blank"]
 
+config.set("fonts.default_family", "Fira Code")
+
 config.source('nord-qutebrowser.py')
