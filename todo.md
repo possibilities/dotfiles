@@ -1,7 +1,9 @@
 # TODO
 
 * Ssh agent
-* Nord colors should show on ls/tree
+* Discord nord theme (BetterDiscord)
+* Slack nord theme
+* Chrome nord theme
 * Clock issues in VM
 * File browser
 * Via
