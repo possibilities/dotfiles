@@ -47,3 +47,6 @@ export NVM_DIR="$HOME/.nvm"
 
 # Load nord dircolors for ls, tree, etc
 test -r "~/.dir_colors" && eval $(dircolors ~/.dir_colors)
+
+# Ssh agent magic
+eval `keychain --eval --quiet --ignore-missing --agents ssh id_ed25519`

@@ -323,6 +323,10 @@ mkdir build && cd build
 make
 sudo make prefix=/usr/local install
 
+echo "install keychain"
+
+sudo apt install --yes keychain
+
 echo "start cleanup process"
 
 arch="`uname -r | sed 's/^.*[0-9]\{1,\}\.[0-9]\{1,\}\.[0-9]\{1,\}\(-[0-9]\{1,2\}\)-//'`"
