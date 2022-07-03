@@ -121,7 +121,6 @@ urgent_color='#B48EAD'
 
 xsetroot -solid $background_color
 
-
 hc attr theme.tiling.reset 1
 hc attr theme.floating.reset 1
 hc set frame_border_active_color $background_color
