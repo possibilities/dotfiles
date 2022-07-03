@@ -1,6 +1,5 @@
 # TODO
 
-* Ssh agent
 * Clock issues in VM
 * File browser
 * Via
