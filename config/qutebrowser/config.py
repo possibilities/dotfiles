@@ -24,4 +24,7 @@ c.url.start_pages = ["about:blank"]
 
 config.set("fonts.default_family", "Fira Code")
 
+# Prevents periodic crashes on windows and debian
+config.set("qt.workarounds.remove_service_workers", True)
+
 config.source('nord-qutebrowser.py')
