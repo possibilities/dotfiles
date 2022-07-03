@@ -41,8 +41,6 @@ Plug 'mattn/gist-vim'
 Plug 'mattn/webapi-vim'
 " show vim status in gutter
 Plug 'airblade/vim-gitgutter'
-" navigate tmux and vim splits seamlessly
-Plug 'christoomey/vim-tmux-navigator'
 " exchange any two text values
 Plug 'tommcdo/vim-exchange'
 " enable text object user plugins
