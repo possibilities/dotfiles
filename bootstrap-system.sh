@@ -84,6 +84,7 @@ sudo apt install --yes \
   xdotool \
   xserver-xephyr \
   xsltproc \
+  install xdg-desktop-portal-gtk \
   xterm
 
 rm -rf /home/mike/src/herbstluftwm
