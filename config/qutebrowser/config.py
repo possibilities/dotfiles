@@ -9,12 +9,16 @@ config.bind("J", "tab-prev")
 config.bind("<", "tab-move -")
 config.bind(">", "tab-move +")
 
+# Tabs and statusbar settings and toggle
+config.set("statusbar.show", "always")
+config.set("tabs.show", "always")
+config.bind('xx', 'config-cycle statusbar.show always in-mode ;; config-cycle tabs.show always switching')
+
 # Prevent default quit binding
 config.unbind('<Ctrl-q>', mode='normal')
 
 # Misc
 config.set('scrolling.bar', 'when-searching')
-config.set("statusbar.show", "in-mode")
 config.set("window.hide_decoration", True)
 config.set("auto_save.session", True)
 
@@ -22,10 +26,11 @@ config.set("auto_save.session", True)
 config.set('downloads.location.directory', '/home/mike/Downloads')
 config.set('downloads.location.prompt', False)
 config.set('downloads.location.remember', True)
+config.set('downloads.position', 'bottom')
+config.set('downloads.remove_finished', 1)
 
 # Tabs
 config.set("tabs.background", True)
-config.set("tabs.show", "multiple")
 config.set("tabs.last_close", "close")
 
 # Startup and new tabs
