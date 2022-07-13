@@ -29,8 +29,8 @@ config.set("tabs.show", "multiple")
 config.set("tabs.last_close", "close")
 
 # Startup and new tabs
-c.url.default_page = "about:blank"
-c.url.start_pages = ["about:blank"]
+c.url.default_page = "/home/mike/code/dotfiles/config/qutebrowser/blank.html"
+c.url.start_pages = ["/home/mike/code/dotfiles/config/qutebrowser/blank.html"]
 
 # Theme
 config.set("fonts.default_family", "Fira Code")
