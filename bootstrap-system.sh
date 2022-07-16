@@ -328,6 +328,13 @@ echo "install keychain"
 
 sudo apt install --yes keychain
 
+echo "install audio dependencies"
+
+sudo apt-get remove --purge alsa-utils pulseaudio
+sudo apt-get install pulseaudio
+sudo apt-get install alsa-utils
+sudo alsa force-reload
+
 echo "start cleanup process"
 
 arch="`uname -r | sed 's/^.*[0-9]\{1,\}\.[0-9]\{1,\}\.[0-9]\{1,\}\(-[0-9]\{1,2\}\)-//'`"
