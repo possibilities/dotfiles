@@ -1,9 +1,8 @@
 # TODO
 
-* Clock issues in VM
+* Qutebrowser default browser
 * File browser
 * Via
-* Audio/video
 * Bluetooth
 * Networking
 * Hub
@@ -19,9 +18,6 @@
   * VS Code
   * Slack
   * Discord
-* Qutebrowser
-  * Set dark background on about:blank only
-  * Default browser
 * Fix initial slack configuration
   * Or resolve by restoring from backup
 * Tmuxp configs
