@@ -1,5 +1,6 @@
 # TODO
 
+* Upgrade strategy
 * Qutebrowser default browser
 * File browser
 * Via
