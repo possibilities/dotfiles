@@ -345,7 +345,7 @@ sudo apt install --yes keychain
 
 echo "install audio dependencies"
 
-sudo apt-get remove --purge alsa-utils pulseaudio
+sudo apt-get remove --purge --yes alsa-utils pulseaudio
 sudo apt-get install pulseaudio
 sudo apt-get install alsa-utils
 sudo alsa force-reload
