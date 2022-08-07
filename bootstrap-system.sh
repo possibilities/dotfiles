@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
 
@@ -52,51 +52,53 @@ curl https://sh.rustup.rs -sSf | sh -s -- -y
 ${HOME}/.cargo/bin/rustup override set stable
 ${HOME}/.cargo/bin/rustup update stable
 
-echo "install xorg"
+if [[ -z ${NO_GUI} ]]; then
+  echo "install xorg"
 
-sudo apt install --yes \
-  xinit \
-  xserver-xorg-video-all \
-  xserver-xorg-core
+  sudo apt install --yes \
+    xinit \
+    xserver-xorg-video-all \
+    xserver-xorg-core
 
-echo "install herbstluftwm"
+  echo "install herbstluftwm"
 
-sudo apt install --yes \
-  libxfixes-dev \
-  asciidoc \
-  cmake \
-  debhelper \
-  docbook-xml \
-  docbook-xsl \
-  libfreetype6-dev \
-  libx11-dev \
-  libxinerama-dev \
-  libxml2-utils \
-  libxft-dev \
-  libxrandr-dev \
-  python3 \
-  pkg-config \
-  python3-ewmh \
-  python3-pytest \
-  python3-pytest-xdist \
-  python3-pytest-xvfb \
-  python3-xlib \
-  x11-utils \
-  x11-xserver-utils \
-  xdotool \
-  xserver-xephyr \
-  xsltproc \
-  xdg-desktop-portal-gtk \
-  xterm
+  sudo apt install --yes \
+    libxfixes-dev \
+    asciidoc \
+    cmake \
+    debhelper \
+    docbook-xml \
+    docbook-xsl \
+    libfreetype6-dev \
+    libx11-dev \
+    libxinerama-dev \
+    libxml2-utils \
+    libxft-dev \
+    libxrandr-dev \
+    python3 \
+    pkg-config \
+    python3-ewmh \
+    python3-pytest \
+    python3-pytest-xdist \
+    python3-pytest-xvfb \
+    python3-xlib \
+    x11-utils \
+    x11-xserver-utils \
+    xdotool \
+    xserver-xephyr \
+    xsltproc \
+    xdg-desktop-portal-gtk \
+    xterm
 
-rm -rf ${HOME}/src/herbstluftwm
-git clone https://github.com/herbstluftwm/herbstluftwm.git ${HOME}/src/herbstluftwm
-cd ${HOME}/src/herbstluftwm
-git checkout ${HERBSTLUFTWM_VERSION}
-mkdir build && cd build
-cmake ..
-make
-sudo make prefix=/usr/local install
+  rm -rf ${HOME}/src/herbstluftwm
+  git clone https://github.com/herbstluftwm/herbstluftwm.git ${HOME}/src/herbstluftwm
+  cd ${HOME}/src/herbstluftwm
+  git checkout ${HERBSTLUFTWM_VERSION}
+  mkdir build && cd build
+  cmake ..
+  make
+  sudo make prefix=/usr/local install
+fi
 
 echo "install nvm"
 
@@ -145,39 +147,41 @@ echo "install aws cli"
 
 sudo pip3 install awscli
 
-echo "install qutebrowser"
+if [[ -z ${NO_GUI} ]]; then
+  echo "install qutebrowser"
 
-sudo apt --yes --no-install-recommends install \
-  ca-certificates \
-  python3 \
-  python3-venv \
-  asciidoc \
-  libglib2.0-0 \
-  libgl1 \
-  libfontconfig1 \
-  libxcb-icccm4 \
-  libxcb-image0 \
-  libxcb-keysyms1 \
-  libxcb-randr0 \
-  libxcb-render-util0 \
-  libxcb-shape0 \
-  libxcb-xfixes0 \
-  libxcb-xinerama0 \
-  libxcb-xkb1 \
-  libxkbcommon-x11-0 \
-  libdbus-1-3 \
-  libyaml-dev \
-  gcc \
-  python3-dev \
-  libnss3 \
-  libasound2
+  sudo apt --yes --no-install-recommends install \
+    ca-certificates \
+    python3 \
+    python3-venv \
+    asciidoc \
+    libglib2.0-0 \
+    libgl1 \
+    libfontconfig1 \
+    libxcb-icccm4 \
+    libxcb-image0 \
+    libxcb-keysyms1 \
+    libxcb-randr0 \
+    libxcb-render-util0 \
+    libxcb-shape0 \
+    libxcb-xfixes0 \
+    libxcb-xinerama0 \
+    libxcb-xkb1 \
+    libxkbcommon-x11-0 \
+    libdbus-1-3 \
+    libyaml-dev \
+    gcc \
+    python3-dev \
+    libnss3 \
+    libasound2
 
-mkdir -p ${HOME}/src/
-rm -rf ${HOME}/src/qutebrowser
-git clone https://github.com/qutebrowser/qutebrowser.git ${HOME}/src/qutebrowser
-cd ${HOME}/src/qutebrowser
-git checkout ${QUTEBROWSER_VERSION}
-python3 scripts/mkvenv.py --skip-smoke-test
+  mkdir -p ${HOME}/src/
+  rm -rf ${HOME}/src/qutebrowser
+  git clone https://github.com/qutebrowser/qutebrowser.git ${HOME}/src/qutebrowser
+  cd ${HOME}/src/qutebrowser
+  git checkout ${QUTEBROWSER_VERSION}
+  python3 scripts/mkvenv.py --skip-smoke-test
+fi
 
 echo "install neovim"
 
@@ -232,22 +236,24 @@ echo "install nord tmux theme"
 rm -rf ${HOME}/.tmux/themes/nord-tmux
 git clone https://github.com/arcticicestudio/nord-tmux.git ${HOME}/.tmux/themes/nord-tmux
 
-echo "install alacritty"
+if [[ -z ${NO_GUI} ]]; then
+  echo "install alacritty"
 
-rm -rf ${HOME}/src/alacritty
-git clone https://github.com/alacritty/alacritty.git ${HOME}/src/alacritty
-cd ${HOME}/src/alacritty
-git checkout ${ALACRITTY_VERSION}
+  rm -rf ${HOME}/src/alacritty
+  git clone https://github.com/alacritty/alacritty.git ${HOME}/src/alacritty
+  cd ${HOME}/src/alacritty
+  git checkout ${ALACRITTY_VERSION}
 
-${HOME}/.cargo/bin/cargo build --release
-sudo ln -sfT ${HOME}/src/alacritty/target/release/alacritty /usr/local/bin/alacritty
+  ${HOME}/.cargo/bin/cargo build --release
+  sudo ln -sfT ${HOME}/src/alacritty/target/release/alacritty /usr/local/bin/alacritty
 
-mkdir -p /usr/local/share/man/man1
-gzip -c extra/alacritty.man | sudo tee /usr/local/share/man/man1/alacritty.1.gz > /dev/null
-gzip -c extra/alacritty-msg.man | sudo tee /usr/local/share/man/man1/alacritty-msg.1.gz > /dev/null
+  mkdir -p /usr/local/share/man/man1
+  gzip -c extra/alacritty.man | sudo tee /usr/local/share/man/man1/alacritty.1.gz > /dev/null
+  gzip -c extra/alacritty-msg.man | sudo tee /usr/local/share/man/man1/alacritty-msg.1.gz > /dev/null
 
-mkdir -p ${HOME}/.zsh_functions
-cp extra/completions/_alacritty ${HOME}/.zsh_functions/_alacritty
+  mkdir -p ${HOME}/.zsh_functions
+  cp extra/completions/_alacritty ${HOME}/.zsh_functions/_alacritty
+fi
 
 echo "install lab"
 
@@ -265,6 +271,7 @@ sudo rm -rf ${HOME}/src/duplicity
 git clone https://gitlab.com/duplicity/duplicity.git ${HOME}/src/duplicity
 cd ${HOME}/src/duplicity
 git checkout ${DUPLICITY_VERSION}
+pip3 install --upgrade pip
 pip3 install -r requirements.txt
 sudo python3 setup.py install
 
@@ -296,39 +303,41 @@ git clone https://github.com/arcticicestudio/nord-dircolors.git ${HOME}/src/nord
 cd ${HOME}/src/nord-dircolors
 ln -sfr "${HOME}/src/nord-dircolors/src/dir_colors" ${HOME}/.dir_colors
 
-echo "install rofi"
+if [[ -z ${NO_GUI} ]]; then
+  echo "install rofi"
 
-sudo apt install --yes \
-  libglib2.0-dev \
-  flex \
-  libxcb-xkb-dev \
-  libxcb-ewmh-dev \
-  libxcb-ewmh2 \
-  libxcb-icccm4-dev \
-  libxcb-randr0-dev \
-  libxcb-util0-dev \
-  libxcb-xkb1 \
-  libxcb-xrm0 \
-  libxcb1 \
-  libxkbcommon-x11-dev \
-  libxcb-cursor-dev \
-  libxcb-xinerama0-dev \
-  libcairo2-dev \
-  libpango1.0-dev \
-  libstartup-notification0-dev \
-  libgdk-pixbuf2.0-dev \
-  check
+  sudo apt install --yes \
+    libglib2.0-dev \
+    flex \
+    libxcb-xkb-dev \
+    libxcb-ewmh-dev \
+    libxcb-ewmh2 \
+    libxcb-icccm4-dev \
+    libxcb-randr0-dev \
+    libxcb-util0-dev \
+    libxcb-xkb1 \
+    libxcb-xrm0 \
+    libxcb1 \
+    libxkbcommon-x11-dev \
+    libxcb-cursor-dev \
+    libxcb-xinerama0-dev \
+    libcairo2-dev \
+    libpango1.0-dev \
+    libstartup-notification0-dev \
+    libgdk-pixbuf2.0-dev \
+    check
 
-rm -rf ${HOME}/src/rofi
-git clone https://github.com/davatorium/rofi.git ${HOME}/src/rofi
-cd ${HOME}/src/rofi
-git checkout ${rofi_version}
-git submodule update --init
-autoreconf -i
-mkdir build && cd build
-../configure
-make
-sudo make prefix=/usr/local install
+  rm -rf ${HOME}/src/rofi
+  git clone https://github.com/davatorium/rofi.git ${HOME}/src/rofi
+  cd ${HOME}/src/rofi
+  git checkout ${rofi_version}
+  git submodule update --init
+  autoreconf -i
+  mkdir build && cd build
+  ../configure
+  make
+  sudo make prefix=/usr/local install
+fi
 
 echo "install keychain"
 
