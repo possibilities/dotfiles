@@ -12,6 +12,8 @@ NVM_VERSION="v0.39.1"
 JQ_VERSION="1.6"
 ROFI_VERSION="1.7.3"
 
+DIST=$(lsb_release -is)
+
 echo "update apt"
 
 sudo apt update
@@ -182,7 +184,11 @@ echo "install neovim"
 npm install --global tree-sitter
 
 # For telescope
-sudo apt install --yes ripgrep
+if [ "$DIST" = "Ubuntu" ]; then
+  sudo snap install ripgrep
+else
+  sudo apt install --yes ripgrep
+fi
 
 sudo apt --yes install \
   ninja-build \
