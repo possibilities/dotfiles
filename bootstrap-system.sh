@@ -18,8 +18,8 @@ sudo apt update
 
 echo "create dirs"
 
-mkdir -p /home/mike/src
-mkdir -p /home/mike/local/bin
+mkdir -p ${HOME}/src
+mkdir -p ${HOME}/local/bin
 
 echo "install misc tools"
 
@@ -47,8 +47,8 @@ sudo apt install --yes \
   libxkbcommon-dev
 
 curl https://sh.rustup.rs -sSf | sh -s -- -y
-/home/mike/.cargo/bin/rustup override set stable
-/home/mike/.cargo/bin/rustup update stable
+${HOME}/.cargo/bin/rustup override set stable
+${HOME}/.cargo/bin/rustup update stable
 
 echo "install xorg"
 
@@ -87,9 +87,9 @@ sudo apt install --yes \
   xdg-desktop-portal-gtk \
   xterm
 
-rm -rf /home/mike/src/herbstluftwm
-git clone https://github.com/herbstluftwm/herbstluftwm.git /home/mike/src/herbstluftwm
-cd /home/mike/src/herbstluftwm
+rm -rf ${HOME}/src/herbstluftwm
+git clone https://github.com/herbstluftwm/herbstluftwm.git ${HOME}/src/herbstluftwm
+cd ${HOME}/src/herbstluftwm
 git checkout ${HERBSTLUFTWM_VERSION}
 mkdir build && cd build
 cmake ..
@@ -99,7 +99,7 @@ sudo make prefix=/usr/local install
 echo "install nvm"
 
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/install.sh | bash
-. /home/mike/.nvm/nvm.sh
+. ${HOME}/.nvm/nvm.sh
 
 # Load NVM so we can use it right away
 export NVM_DIR="$HOME/.nvm"
@@ -170,10 +170,10 @@ sudo apt --yes --no-install-recommends install \
   libnss3 \
   libasound2
 
-mkdir -p /home/mike/src/
-rm -rf /home/mike/src/qutebrowser
-git clone https://github.com/qutebrowser/qutebrowser.git /home/mike/src/qutebrowser
-cd /home/mike/src/qutebrowser
+mkdir -p ${HOME}/src/
+rm -rf ${HOME}/src/qutebrowser
+git clone https://github.com/qutebrowser/qutebrowser.git ${HOME}/src/qutebrowser
+cd ${HOME}/src/qutebrowser
 git checkout ${QUTEBROWSER_VERSION}
 python3 scripts/mkvenv.py --skip-smoke-test
 
@@ -197,9 +197,9 @@ sudo apt --yes install \
   unzip \
   doxygen
 
-rm -rf /home/mike/src/neovim
-git clone https://github.com/neovim/neovim.git /home/mike/src/neovim
-cd /home/mike/src/neovim
+rm -rf ${HOME}/src/neovim
+git clone https://github.com/neovim/neovim.git ${HOME}/src/neovim
+cd ${HOME}/src/neovim
 git checkout ${NEOVIM_VERSION}
 make CMAKE_BUILD_TYPE=Release
 sudo make install
@@ -213,9 +213,9 @@ sudo apt install --yes \
   automake \
   bison
 
-rm -rf /home/mike/src/tmux
-git clone https://github.com/tmux/tmux.git /home/mike/src/tmux
-cd /home/mike/src/tmux
+rm -rf ${HOME}/src/tmux
+git clone https://github.com/tmux/tmux.git ${HOME}/src/tmux
+cd ${HOME}/src/tmux
 git checkout ${TMUX_VERSION}
 sh autogen.sh
 ./configure && make
@@ -223,25 +223,25 @@ sudo make install
 
 echo "install nord tmux theme"
 
-rm -rf /home/mike/.tmux/themes/nord-tmux
-git clone https://github.com/arcticicestudio/nord-tmux.git /home/mike/.tmux/themes/nord-tmux
+rm -rf ${HOME}/.tmux/themes/nord-tmux
+git clone https://github.com/arcticicestudio/nord-tmux.git ${HOME}/.tmux/themes/nord-tmux
 
 echo "install alacritty"
 
-rm -rf /home/mike/src/alacritty
-git clone https://github.com/alacritty/alacritty.git /home/mike/src/alacritty
-cd /home/mike/src/alacritty
+rm -rf ${HOME}/src/alacritty
+git clone https://github.com/alacritty/alacritty.git ${HOME}/src/alacritty
+cd ${HOME}/src/alacritty
 git checkout ${ALACRITTY_VERSION}
 
-/home/mike/.cargo/bin/cargo build --release
-sudo ln -sfT /home/mike/src/alacritty/target/release/alacritty /usr/local/bin/alacritty
+${HOME}/.cargo/bin/cargo build --release
+sudo ln -sfT ${HOME}/src/alacritty/target/release/alacritty /usr/local/bin/alacritty
 
 mkdir -p /usr/local/share/man/man1
 gzip -c extra/alacritty.man | sudo tee /usr/local/share/man/man1/alacritty.1.gz > /dev/null
 gzip -c extra/alacritty-msg.man | sudo tee /usr/local/share/man/man1/alacritty-msg.1.gz > /dev/null
 
-mkdir -p /home/mike/.zsh_functions
-cp extra/completions/_alacritty /home/mike/.zsh_functions/_alacritty
+mkdir -p ${HOME}/.zsh_functions
+cp extra/completions/_alacritty ${HOME}/.zsh_functions/_alacritty
 
 echo "install lab"
 
@@ -255,9 +255,9 @@ echo "install duplicity"
 
 sudo apt install --yes librsync-dev python3-pip gettext
 
-sudo rm -rf /home/mike/src/duplicity
-git clone https://gitlab.com/duplicity/duplicity.git /home/mike/src/duplicity
-cd /home/mike/src/duplicity
+sudo rm -rf ${HOME}/src/duplicity
+git clone https://gitlab.com/duplicity/duplicity.git ${HOME}/src/duplicity
+cd ${HOME}/src/duplicity
 git checkout ${DUPLICITY_VERSION}
 pip3 install -r requirements.txt
 sudo python3 setup.py install
@@ -266,14 +266,14 @@ echo "install jq"
 
 sudo apt --yes install libonig-dev
 
-rm -rf /home/mike/src/jq*
+rm -rf ${HOME}/src/jq*
 wget \
-  --output-document /home/mike/src/jq.tar.gz \
+  --output-document ${HOME}/src/jq.tar.gz \
   https://github.com/stedolan/jq/releases/download/jq-${JQ_VERSION}/jq-${JQ_VERSION}.tar.gz
 
-cd /home/mike/src
+cd ${HOME}/src
 tar xzvf jq.tar.gz
-cd /home/mike/src/jq-${JQ_VERSION}
+cd ${HOME}/src/jq-${JQ_VERSION}
 
 ./configure
 make
@@ -285,10 +285,10 @@ sudo gem install gist
 
 echo "install nord dircolors"
 
-rm -rf /home/mike/src/nord-dircolors
-git clone https://github.com/arcticicestudio/nord-dircolors.git /home/mike/src/nord-dircolors
-cd /home/mike/src/nord-dircolors
-ln -sfr "/home/mike/src/nord-dircolors/src/dir_colors" ${HOME}/.dir_colors
+rm -rf ${HOME}/src/nord-dircolors
+git clone https://github.com/arcticicestudio/nord-dircolors.git ${HOME}/src/nord-dircolors
+cd ${HOME}/src/nord-dircolors
+ln -sfr "${HOME}/src/nord-dircolors/src/dir_colors" ${HOME}/.dir_colors
 
 echo "install rofi"
 
@@ -313,9 +313,9 @@ sudo apt install --yes \
   libgdk-pixbuf2.0-dev \
   check
 
-rm -rf /home/mike/src/rofi
-git clone https://github.com/davatorium/rofi.git /home/mike/src/rofi
-cd /home/mike/src/rofi
+rm -rf ${HOME}/src/rofi
+git clone https://github.com/davatorium/rofi.git ${HOME}/src/rofi
+cd ${HOME}/src/rofi
 git checkout ${rofi_version}
 git submodule update --init
 autoreconf -i
@@ -415,7 +415,7 @@ if [ ! -n "$SKIP_POST_BOOTSTRAP" ]; then
   echo "bootstrap apps"
   wget -O - https://raw.githubusercontent.com/possibilities/dotfiles-next/main/install-apps.sh | sh
 
-  if [ ! -d "/home/mike/code/dotfiles" ]; then
+  if [ ! -d "${HOME}/code/dotfiles" ]; then
     echo "bootstrap dotfiles"
     wget -O - https://raw.githubusercontent.com/possibilities/dotfiles-next/main/bootstrap-dotfiles.sh | sh
   else
