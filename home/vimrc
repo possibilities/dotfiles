@@ -9,6 +9,8 @@ set nocompatible
 
 call plug#begin('~/.vim/plugged')
 
+Plug 'github/copilot.vim'
+
 " file explorer
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 " mysql
