@@ -14,6 +14,7 @@ install_flatpak () {
   FLATPAK_NAME=${2}
   echo "install ${APP_NAME}"
   sudo flatpak install ${FLATPAK_NAME} --assumeyes
+  sudo flatpak update ${FLATPAK_NAME} --assumeyes
   flatpak override --user --filesystem=home ${FLATPAK_NAME}
   sudo ln -sf /var/lib/flatpak/exports/bin/${FLATPAK_NAME} /usr/local/bin/${APP_NAME}
 }
