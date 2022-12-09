@@ -33,6 +33,17 @@ sudo apt install --yes \
   git \
   xclip
 
+echo "install rmtp server"
+
+sudo apt install --yes \
+  build-essential \
+  libpcre3 \
+  libpcre3-dev \
+  libssl-dev \
+  nginx-full \
+  libnginx-mod-rtmp \
+  ffmpeg
+
 echo "install fira font"
 
 sudo apt install fonts-firacode
