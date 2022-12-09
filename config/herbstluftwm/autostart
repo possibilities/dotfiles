@@ -22,7 +22,8 @@ hc keybind $Mod-Return spawn ${TERMINAL:-$default_term}
 
 hc keybind $Mod-d spawn rofi -show drun
 hc keybind $Mod-Shift-d spawn rofi -show run
-hc keybind $Mod-b spawn qutebrowser
+hc keybind $Mod-b spawn chrome --profile-directory=Default
+hc keybind $Mod-Shift-b spawn chrome --profile-directory="Profile 2"
 
 hc keybind $Mod-h     focus left
 hc keybind $Mod-j     focus down
