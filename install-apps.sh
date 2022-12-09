@@ -19,6 +19,9 @@ install_flatpak () {
   sudo ln -sf /var/lib/flatpak/exports/bin/${FLATPAK_NAME} /usr/local/bin/${APP_NAME}
 }
 
+install_flatpak whatsapp com.github.eneshecan.WhatsAppForLinux
+install_flatpak telegram org.telegram.desktop
+install_flatpak peek com.uploadedlobster.peek
 install_flatpak slack com.slack.Slack
 install_flatpak discord com.discordapp.Discord
 install_flatpak obs com.obsproject.Studio
@@ -38,5 +41,10 @@ install_flatpak blue sa.sy.bluerecorder
 install_flatpak photos org.photoqt.PhotoQt
 install_flatpak video org.olivevideoeditor.Olive
 install_flatpak cheese org.gnome.Cheese
+install_flatpak deluge org.deluge_torrent.deluge
+install_flatpak emby media.emby.EmbyServer
+install_flatpak qbittorent org.qbittorrent.qBittorrent
+install_flatpak avidemux org.avidemux.Avidemux
+install_flatpak android com.google.AndroidStudio
 
 echo "done installing apps."
