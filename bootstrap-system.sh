@@ -11,6 +11,8 @@ DUPLICITY_VERSION="rel.0.8.23"
 NVM_VERSION="v0.39.1"
 JQ_VERSION="1.6"
 ROFI_VERSION="1.7.3"
+VERACRYPT_VERSION="1.25.9"
+
 
 DIST=$(lsb_release -is)
 
@@ -351,6 +353,12 @@ echo "install audio dependencies"
 sudo apt-get remove --purge --yes alsa-utils pulseaudio
 sudo apt-get install pulseaudio
 sudo apt-get install alsa-utils
+
+echo "install veracrypt"
+
+cd ${HOME}/src
+wget https://launchpad.net/veracrypt/trunk/1.25.9/+download/veracrypt-1.25.9-Debian-11-amd64.deb
+sudo apt install --yes ./veracrypt*.deb
 
 echo "start cleanup process"
 
