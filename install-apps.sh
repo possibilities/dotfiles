@@ -15,10 +15,14 @@ install_flatpak () {
   echo "install ${APP_NAME}"
   sudo flatpak install ${FLATPAK_NAME} --assumeyes
   sudo flatpak update ${FLATPAK_NAME} --assumeyes
-  flatpak override --user --filesystem=home ${FLATPAK_NAME}
+  # flatpak override --user --filesystem=home ${FLATPAK_NAME}
+  flatpak override --user --filesystem=/steam ${FLATPAK_NAME}
   sudo ln -sf /var/lib/flatpak/exports/bin/${FLATPAK_NAME} /usr/local/bin/${APP_NAME}
 }
 
+install_flatpak brave com.brave.Browser
+install_flatpak steam com.valvesoftware.Steam
+install_flatpak tor com.github.micahflee.torbrowser-launcher
 install_flatpak whatsapp com.github.eneshecan.WhatsAppForLinux
 install_flatpak telegram org.telegram.desktop
 install_flatpak peek com.uploadedlobster.peek
