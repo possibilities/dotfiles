@@ -20,6 +20,7 @@ install_flatpak () {
   sudo ln -sf /var/lib/flatpak/exports/bin/${FLATPAK_NAME} /usr/local/bin/${APP_NAME}
 }
 
+install_flatpak calculator org.gnome.Calculator
 install_flatpak brave com.brave.Browser
 install_flatpak steam com.valvesoftware.Steam
 install_flatpak tor com.github.micahflee.torbrowser-launcher
