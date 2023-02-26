@@ -33,7 +33,9 @@ sudo apt install --yes \
   curl \
   zsh \
   git \
-  xclip
+  xclip \
+  gnome-disk-utility \
+  rsync
 
 echo "install rmtp server"
 
