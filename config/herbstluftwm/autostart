@@ -33,6 +33,7 @@ hc keybind $Mod-Shift-n spawn brave --profile-directory=Default -incognito
 hc keybind $Mod-Shift-o spawn obs --multi
 
 hc keybind Control-Shift-Print spawn flameshot gui
+hc keybind Control-Print spawn flameshot screen
 
 hc keybind $Mod-h     focus left
 hc keybind $Mod-j     focus down
