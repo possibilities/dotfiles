@@ -114,18 +114,21 @@ set guioptions-=e
 " more history
 set history=200
 
-" backups
-" via http://www.gmarks.org/vi_backups.html
-set backup
-set writebackup
-" some nice naming, places them all in a single directory with a boatload of
-" metadata in the file name.
-au BufWritePre * let &backupext = '%' . substitute(expand("%:p:h"), "/" , "%" , "g") . "%" . strftime("%Y.%m.%d.%H.%M.%S")
-au VimLeave * !cp % ~/.vim/backups/$(echo %:p | sed 's/\(.*\/\)\(.*\)/\2\/\1/g' | sed 's/\//\%/g')$(date +\%Y.\%m.\%d.\%H.\%M.\%S).wq
-" backup files
-set backupdir=~/.vim/backups/
-" swap files
-set directory=./.vim/backups,/tmp
+set swapfile
+set dir=/tmp
+
+" " backups
+" " via http://www.gmarks.org/vi_backups.html
+" set backup
+" set writebackup
+" " some nice naming, places them all in a single directory with a boatload of
+" " metadata in the file name.
+" au BufWritePre * let &backupext = '%' . substitute(expand("%:p:h"), "/" , "%" , "g") . "%" . strftime("%Y.%m.%d.%H.%M.%S")
+" au VimLeave * !cp % ~/.vim/backups/$(echo %:p | sed 's/\(.*\/\)\(.*\)/\2\/\1/g' | sed 's/\//\%/g')$(date +\%Y.\%m.\%d.\%H.\%M.\%S).wq
+" " backup files
+" set backupdir=~/.vim/backups/
+" " swap files
+" set directory=./.vim/backups,/tmp
 
 " tab to next buffer
 nnoremap <silent> <Tab> :bn<CR>
