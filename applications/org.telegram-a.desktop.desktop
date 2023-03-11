@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=Telegram Desktop A
 Comment=Official desktop version of Telegram messaging app
-Exec=/usr/bin/flatpak run --branch=stable --arch=x86_64 --command=/app/bin/telegram-desktop --file-forwarding org.telegram.desktop -- @@u %u @@ -many -workdir /media/veracrypt1/telegram/profiles/1
+Exec=/opt/Telegram/Telegram -many -workdir /media/veracrypt1/telegram/profiles/1
 Icon=org.telegram.desktop
 Terminal=false
 StartupWMClass=TelegramDesktop
@@ -14,8 +14,3 @@ SingleMainWindow=true
 X-GNOME-UsesNotifications=true
 X-GNOME-SingleWindow=true
 X-Flatpak=org.telegram.desktop
-
-[Desktop Action Quit]
-Exec=/usr/bin/flatpak run --branch=stable --arch=x86_64 --command=/app/bin/telegram-desktop org.telegram.desktop -quit
-Name=Quit Telegram
-Icon=application-exit
