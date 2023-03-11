@@ -48,6 +48,28 @@ sudo apt install --yes \
   libnginx-mod-rtmp \
   ffmpeg
 
+
+echo "install virtual manager"
+
+sudo apt install --yes \
+  virt-manager \
+  qemu-system \
+  libvirt-daemon-system \
+  qemu-kvm \
+  libvirt-clients \
+  libvirt-daemon-system \
+  bridge-utils \
+  virtinst \
+  libvirt-daemon
+sudo virsh net-start default
+sudo virsh net-autostart default
+sudo modprobe vhost_net
+sudo usermod -aG libvirt mike
+sudo usermod -aG libvirt-qemu mike
+sudo usermod -aG kvm mike
+sudo usermod -aG input mike
+sudo usermod -aG disk mike
+
 echo "install fira font"
 
 sudo apt install fonts-firacode
