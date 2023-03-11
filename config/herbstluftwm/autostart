@@ -172,10 +172,14 @@ hc set mouse_recenter_gap 0
 
 hc unrule -F
 hc rule focus=on
-hc rule floatplacement=smart
+hc rule floatplacement=center
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' floating=on
+
 hc rule windowtype='_NET_WM_WINDOW_TYPE_DIALOG' focus=on
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
+hc rule class=gnome-calculator floating=on
+hc rule class=Gcr-prompter floating=on
+hc rule class=TelegramDesktop floatplacement=smart
 
 hc set tree_style '╾│ ├└╼─┐'
 
