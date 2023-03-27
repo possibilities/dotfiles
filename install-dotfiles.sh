@@ -26,17 +26,6 @@ do
   ln -sfT $PWD/$file $HOME/.config/$file_name
 done
 
-echo "link desktop application files into ~/.local/share/applications"
-
-mkdir -p ${HOME}/.local/share/applications
-
-for file in applications/*
-do
-  file_name=`basename $file`
-  echo "   * $file -> ~/.local/share/applications/$file_name"
-  ln -sfT $PWD/$file $HOME/.local/share/applications/$file_name
-done
-
 echo "link ssh files into ~/.ssh"
 
 mkdir -p $HOME/.ssh
