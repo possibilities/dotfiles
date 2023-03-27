@@ -40,6 +40,13 @@ sudo apt install --yes \
 echo "setup modprobe for obs virtual camera"
 echo v4l2loopback | sudo tee /etc/modules-load.d/v4l2loopback.conf
 
+echo install btm
+
+rm -rf ${HOME}/src/btm
+mkdir -p ${HOME}/src/btm
+curl -L -o ${HOME}/src/btm/bottom_0.8.0_amd64.deb https://github.com/ClementTsang/bottom/releases/download/0.8.0/bottom_0.8.0_amd64.deb
+sudo dpkg -i ${HOME}/src/btm/bottom_0.8.0_amd64.deb
+
 echo "install rmtp server"
 
 sudo apt install --yes \
