@@ -37,6 +37,9 @@ sudo apt install --yes \
   gnome-disk-utility \
   rsync
 
+echo "setup modprobe for obs virtual camera"
+echo v4l2loopback | sudo tee /etc/modules-load.d/v4l2loopback.conf
+
 echo "install rmtp server"
 
 sudo apt install --yes \
