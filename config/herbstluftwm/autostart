@@ -20,7 +20,7 @@ hc keybind $Mod-Shift-m spawn rofi -show windowcd -modi windowcd,window
 default_term='alacritty'
 hc keybind $Mod-Return spawn ${TERMINAL:-$default_term}
 
-hc keybind $Mod-d spawn rofi -show drun
+hc keybind $Mod-d spawn rofi -show drun -sort -matching fuzzy -sorting-method fzf
 hc keybind $Mod-Shift-d spawn rofi -show run
 
 hc keybind $Mod-b spawn chrome --profile-directory=Default
