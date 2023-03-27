@@ -71,8 +71,8 @@ sudo apt install --yes \
   bridge-utils \
   virtinst \
   libvirt-daemon
-sudo virsh net-start default
-sudo virsh net-autostart default
+sudo virsh net-start default || true
+sudo virsh net-autostart default || true
 sudo modprobe vhost_net
 sudo usermod -aG libvirt mike
 sudo usermod -aG libvirt-qemu mike
@@ -385,8 +385,8 @@ sudo apt install --yes keychain
 echo "install audio dependencies"
 
 sudo apt-get remove --purge --yes alsa-utils pulseaudio
-sudo apt-get install pulseaudio
-sudo apt-get install alsa-utils
+sudo apt-get install --yes pulseaudio
+sudo apt-get install --yes alsa-utils
 
 echo "install veracrypt"
 
@@ -427,7 +427,7 @@ echo "configure networking"
 echo "pre-up sleep 2" | sudo tee -a /etc/network/interfaces
 
 # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=751636
-sudo apt install libpam-systemd
+sudo apt install --yes libpam-systemd
 
 echo "install open-vm-tools"
 sudo apt install -y open-vm-tools;
