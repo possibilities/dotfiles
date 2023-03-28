@@ -35,7 +35,9 @@ sudo apt install --yes \
   git \
   xclip \
   gnome-disk-utility \
-  rsync
+  rsync \
+  unrar-free \
+  p7zip-full
 
 echo "setup modprobe for obs virtual camera"
 echo v4l2loopback | sudo tee /etc/modules-load.d/v4l2loopback.conf
