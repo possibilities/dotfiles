@@ -20,13 +20,13 @@ install_flatpak () {
   sudo ln -sf /var/lib/flatpak/exports/bin/${FLATPAK_NAME} /usr/local/bin/${APP_NAME}
 }
 
+install_flatpak sqlitebrowser org.sqlitebrowser.sqlitebrowser
 install_flatpak kotatogram io.github.kotatogram
 install_flatpak calculator org.gnome.Calculator
 install_flatpak brave com.brave.Browser
 install_flatpak steam com.valvesoftware.Steam
 install_flatpak tor com.github.micahflee.torbrowser-launcher
 install_flatpak whatsapp com.github.eneshecan.WhatsAppForLinux
-install_flatpak telegram org.telegram.desktop
 install_flatpak peek com.uploadedlobster.peek
 install_flatpak slack com.slack.Slack
 install_flatpak discord com.discordapp.Discord
