@@ -43,7 +43,6 @@ install_flatpak skype com.skype.Client
 install_flatpak firefox org.mozilla.firefox
 install_flatpak gimp org.gimp.GIMP
 install_flatpak audacity org.audacityteam.Audacity
-install_flatpak blue sa.sy.bluerecorder
 install_flatpak photos org.photoqt.PhotoQt
 install_flatpak video org.olivevideoeditor.Olive
 install_flatpak cheese org.gnome.Cheese
