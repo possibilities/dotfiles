@@ -278,6 +278,7 @@ echo "install nord tmux theme"
 
 rm -rf ${HOME}/.tmux/themes/nord-tmux
 git clone https://github.com/arcticicestudio/nord-tmux.git ${HOME}/.tmux/themes/nord-tmux
+git checkout master
 
 echo "install alacritty"
 
