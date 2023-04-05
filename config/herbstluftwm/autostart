@@ -25,7 +25,6 @@ hc keybind $Mod-Shift-d spawn rofi -show run
 
 hc keybind $Mod-b spawn chrome --profile-directory=Default
 hc keybind $Mod-n spawn chrome --profile-directory=Default -incognito
-# hc keybind $Mod-Shift-b spawn chrome --profile-directory="Profile 2"
 
 hc keybind $Mod-Shift-b spawn brave --profile-directory=Default
 hc keybind $Mod-Shift-n spawn brave --profile-directory=Default -incognito
