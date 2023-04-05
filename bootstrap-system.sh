@@ -36,7 +36,6 @@ sudo apt install --yes \
   xclip \
   gnome-disk-utility \
   rsync \
-  unrar-free \
   p7zip-full
 
 echo "setup modprobe for obs virtual camera"
