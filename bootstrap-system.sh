@@ -159,7 +159,7 @@ export NVM_DIR="$HOME/.nvm"
 
 nvm install 14
 nvm install 16
-nvm alias default 14
+nvm alias default 16
 
 echo "install yarn"
 
