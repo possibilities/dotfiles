@@ -12,7 +12,7 @@ NVM_VERSION="v0.39.1"
 JQ_VERSION="1.6"
 ROFI_VERSION="1.7.3"
 VERACRYPT_VERSION="1.25.9"
-
+TELEGRAM_VERSION="4.7.1"
 
 DIST=$(lsb_release -is)
 
@@ -37,6 +37,17 @@ sudo apt install --yes \
   gnome-disk-utility \
   rsync \
   p7zip-full
+
+echo "install telegram"
+rm -rf ${HOME}/src/telegram
+mkdir ${HOME}/src/telegram
+cd ${HOME}/src/telegram
+wget \
+  --output-document ${HOME}/src/telegram/telegram.tar.xz \
+  https://github.com/telegramdesktop/tdesktop/releases/download/v${TELEGRAM_VERSION}/tsetup.${TELEGRAM_VERSION}.tar.xz
+tar xvf telegram.tar.xz
+sudo rm -rf /opt/Telegram
+sudo cp -r Telegram /opt/Telegram
 
 echo "setup modprobe for obs virtual camera"
 sudo apt install --yes v4l2loopback-dkms
