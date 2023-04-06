@@ -38,6 +38,11 @@ sudo apt install --yes \
   rsync \
   p7zip-full
 
+echo "install nordvpn"
+
+sh <(curl -sSf https://downloads.nordcdn.com/apps/linux/install.sh)
+sudo usermod -aG nordvpn $USER
+
 echo "install telegram"
 rm -rf ${HOME}/src/telegram
 mkdir ${HOME}/src/telegram

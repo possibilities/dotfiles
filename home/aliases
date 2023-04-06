@@ -33,3 +33,8 @@ alias wts="nodemon --exec 'yarn tsc' --ext 'ts,tsx'"
 alias wl="nodemon --exec 'yarn lint' --ext 'ts,tsx,js'"
 
 alias ls="ls --color=auto"
+
+# vpn
+alias vs='nordvpn status'
+alias vu='nordvpn connect && nordvpn set killswitch on'
+alias vd='nordvpn disconnect && nordvpn set killswitch off'
