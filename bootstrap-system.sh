@@ -2,19 +2,18 @@
 
 set -e
 
-ALACRITTY_VERSION="v0.10.1"
-NEOVIM_VERSION="v0.7.0"
-HERBSTLUFTWM_VERSION="v0.9.4"
+ALACRITTY_VERSION="v0.12.1"
+NEOVIM_VERSION="v0.9.1"
+HERBSTLUFTWM_VERSION="v0.9.5"
 TMUX_VERSION="3.3a"
 QUTEBROWSER_VERSION="v2.5.2"
 DUPLICITY_VERSION="rel.0.8.23"
-NVM_VERSION="v0.39.1"
+NVM_VERSION="v0.39.3"
 JQ_VERSION="1.6"
 ROFI_VERSION="1.7.3"
 VERACRYPT_VERSION="1.25.9"
-TELEGRAM_VERSION="4.7.1"
-
-DIST=$(lsb_release -is)
+TELEGRAM_VERSION="4.8.3"
+RAR_VERSION="621"
 
 echo "update apt"
 
@@ -23,6 +22,7 @@ sudo apt update
 echo "create dirs"
 
 mkdir -p ${HOME}/src
+# TODO use ~/.local/bin
 mkdir -p ${HOME}/local/bin
 
 echo "install misc tools"
@@ -38,10 +38,65 @@ sudo apt install --yes \
   rsync \
   p7zip-full
 
+echo "install docker"
+
+sudo apt install --yes ca-certificates gnupg
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo rm /etc/apt/keyrings/docker.gpg
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+echo \
+  "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
+  "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+sudo apt-get install --yes docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo groupadd docker || true
+sudo usermod -aG docker $USER || true
+
+echo "install docker compose"
+sudo apt-get install --yes docker-compose-plugin
+
+echo "install dunst"
+
+sudo apt install --yes dunst libnotify-bin
+
+echo "install lightdm"
+
+sudo apt install --yes lightdm
+sudo mkdir -p /etc/lightdm
+sudo cp ./lightdm.conf /etc/lightdm/lightdm.conf
+
+echo "install wifi stuff"
+
+# old_source_line="deb http:\/\/deb.debian.org\/debian\/ bullseye main"
+# new_source_line="deb http:\/\/deb.debian.org\/debian\/ bullseye main contrib non-free"
+# temp_file=$(sudo mktemp)
+# sudo sed "s/^$old_source_line$/# &\n$new_source_line/" /etc/apt/sources.list | sudo tee $temp_file > /dev/null
+# sudo mv $temp_file /etc/apt/sources.list
+# sudo chmod 644 /etc/apt/sources.list
+sudo apt update --yes
+sudo apt upgrade --yes
+sudo apt-get install --yes wireless-tools firmware-realtek firmware-iwlwifi
+sudo modprobe -r iwlwifi || true
+sudo modprobe iwlwifi || true
+# sudo dmesg
+
 echo "install nordvpn"
 
 sh <(curl -sSf https://downloads.nordcdn.com/apps/linux/install.sh)
 sudo usermod -aG nordvpn $USER
+
+echo "install nonfree unrar"
+
+rm -rf ${HOME}/src/rar
+mkdir ${HOME}/src/rar
+wget \
+  --output-document ${HOME}/src/rar/rar.tar.xz \
+  https://www.win-rar.com/fileadmin/winrar-versions/rarlinux-x64-${RAR_VERSION}.tar.gz
+cd ${HOME}/src/rar
+tar zxvf rar.tar.xz
+cp rar/unrar ${HOME}/.local/bin/unrar
 
 echo "install telegram"
 rm -rf ${HOME}/src/telegram
@@ -92,11 +147,11 @@ sudo apt install --yes \
 sudo virsh net-start default || true
 sudo virsh net-autostart default || true
 sudo modprobe vhost_net
-sudo usermod -aG libvirt mike
-sudo usermod -aG libvirt-qemu mike
-sudo usermod -aG kvm mike
-sudo usermod -aG input mike
-sudo usermod -aG disk mike
+sudo usermod -aG libvirt $USER
+sudo usermod -aG libvirt-qemu $USER
+sudo usermod -aG kvm $USER
+sudo usermod -aG input $USER
+sudo usermod -aG disk $USER
 
 echo "install fira font"
 
@@ -249,11 +304,7 @@ echo "install neovim"
 npm install --global tree-sitter
 
 # For telescope
-if [ "$DIST" = "Ubuntu" ]; then
-  sudo snap install ripgrep
-else
-  sudo apt install --yes ripgrep
-fi
+sudo apt install --yes ripgrep
 
 sudo apt --yes install \
   ninja-build \
@@ -297,7 +348,7 @@ echo "install nord tmux theme"
 rm -rf ${HOME}/.tmux/themes/nord-tmux
 git clone https://github.com/arcticicestudio/nord-tmux.git ${HOME}/.tmux/themes/nord-tmux
 cd ${HOME}/.tmux/themes/nord-tmux
-git checkout master
+git checkout develop
 
 echo "install alacritty"
 

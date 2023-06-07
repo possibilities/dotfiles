@@ -18,9 +18,9 @@ alias gh="grep_history"
 alias gist="gist --open --private 2&> /dev/null"
 alias gbrlt="git brl | tail"
 
-# For windows/putty
-alias tmux="TERM=screen-256color-bce tmux"
-
+alias misc="git add . ; git ci -am'Misc'"
+alias miscpush="git add . ; git ci -am'Misc' ; git push"
+alias mp="git add . ; git ci -am'Misc' ; git push"
 alias wip="git add .; git commit --no-verify -a -m 'wip [skip ci]'"
 alias wipush="git add .; git commit --no-verify -a -m 'wip [skip ci]' ; git push"
 
@@ -37,4 +37,4 @@ alias ls="ls --color=auto"
 # vpn
 alias vs='nordvpn status'
 alias vu='nordvpn connect && nordvpn set killswitch on'
-alias vd='nordvpn disconnect && nordvpn set killswitch off'
+alias vd='nordvpn disconnect'

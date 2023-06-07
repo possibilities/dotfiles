@@ -10,6 +10,10 @@ hc keyunbind --all
 Mod=Mod4
 Alt=Mod1
 
+hc keybind $Mod-Escape spawn dunstctl close
+hc keybind Control-$Mod-Escape spawn dunstctl close-all
+hc keybind Control-$Mod-Shift-Escape spawn dunstctl history-pop
+
 hc keybind $Mod-Shift-q quit
 hc keybind $Mod-Shift-r reload
 hc keybind $Mod-Shift-c close
@@ -188,6 +192,7 @@ hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' floating=on
 hc rule windowtype='_NET_WM_WINDOW_TYPE_DIALOG' focus=on
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
 hc rule class=gnome-calculator floating=on
+hc rule class=kclock floating=on
 hc rule class=Gcr-prompter floating=on
 hc rule class=TelegramDesktop floatplacement=smart
 

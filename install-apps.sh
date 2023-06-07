@@ -20,6 +20,14 @@ install_flatpak () {
   sudo ln -sf /var/lib/flatpak/exports/bin/${FLATPAK_NAME} /usr/local/bin/${APP_NAME}
 }
 
+install_flatpak dbeaver io.dbeaver.DBeaverCommunity
+install_flatpak squirrel net.sourceforge.squirrel_sql
+install_flatpak eog org.gnome.eog
+install_flatpak loupe org.gnome.Loupe
+install_flatpak pix org.kde.pix
+install_flatpak gwenview org.kde.gwenview
+install_flatpak clock org.kde.kclock
+install_flatpak imagelounge org.nomacs.ImageLounge
 install_flatpak sqlitebrowser org.sqlitebrowser.sqlitebrowser
 install_flatpak kotatogram io.github.kotatogram
 install_flatpak calculator org.gnome.Calculator
