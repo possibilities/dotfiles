@@ -38,3 +38,5 @@ alias ls="ls --color=auto"
 alias vs='nordvpn status'
 alias vu='nordvpn connect && nordvpn set killswitch on'
 alias vd='nordvpn disconnect'
+
+alias tg="tree --gitignore"

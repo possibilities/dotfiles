@@ -20,6 +20,8 @@ install_flatpak () {
   sudo ln -sf /var/lib/flatpak/exports/bin/${FLATPAK_NAME} /usr/local/bin/${APP_NAME}
 }
 
+install_flatpak keyboard org.cubocore.CoreKeyboard
+install_flatpak flipclock one.alynx.FlipClock
 install_flatpak dbeaver io.dbeaver.DBeaverCommunity
 install_flatpak squirrel net.sourceforge.squirrel_sql
 install_flatpak eog org.gnome.eog

@@ -116,9 +116,6 @@ hc keybind $Mod-i jumpto urgent
 # Cycle clients
 hc keybind $Mod-Tab         cycle_all +1
 hc keybind $Mod-Shift-Tab   cycle_all -1
-# Eventually get rid of this some way and use the above binding
-hc keybind $Alt-Tab         cycle_all +1
-hc keybind $Alt-Shift-Tab   cycle_all -1
 
 # Constrain fullscreen inside frame
 hc keybind $Mod-Control-f chain \
@@ -193,6 +190,7 @@ hc rule windowtype='_NET_WM_WINDOW_TYPE_DIALOG' focus=on
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
 hc rule class=gnome-calculator floating=on
 hc rule class=kclock floating=on
+hc rule class=flipclock floating=on
 hc rule class=Gcr-prompter floating=on
 hc rule class=TelegramDesktop floatplacement=smart
 
