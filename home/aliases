@@ -40,3 +40,4 @@ alias vu='nordvpn connect && nordvpn set killswitch on'
 alias vd='nordvpn disconnect'
 
 alias tg="tree --gitignore"
+alias gt="tree --gitignore"

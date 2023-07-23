@@ -2,7 +2,7 @@
 
 set -e
 
-ALACRITTY_VERSION="v0.12.1"
+ALACRITTY_VERSION="v0.12.2"
 NEOVIM_VERSION="v0.9.1"
 HERBSTLUFTWM_VERSION="v0.9.5"
 TMUX_VERSION="3.3a"
@@ -12,7 +12,6 @@ NVM_VERSION="v0.39.3"
 JQ_VERSION="1.6"
 ROFI_VERSION="1.7.3"
 VERACRYPT_VERSION="1.25.9"
-TELEGRAM_VERSION="4.8.3"
 RAR_VERSION="621"
 
 echo "update apt"
@@ -37,6 +36,12 @@ sudo apt install --yes \
   gnome-disk-utility \
   rsync \
   p7zip-full
+
+echo "install playwright dependencies"
+
+sudo apt-get install --yes \
+  libgles2 \
+  libdbus-glib-1-2
 
 echo "install docker"
 
@@ -104,8 +109,9 @@ mkdir ${HOME}/src/telegram
 cd ${HOME}/src/telegram
 wget \
   --output-document ${HOME}/src/telegram/telegram.tar.xz \
-  https://github.com/telegramdesktop/tdesktop/releases/download/v${TELEGRAM_VERSION}/tsetup.${TELEGRAM_VERSION}.tar.xz
+  https://telegram.org/dl/desktop/linux
 tar xvf telegram.tar.xz
+
 sudo rm -rf /opt/Telegram
 sudo cp -r Telegram /opt/Telegram
 

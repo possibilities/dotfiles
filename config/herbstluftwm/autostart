@@ -27,8 +27,8 @@ hc keybind $Mod-Return spawn ${TERMINAL:-$default_term}
 hc keybind $Mod-d spawn rofi -show drun -sort -matching fuzzy -sorting-method fzf
 hc keybind $Mod-Shift-d spawn rofi -show run
 
-hc keybind $Mod-b spawn chrome --profile-directory=Default
-hc keybind $Mod-n spawn chrome --profile-directory=Default -incognito
+hc keybind $Mod-b spawn /usr/bin/flatpak run --branch=stable --arch=x86_64 --command=/app/bin/chrome --file-forwarding com.google.Chrome --enable-features=WebUIDarkMode --force-dark-mode
+hc keybind $Mod-n spawn /usr/bin/flatpak run --branch=stable --arch=x86_64 --command=/app/bin/chrome --file-forwarding com.google.Chrome -incognito --enable-features=WebUIDarkMode --force-dark-mode
 
 hc keybind $Mod-Shift-b spawn brave --profile-directory=Default
 hc keybind $Mod-Shift-n spawn brave --profile-directory=Default -incognito
