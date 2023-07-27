@@ -92,7 +92,6 @@ set cmdwinheight=15
 
 set hidden
 set cursorline
-set colorcolumn=80
 set history=1000
 set nofoldenable
 set list
@@ -203,3 +202,6 @@ let g:slime_default_config = {"socket_name": "default", "target_pane": "2"}
 
 " disable mouse menu
 set mouse=
+
+let @z = 'console.log(JSON.stringify({}, null, 2))'
+let @x = '<pre>{JSON.stringify({}, null, 2))}</pre>'
