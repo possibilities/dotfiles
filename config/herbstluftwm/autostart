@@ -70,6 +70,11 @@ for i in "${!tag_names[@]}" ; do
     key="${tag_keys[$i]}"
     if ! [ -z "$key" ] ; then
         hc keybind "$Mod-$key" use_index "$i"
+        # if [ "$i" = "0" ] ; then
+        #   hc keybind "$Mod-$key" chain , use_index "$i" , attr theme.title_height 0 , hc attr theme.title_depth 0
+        # else
+        #   hc keybind "$Mod-$key" chain , use_index "$i" , attr theme.title_height 40 , hc attr theme theme.padding_top 40
+        # fi
         hc keybind "$Mod-Shift-$key" move_index "$i"
     fi
 done
