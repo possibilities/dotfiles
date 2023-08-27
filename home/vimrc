@@ -204,4 +204,4 @@ let g:slime_default_config = {"socket_name": "default", "target_pane": "2"}
 set mouse=
 
 let @z = 'console.log(JSON.stringify({}, null, 2))'
-let @x = '<pre>{JSON.stringify({}, null, 2))}</pre>'
+let @x = '<pre>{JSON.stringify({}, null, 2)}</pre>'
