@@ -271,39 +271,39 @@ echo "install aws cli"
 
 sudo pip3 install awscli
 
-echo "install qutebrowser"
+# echo "install qutebrowser"
 
-sudo apt --yes --no-install-recommends install \
-  ca-certificates \
-  python3 \
-  python3-venv \
-  asciidoc \
-  libglib2.0-0 \
-  libgl1 \
-  libfontconfig1 \
-  libxcb-icccm4 \
-  libxcb-image0 \
-  libxcb-keysyms1 \
-  libxcb-randr0 \
-  libxcb-render-util0 \
-  libxcb-shape0 \
-  libxcb-xfixes0 \
-  libxcb-xinerama0 \
-  libxcb-xkb1 \
-  libxkbcommon-x11-0 \
-  libdbus-1-3 \
-  libyaml-dev \
-  gcc \
-  python3-dev \
-  libnss3 \
-  libasound2
+# sudo apt --yes --no-install-recommends install \
+#   ca-certificates \
+#   python3 \
+#   python3-venv \
+#   asciidoc \
+#   libglib2.0-0 \
+#   libgl1 \
+#   libfontconfig1 \
+#   libxcb-icccm4 \
+#   libxcb-image0 \
+#   libxcb-keysyms1 \
+#   libxcb-randr0 \
+#   libxcb-render-util0 \
+#   libxcb-shape0 \
+#   libxcb-xfixes0 \
+#   libxcb-xinerama0 \
+#   libxcb-xkb1 \
+#   libxkbcommon-x11-0 \
+#   libdbus-1-3 \
+#   libyaml-dev \
+#   gcc \
+#   python3-dev \
+#   libnss3 \
+#   libasound2
 
-mkdir -p ${HOME}/src/
-rm -rf ${HOME}/src/qutebrowser
-git clone https://github.com/qutebrowser/qutebrowser.git ${HOME}/src/qutebrowser
-cd ${HOME}/src/qutebrowser
-git checkout ${QUTEBROWSER_VERSION}
-python3 scripts/mkvenv.py --skip-smoke-test
+# mkdir -p ${HOME}/src/
+# rm -rf ${HOME}/src/qutebrowser
+# git clone https://github.com/qutebrowser/qutebrowser.git ${HOME}/src/qutebrowser
+# cd ${HOME}/src/qutebrowser
+# git checkout ${QUTEBROWSER_VERSION}
+# python3 scripts/mkvenv.py --skip-smoke-test
 
 echo "install neovim"
 
