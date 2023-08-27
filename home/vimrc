@@ -85,7 +85,7 @@ set incsearch
 set expandtab
 set ai
 set copyindent
-set nowrap
+" set nowrap
 set ruler
 set backspace=eol,start,indent
 set cmdwinheight=15
