@@ -4,7 +4,7 @@ export WORDCHARS='*?[]~=&;!#$%^(){}'
 # Set up path
 
 # Pip installations
-export PATH=$HOME/.local/bin:$PATH
+export PATH=$HOME/.local/bin:/root/.local/bin:$PATH
 # Cargo installation
 # TODO might not need the export due to the line that follows it
 export PATH=$HOME/.cargo/bin:$PATH

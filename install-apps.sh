@@ -20,21 +20,16 @@ install_flatpak () {
   sudo ln -sf /var/lib/flatpak/exports/bin/${FLATPAK_NAME} /usr/local/bin/${APP_NAME}
 }
 
+install_flatpak wasabi io.wasabiwallet.WasabiWallet
+install_flatpak signal org.signal.Signal
+install_flatpak warehouse io.github.flattool.Warehouse
+install_flatpak session network.loki.Session
 install_flatpak keyboard org.cubocore.CoreKeyboard
 install_flatpak flipclock one.alynx.FlipClock
-install_flatpak dbeaver io.dbeaver.DBeaverCommunity
-install_flatpak squirrel net.sourceforge.squirrel_sql
-install_flatpak eog org.gnome.eog
-install_flatpak loupe org.gnome.Loupe
-install_flatpak pix org.kde.pix
-install_flatpak gwenview org.kde.gwenview
 install_flatpak clock org.kde.kclock
-install_flatpak imagelounge org.nomacs.ImageLounge
-install_flatpak sqlitebrowser org.sqlitebrowser.sqlitebrowser
-install_flatpak kotatogram io.github.kotatogram
 install_flatpak calculator org.gnome.Calculator
 install_flatpak brave com.brave.Browser
-install_flatpak steam com.valvesoftware.Steam
+#install_flatpak steam com.valvesoftware.Steam
 install_flatpak tor com.github.micahflee.torbrowser-launcher
 install_flatpak whatsapp com.github.eneshecan.WhatsAppForLinux
 install_flatpak peek com.uploadedlobster.peek

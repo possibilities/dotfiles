@@ -1,10 +1,12 @@
 font:
-  size: 16.0
+  size: 13.0
   normal:
     family: "Fira Code"
 scrolling:
   history: 0
   multiplier: 0
+url:
+  launcher: None
 selection:
   save_to_clipboard: true
 colors:

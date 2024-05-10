@@ -2,17 +2,33 @@
 
 set -e
 
-ALACRITTY_VERSION="v0.12.2"
-NEOVIM_VERSION="v0.9.1"
+get_latest_version() {
+    local REDIRECTED_RELEASE_URL
+    REDIRECTED_RELEASE_URL=$(curl -s -L -o /dev/null -w "%{url_effective}" "https://github.com/$1/releases/latest")
+    local VERSION
+    VERSION=$(echo $REDIRECTED_RELEASE_URL | awk -F'/' '{print $NF}' | awk -F'v' '{print $2}')
+    echo $VERSION
+}
+
+QUTEBROWSER_VERSION=$(get_latest_version qutebrowser/qutebrowser)
+NVM_VERSION=$(get_latest_version nvm-sh/nvm)
+ALACRITTY_VERSION=$(get_latest_version alacritty/alacritty)
+NEOVIM_VERSION=$(get_latest_version neovim/neovim)
+
 HERBSTLUFTWM_VERSION="v0.9.5"
 TMUX_VERSION="3.3a"
-QUTEBROWSER_VERSION="v2.5.2"
 DUPLICITY_VERSION="rel.0.8.23"
-NVM_VERSION="v0.39.3"
 JQ_VERSION="1.6"
 ROFI_VERSION="1.7.3"
 VERACRYPT_VERSION="1.25.9"
-RAR_VERSION="621"
+
+
+echo "install tmux resurrect"
+TMUX_RESURRECT_VERSION="4.0.0"
+rm -rf ${HOME}/src/tmux-resurrect
+git clone https://github.com/tmux-plugins/tmux-resurrect.git ${HOME}/src/tmux-resurrect
+cd ${HOME}/src/tmux-resurrect
+git checkout v${TMUX_RESURRECT_VERSION}
 
 echo "update apt"
 
@@ -20,9 +36,9 @@ sudo apt update
 
 echo "create dirs"
 
-mkdir -p ${HOME}/src
-# TODO use ~/.local/bin
-mkdir -p ${HOME}/local/bin
+mkdir -p ${home}/src
+# todo use ~/.local/bin
+mkdir -p ${home}/local/bin
 
 echo "install misc tools"
 
@@ -48,16 +64,16 @@ echo "install docker"
 sudo apt install --yes ca-certificates gnupg
 sudo install -m 0755 -d /etc/apt/keyrings
 sudo rm /etc/apt/keyrings/docker.gpg
-curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+curl -fssl https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 sudo chmod a+r /etc/apt/keyrings/docker.gpg
 echo \
   "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
-  "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
+  "$(. /etc/os-release && echo "$version_codename")" stable" | \
   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt-get update
 sudo apt-get install --yes docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 sudo groupadd docker || true
-sudo usermod -aG docker $USER || true
+sudo usermod -ag docker $user || true
 
 echo "install docker compose"
 sudo apt-get install --yes docker-compose-plugin
@@ -69,6 +85,7 @@ sudo apt install --yes dunst libnotify-bin
 echo "install lightdm"
 
 sudo apt install --yes lightdm
+sudo apt install --yes xautolock
 sudo mkdir -p /etc/lightdm
 sudo cp ./lightdm.conf /etc/lightdm/lightdm.conf
 
@@ -89,31 +106,19 @@ sudo modprobe iwlwifi || true
 
 echo "install nordvpn"
 
-sh <(curl -sSf https://downloads.nordcdn.com/apps/linux/install.sh)
-sudo usermod -aG nordvpn $USER
+sh <(curl -ssf https://downloads.nordcdn.com/apps/linux/install.sh)
+sudo usermod -ag nordvpn $user
 
-echo "install nonfree unrar"
+# echo "install nonfree unrar"
 
-rm -rf ${HOME}/src/rar
-mkdir ${HOME}/src/rar
-wget \
-  --output-document ${HOME}/src/rar/rar.tar.xz \
-  https://www.win-rar.com/fileadmin/winrar-versions/rarlinux-x64-${RAR_VERSION}.tar.gz
-cd ${HOME}/src/rar
-tar zxvf rar.tar.xz
-cp rar/unrar ${HOME}/.local/bin/unrar
-
-echo "install telegram"
-rm -rf ${HOME}/src/telegram
-mkdir ${HOME}/src/telegram
-cd ${HOME}/src/telegram
-wget \
-  --output-document ${HOME}/src/telegram/telegram.tar.xz \
-  https://telegram.org/dl/desktop/linux
-tar xvf telegram.tar.xz
-
-sudo rm -rf /opt/Telegram
-sudo cp -r Telegram /opt/Telegram
+# # rm -rf ${home}/src/rar
+# # mkdir ${home}/src/rar
+# # wget \
+# #   --output-document ${home}/src/rar/rar.tar.xz \
+# #   https://www.win-rar.com/fileadmin/winrar-versions/rarlinux-x64-${rar_version}.tar.gz
+# # cd ${home}/src/rar
+# # tar zxvf rar.tar.xz
+# # cp rar/unrar ${home}/.local/bin/unrar
 
 echo "setup modprobe for obs virtual camera"
 sudo apt install --yes v4l2loopback-dkms
@@ -226,7 +231,7 @@ sudo make prefix=/usr/local install
 
 echo "install nvm"
 
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/install.sh | bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v${NVM_VERSION}/install.sh | bash
 . ${HOME}/.nvm/nvm.sh
 
 # Load NVM so we can use it right away
@@ -264,8 +269,7 @@ npm install --global serve
 
 echo "install tmuxp"
 
-sudo apt install --yes python3-pip
-sudo pip3 install tmuxp
+sudo pip install --user --upgrade tmuxp
 
 echo "install aws cli"
 
@@ -302,7 +306,7 @@ sudo pip3 install awscli
 # rm -rf ${HOME}/src/qutebrowser
 # git clone https://github.com/qutebrowser/qutebrowser.git ${HOME}/src/qutebrowser
 # cd ${HOME}/src/qutebrowser
-# git checkout ${QUTEBROWSER_VERSION}
+# git checkout v${QUTEBROWSER_VERSION}
 # python3 scripts/mkvenv.py --skip-smoke-test
 
 echo "install neovim"
@@ -328,7 +332,7 @@ sudo apt --yes install \
 rm -rf ${HOME}/src/neovim
 git clone https://github.com/neovim/neovim.git ${HOME}/src/neovim
 cd ${HOME}/src/neovim
-git checkout ${NEOVIM_VERSION}
+git checkout v${NEOVIM_VERSION}
 make CMAKE_BUILD_TYPE=Release
 sudo make install
 
@@ -361,7 +365,7 @@ echo "install alacritty"
 rm -rf ${HOME}/src/alacritty
 git clone https://github.com/alacritty/alacritty.git ${HOME}/src/alacritty
 cd ${HOME}/src/alacritty
-git checkout ${ALACRITTY_VERSION}
+git checkout v${ALACRITTY_VERSION}
 
 ${HOME}/.cargo/bin/cargo build --release
 sudo ln -sfT ${HOME}/src/alacritty/target/release/alacritty /usr/local/bin/alacritty

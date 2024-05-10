@@ -10,13 +10,27 @@ hc keyunbind --all
 Mod=Mod4
 Alt=Mod1
 
+herbstclient keybind $Mod-Control-Shift-l spawn dm-tool switch-to-greeter
+
+hc keybind $Mod-Control-z spawn xdotool mousemove 2133 1384 click --repeat 2 1
+hc keybind $Mod-Control-x spawn xdotool mousemove 2439 1376 click --repeat 2 1
+
+hc keybind Control+Shift+$Mod+q spawn sudo reboot
+
+hc keybind Control-$Mod-1 spawn amixer set Master 5%-
+hc keybind Control-$Mod-2 spawn amixer set Master 5%+
+
 hc keybind $Mod-Escape spawn dunstctl close
 hc keybind Control-$Mod-Escape spawn dunstctl close-all
 hc keybind Control-$Mod-Shift-Escape spawn dunstctl history-pop
+hc keybind Control-$Mod-n spawn /home/mike/code/dotfiles/bin/toggle-notifications.sh
+hc keybind $Mod-Shift-u spawn /home/mike/code/dotfiles/bin/unsplit.sh
 
 hc keybind $Mod-Shift-q quit
 hc keybind $Mod-Shift-r reload
 hc keybind $Mod-Shift-c close
+
+hc keybind Control-Shift-$Mod-c spawn /home/mike/code/dotfiles/bin/copy-mouse-coordinates.sh
 
 hc keybind $Mod-m set_attr clients.focus.minimized toggle
 hc keybind $Mod-Shift-m spawn rofi -show windowcd -modi windowcd,window
@@ -56,8 +70,8 @@ hc keybind $Mod-Control-j       resize down +$resize_step
 hc keybind $Mod-Control-k       resize up +$resize_step
 hc keybind $Mod-Control-l       resize right +$resize_step
 
-hc set_attr settings.default_frame_layout horizontal
-hc load '(clients horizontal:0)'
+hc set_attr settings.default_frame_layout max
+hc load '(clients max:0)'
 
 tag_names=( {1..9} )
 tag_keys=( {1..9} 0 )
@@ -119,8 +133,11 @@ hc keybind $Mod-c cycle
 hc keybind $Mod-i jumpto urgent
 
 # Cycle clients
-hc keybind $Mod-Tab         cycle_all +1
-hc keybind $Mod-Shift-Tab   cycle_all -1
+hc keybind $Mod-Tab                 cycle +1
+hc keybind $Mod-Shift-Tab           cycle -1
+# Cycle all clients
+hc keybind $Mod-Control-Tab         cycle_all +1
+hc keybind $Mod-Control-Shift-Tab   cycle_all -1
 
 # Constrain fullscreen inside frame
 hc keybind $Mod-Control-f chain \

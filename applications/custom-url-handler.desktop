@@ -1,6 +1,0 @@
-[Desktop Entry]
-Name=Custom URL Handler
-Exec=/home/mike/.local/bin/custom_url_handler.sh %u
-Type=Application
-NoDisplay=true
-MimeType=x-scheme-handler/https;
