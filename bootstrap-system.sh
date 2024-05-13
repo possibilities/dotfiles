@@ -36,9 +36,9 @@ sudo apt update
 
 echo "create dirs"
 
-mkdir -p ${home}/src
+mkdir -p ${HOME}/src
 # todo use ~/.local/bin
-mkdir -p ${home}/local/bin
+mkdir -p ${HOME}/local/bin
 
 echo "install misc tools"
 
@@ -111,14 +111,14 @@ sudo usermod -ag nordvpn $user
 
 # echo "install nonfree unrar"
 
-# # rm -rf ${home}/src/rar
-# # mkdir ${home}/src/rar
+# # rm -rf ${HOME}/src/rar
+# # mkdir ${HOME}/src/rar
 # # wget \
-# #   --output-document ${home}/src/rar/rar.tar.xz \
+# #   --output-document ${HOME}/src/rar/rar.tar.xz \
 # #   https://www.win-rar.com/fileadmin/winrar-versions/rarlinux-x64-${rar_version}.tar.gz
-# # cd ${home}/src/rar
+# # cd ${HOME}/src/rar
 # # tar zxvf rar.tar.xz
-# # cp rar/unrar ${home}/.local/bin/unrar
+# # cp rar/unrar ${HOME}/.local/bin/unrar
 
 echo "setup modprobe for obs virtual camera"
 sudo apt install --yes v4l2loopback-dkms
