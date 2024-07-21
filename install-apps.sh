@@ -20,18 +20,13 @@ install_flatpak () {
   sudo ln -sf /var/lib/flatpak/exports/bin/${FLATPAK_NAME} /usr/local/bin/${APP_NAME}
 }
 
-install_flatpak wasabi io.wasabiwallet.WasabiWallet
-install_flatpak signal org.signal.Signal
 install_flatpak warehouse io.github.flattool.Warehouse
-install_flatpak session network.loki.Session
 install_flatpak keyboard org.cubocore.CoreKeyboard
 install_flatpak flipclock one.alynx.FlipClock
 install_flatpak clock org.kde.kclock
 install_flatpak calculator org.gnome.Calculator
 install_flatpak brave com.brave.Browser
-#install_flatpak steam com.valvesoftware.Steam
-install_flatpak tor com.github.micahflee.torbrowser-launcher
-install_flatpak whatsapp com.github.eneshecan.WhatsAppForLinux
+install_flatpak tor org.torproject.torbrowser-launcher
 install_flatpak peek com.uploadedlobster.peek
 install_flatpak slack com.slack.Slack
 install_flatpak discord com.discordapp.Discord
@@ -44,17 +39,9 @@ install_flatpak chromium org.chromium.Chromium
 install_flatpak chrome-dev com.google.ChromeDev
 install_flatpak vscode com.visualstudio.code
 install_flatpak vlc org.videolan.VLC
-install_flatpak skype com.skype.Client
 install_flatpak firefox org.mozilla.firefox
 install_flatpak gimp org.gimp.GIMP
 install_flatpak audacity org.audacityteam.Audacity
-install_flatpak photos org.photoqt.PhotoQt
-install_flatpak video org.olivevideoeditor.Olive
-install_flatpak cheese org.gnome.Cheese
-install_flatpak deluge org.deluge_torrent.deluge
-install_flatpak emby media.emby.EmbyServer
-install_flatpak qbittorent org.qbittorrent.qBittorrent
 install_flatpak avidemux org.avidemux.Avidemux
-install_flatpak android com.google.AndroidStudio
 
 echo "done installing apps."
