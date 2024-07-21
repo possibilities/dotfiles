@@ -59,8 +59,6 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 " better quickfix lists
 Plug 'kevinhwang91/nvim-bqf'
-" display colors inline
-Plug 'ap/vim-css-color'
 " status bar
 Plug 'itchyny/lightline.vim'
 
