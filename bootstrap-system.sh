@@ -59,24 +59,24 @@ sudo apt-get install --yes \
   libgles2 \
   libdbus-glib-1-2
 
-echo "install docker"
+# echo "install docker"
 
-sudo apt install --yes ca-certificates gnupg
-sudo install -m 0755 -d /etc/apt/keyrings
-sudo rm /etc/apt/keyrings/docker.gpg
-curl -fssl https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-sudo chmod a+r /etc/apt/keyrings/docker.gpg
-echo \
-  "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
-  "$(. /etc/os-release && echo "$version_codename")" stable" | \
-  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-sudo apt-get update
-sudo apt-get install --yes docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-sudo groupadd docker || true
-sudo usermod -ag docker $user || true
+# sudo apt install --yes ca-certificates gnupg
+# sudo install -m 0755 -d /etc/apt/keyrings
+# sudo rm /etc/apt/keyrings/docker.gpg
+# curl -fssl https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+# sudo chmod a+r /etc/apt/keyrings/docker.gpg
+# echo \
+#   "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
+#   "$(. /etc/os-release && echo "$version_codename")" stable" | \
+#   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+# sudo apt-get update
+# sudo apt-get install --yes docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+# sudo groupadd docker || true
+# sudo usermod -ag docker $user || true
 
-echo "install docker compose"
-sudo apt-get install --yes docker-compose-plugin
+# echo "install docker compose"
+# sudo apt-get install --yes docker-compose-plugin
 
 echo "install dunst"
 
@@ -87,7 +87,7 @@ echo "install lightdm"
 sudo apt install --yes lightdm
 sudo apt install --yes xautolock
 sudo mkdir -p /etc/lightdm
-sudo cp ./lightdm.conf /etc/lightdm/lightdm.conf
+sudo cp ${HOME}/code/dotfiles/lightdm.conf /etc/lightdm/lightdm.conf
 
 echo "install wifi stuff"
 
@@ -107,7 +107,7 @@ sudo modprobe iwlwifi || true
 echo "install nordvpn"
 
 sh <(curl -ssf https://downloads.nordcdn.com/apps/linux/install.sh)
-sudo usermod -ag nordvpn $user
+sudo usermod -aG nordvpn $USER
 
 # echo "install nonfree unrar"
 
@@ -259,310 +259,310 @@ npm install --global nodemon
 nvm use 16
 npm install --global nodemon
 
-echo "install serve"
+# echo "install serve"
 
-sudo apt install --yes xsel
-nvm use 14
-npm install --global serve
-nvm use 16
-npm install --global serve
+# sudo apt install --yes xsel
+# nvm use 14
+# npm install --global serve
+# nvm use 16
+# npm install --global serve
 
-echo "install tmuxp"
+# echo "install tmuxp"
 
-sudo pip install --user --upgrade tmuxp
+# sudo pip install --user --upgrade tmuxp
 
-echo "install aws cli"
+# echo "install aws cli"
 
-sudo pip3 install awscli
+# sudo pip3 install awscli
 
-# echo "install qutebrowser"
+# # echo "install qutebrowser"
 
-# sudo apt --yes --no-install-recommends install \
-#   ca-certificates \
-#   python3 \
-#   python3-venv \
-#   asciidoc \
-#   libglib2.0-0 \
-#   libgl1 \
-#   libfontconfig1 \
-#   libxcb-icccm4 \
-#   libxcb-image0 \
-#   libxcb-keysyms1 \
-#   libxcb-randr0 \
-#   libxcb-render-util0 \
-#   libxcb-shape0 \
-#   libxcb-xfixes0 \
-#   libxcb-xinerama0 \
+# # sudo apt --yes --no-install-recommends install \
+# #   ca-certificates \
+# #   python3 \
+# #   python3-venv \
+# #   asciidoc \
+# #   libglib2.0-0 \
+# #   libgl1 \
+# #   libfontconfig1 \
+# #   libxcb-icccm4 \
+# #   libxcb-image0 \
+# #   libxcb-keysyms1 \
+# #   libxcb-randr0 \
+# #   libxcb-render-util0 \
+# #   libxcb-shape0 \
+# #   libxcb-xfixes0 \
+# #   libxcb-xinerama0 \
+# #   libxcb-xkb1 \
+# #   libxkbcommon-x11-0 \
+# #   libdbus-1-3 \
+# #   libyaml-dev \
+# #   gcc \
+# #   python3-dev \
+# #   libnss3 \
+# #   libasound2
+
+# # mkdir -p ${HOME}/src/
+# # rm -rf ${HOME}/src/qutebrowser
+# # git clone https://github.com/qutebrowser/qutebrowser.git ${HOME}/src/qutebrowser
+# # cd ${HOME}/src/qutebrowser
+# # git checkout v${QUTEBROWSER_VERSION}
+# # python3 scripts/mkvenv.py --skip-smoke-test
+
+# echo "install neovim"
+
+# npm install --global tree-sitter
+
+# # For telescope
+# sudo apt install --yes ripgrep
+
+# sudo apt --yes install \
+#   ninja-build \
+#   gettext \
+#   libtool \
+#   libtool-bin \
+#   autoconf \
+#   automake \
+#   cmake \
+#   g++ \
+#   pkg-config \
+#   unzip \
+#   doxygen
+
+# rm -rf ${HOME}/src/neovim
+# git clone https://github.com/neovim/neovim.git ${HOME}/src/neovim
+# cd ${HOME}/src/neovim
+# git checkout v${NEOVIM_VERSION}
+# make CMAKE_BUILD_TYPE=Release
+# sudo make install
+
+# echo "install tmux"
+
+# sudo apt install --yes \
+#   libevent-dev \
+#   libncurses-dev \
+#   autotools-dev \
+#   automake \
+#   bison
+
+# rm -rf ${HOME}/src/tmux
+# git clone https://github.com/tmux/tmux.git ${HOME}/src/tmux
+# cd ${HOME}/src/tmux
+# git checkout ${TMUX_VERSION}
+# sh autogen.sh
+# ./configure && make
+# sudo make install
+
+# echo "install nord tmux theme"
+
+# rm -rf ${HOME}/.tmux/themes/nord-tmux
+# git clone https://github.com/arcticicestudio/nord-tmux.git ${HOME}/.tmux/themes/nord-tmux
+# cd ${HOME}/.tmux/themes/nord-tmux
+# git checkout develop
+
+# echo "install alacritty"
+
+# rm -rf ${HOME}/src/alacritty
+# git clone https://github.com/alacritty/alacritty.git ${HOME}/src/alacritty
+# cd ${HOME}/src/alacritty
+# git checkout v${ALACRITTY_VERSION}
+
+# ${HOME}/.cargo/bin/cargo build --release
+# sudo ln -sfT ${HOME}/src/alacritty/target/release/alacritty /usr/local/bin/alacritty
+
+# mkdir -p /usr/local/share/man/man1
+# gzip -c extra/alacritty.man | sudo tee /usr/local/share/man/man1/alacritty.1.gz > /dev/null
+# gzip -c extra/alacritty-msg.man | sudo tee /usr/local/share/man/man1/alacritty-msg.1.gz > /dev/null
+
+# mkdir -p ${HOME}/.zsh_functions
+# cp extra/completions/_alacritty ${HOME}/.zsh_functions/_alacritty
+
+# echo "install lab"
+
+# curl -s https://raw.githubusercontent.com/zaquestion/lab/master/install.sh | sudo bash
+
+# echo "install gist"
+
+# sudo gem install gist
+
+# echo "install duplicity"
+
+# sudo apt install --yes librsync-dev python3-pip gettext
+
+# sudo rm -rf ${HOME}/src/duplicity
+# git clone https://gitlab.com/duplicity/duplicity.git ${HOME}/src/duplicity
+# cd ${HOME}/src/duplicity
+# git checkout ${DUPLICITY_VERSION}
+# pip3 install --upgrade pip
+# pip3 install -r requirements.txt
+# sudo python3 setup.py install
+
+# echo "install jq"
+
+# sudo apt --yes install libonig-dev
+
+# rm -rf ${HOME}/src/jq*
+# wget \
+#   --output-document ${HOME}/src/jq.tar.gz \
+#   https://github.com/stedolan/jq/releases/download/jq-${JQ_VERSION}/jq-${JQ_VERSION}.tar.gz
+
+# cd ${HOME}/src
+# tar xzvf jq.tar.gz
+# cd ${HOME}/src/jq-${JQ_VERSION}
+
+# ./configure
+# make
+# sudo make install
+
+# echo "install gist"
+
+# sudo gem install gist
+
+# echo "install nord dircolors"
+
+# rm -rf ${HOME}/src/nord-dircolors
+# git clone https://github.com/arcticicestudio/nord-dircolors.git ${HOME}/src/nord-dircolors
+# cd ${HOME}/src/nord-dircolors
+# ln -sfr "${HOME}/src/nord-dircolors/src/dir_colors" ${HOME}/.dir_colors
+
+# echo "install rofi"
+
+# sudo apt install --yes \
+#   libglib2.0-dev \
+#   flex \
+#   libxcb-xkb-dev \
+#   libxcb-ewmh-dev \
+#   libxcb-ewmh2 \
+#   libxcb-icccm4-dev \
+#   libxcb-randr0-dev \
+#   libxcb-util0-dev \
 #   libxcb-xkb1 \
-#   libxkbcommon-x11-0 \
-#   libdbus-1-3 \
-#   libyaml-dev \
-#   gcc \
-#   python3-dev \
-#   libnss3 \
-#   libasound2
-
-# mkdir -p ${HOME}/src/
-# rm -rf ${HOME}/src/qutebrowser
-# git clone https://github.com/qutebrowser/qutebrowser.git ${HOME}/src/qutebrowser
-# cd ${HOME}/src/qutebrowser
-# git checkout v${QUTEBROWSER_VERSION}
-# python3 scripts/mkvenv.py --skip-smoke-test
-
-echo "install neovim"
-
-npm install --global tree-sitter
-
-# For telescope
-sudo apt install --yes ripgrep
-
-sudo apt --yes install \
-  ninja-build \
-  gettext \
-  libtool \
-  libtool-bin \
-  autoconf \
-  automake \
-  cmake \
-  g++ \
-  pkg-config \
-  unzip \
-  doxygen
-
-rm -rf ${HOME}/src/neovim
-git clone https://github.com/neovim/neovim.git ${HOME}/src/neovim
-cd ${HOME}/src/neovim
-git checkout v${NEOVIM_VERSION}
-make CMAKE_BUILD_TYPE=Release
-sudo make install
-
-echo "install tmux"
-
-sudo apt install --yes \
-  libevent-dev \
-  libncurses-dev \
-  autotools-dev \
-  automake \
-  bison
-
-rm -rf ${HOME}/src/tmux
-git clone https://github.com/tmux/tmux.git ${HOME}/src/tmux
-cd ${HOME}/src/tmux
-git checkout ${TMUX_VERSION}
-sh autogen.sh
-./configure && make
-sudo make install
-
-echo "install nord tmux theme"
-
-rm -rf ${HOME}/.tmux/themes/nord-tmux
-git clone https://github.com/arcticicestudio/nord-tmux.git ${HOME}/.tmux/themes/nord-tmux
-cd ${HOME}/.tmux/themes/nord-tmux
-git checkout develop
-
-echo "install alacritty"
-
-rm -rf ${HOME}/src/alacritty
-git clone https://github.com/alacritty/alacritty.git ${HOME}/src/alacritty
-cd ${HOME}/src/alacritty
-git checkout v${ALACRITTY_VERSION}
-
-${HOME}/.cargo/bin/cargo build --release
-sudo ln -sfT ${HOME}/src/alacritty/target/release/alacritty /usr/local/bin/alacritty
-
-mkdir -p /usr/local/share/man/man1
-gzip -c extra/alacritty.man | sudo tee /usr/local/share/man/man1/alacritty.1.gz > /dev/null
-gzip -c extra/alacritty-msg.man | sudo tee /usr/local/share/man/man1/alacritty-msg.1.gz > /dev/null
-
-mkdir -p ${HOME}/.zsh_functions
-cp extra/completions/_alacritty ${HOME}/.zsh_functions/_alacritty
-
-echo "install lab"
-
-curl -s https://raw.githubusercontent.com/zaquestion/lab/master/install.sh | sudo bash
-
-echo "install gist"
-
-sudo gem install gist
-
-echo "install duplicity"
-
-sudo apt install --yes librsync-dev python3-pip gettext
-
-sudo rm -rf ${HOME}/src/duplicity
-git clone https://gitlab.com/duplicity/duplicity.git ${HOME}/src/duplicity
-cd ${HOME}/src/duplicity
-git checkout ${DUPLICITY_VERSION}
-pip3 install --upgrade pip
-pip3 install -r requirements.txt
-sudo python3 setup.py install
-
-echo "install jq"
-
-sudo apt --yes install libonig-dev
-
-rm -rf ${HOME}/src/jq*
-wget \
-  --output-document ${HOME}/src/jq.tar.gz \
-  https://github.com/stedolan/jq/releases/download/jq-${JQ_VERSION}/jq-${JQ_VERSION}.tar.gz
-
-cd ${HOME}/src
-tar xzvf jq.tar.gz
-cd ${HOME}/src/jq-${JQ_VERSION}
-
-./configure
-make
-sudo make install
-
-echo "install gist"
-
-sudo gem install gist
-
-echo "install nord dircolors"
-
-rm -rf ${HOME}/src/nord-dircolors
-git clone https://github.com/arcticicestudio/nord-dircolors.git ${HOME}/src/nord-dircolors
-cd ${HOME}/src/nord-dircolors
-ln -sfr "${HOME}/src/nord-dircolors/src/dir_colors" ${HOME}/.dir_colors
-
-echo "install rofi"
-
-sudo apt install --yes \
-  libglib2.0-dev \
-  flex \
-  libxcb-xkb-dev \
-  libxcb-ewmh-dev \
-  libxcb-ewmh2 \
-  libxcb-icccm4-dev \
-  libxcb-randr0-dev \
-  libxcb-util0-dev \
-  libxcb-xkb1 \
-  libxcb-xrm0 \
-  libxcb1 \
-  libxkbcommon-x11-dev \
-  libxcb-cursor-dev \
-  libxcb-xinerama0-dev \
-  libcairo2-dev \
-  libpango1.0-dev \
-  libstartup-notification0-dev \
-  libgdk-pixbuf2.0-dev \
-  check
-
-rm -rf ${HOME}/src/rofi
-git clone https://github.com/davatorium/rofi.git ${HOME}/src/rofi
-cd ${HOME}/src/rofi
-git checkout ${rofi_version}
-git submodule update --init
-autoreconf -i
-mkdir build && cd build
-../configure
-make
-sudo make prefix=/usr/local install
-
-echo "install keychain"
-
-sudo apt install --yes keychain
-
-echo "install audio dependencies"
-
-sudo apt-get remove --purge --yes alsa-utils pulseaudio
-sudo apt-get install --yes pulseaudio
-sudo apt-get install --yes alsa-utils
-
-echo "install veracrypt"
-
-cd ${HOME}/src
-wget https://launchpad.net/veracrypt/trunk/1.25.9/+download/veracrypt-1.25.9-Debian-11-amd64.deb
-sudo apt install --yes ./veracrypt*.deb
-
-echo "start cleanup process"
-
-arch="`uname -r | sed 's/^.*[0-9]\{1,\}\.[0-9]\{1,\}\.[0-9]\{1,\}\(-[0-9]\{1,2\}\)-//'`"
-debian_version="`lsb_release -r | awk '{print $2}'`";
-major_version="`echo $debian_version | awk -F. '{print $1}'`";
-
-# Disable systemd apt timers/services
-sudo systemctl stop apt-daily.timer;
-sudo systemctl stop apt-daily-upgrade.timer;
-sudo systemctl disable apt-daily.timer;
-sudo systemctl disable apt-daily-upgrade.timer;
-sudo systemctl mask apt-daily.service;
-sudo systemctl mask apt-daily-upgrade.service;
-sudo systemctl daemon-reload;
-
-# Disable periodic activities of apt
-cat <<EOF | sudo tee -a /etc/apt/apt.conf.d/10periodic;
-APT::Periodic::Enable "0";
-APT::Periodic::Update-Package-Lists "0";
-APT::Periodic::Download-Upgradeable-Packages "0";
-APT::Periodic::AutocleanInterval "0";
-APT::Periodic::Unattended-Upgrade "0";
-EOF
-
-sudo apt -y upgrade linux-image-$arch;
-sudo apt -y install linux-headers-`uname -r`;
-
-echo "configure networking"
-
-# Adding a 2 sec delay to the interface up, to make the dhclient happy
-echo "pre-up sleep 2" | sudo tee -a /etc/network/interfaces
-
-# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=751636
-sudo apt install --yes libpam-systemd
-
-echo "install open-vm-tools"
-sudo apt install -y open-vm-tools;
-sudo mkdir -p /mnt/hgfs;
-sudo systemctl enable open-vm-tools
-sudo systemctl start open-vm-tools
-
-echo "remove cron"
-sudo apt -y purge cron;
-
-echo "remove obsolete networking packages"
-sudo apt -y purge ppp pppconfig pppoeconf;
-
-echo "remove popularity-contest package"
-sudo apt -y purge popularity-contest;
-
-echo "remove installation-report package"
-sudo apt -y purge installation-report;
-
-echo "autoremoving packages and cleaning apt data"
-sudo apt -y autoremove;
-sudo apt -y clean;
-
-echo "remove /var/cache"
-sudo find /var/cache -type f -exec rm -rf {} \;
-
-echo "truncate any logs that have built up during the install"
-sudo find /var/log -type f -exec truncate --size=0 {} \;
-
-echo "blank netplan machine-id (DUID) so machines get unique ID generated on boot"
-sudo truncate -s 0 /etc/machine-id
-
-echo "remove the contents of /tmp and /var/tmp"
-sudo rm -rf /tmp/* /var/tmp/*
-
-echo "force a new random seed to be generated"
-sudo rm -f /var/lib/systemd/random-seed
-
-echo "clear the history so our install isn't there"
-sudo rm -f /root/.wget-hsts
-export HISTSIZE=0
-
-if [ ! -n "$SKIP_POST_BOOTSTRAP" ]; then
-  echo "bootstrap apps"
-  wget -O - https://raw.githubusercontent.com/possibilities/dotfiles-next/main/install-apps.sh | sh
-
-  if [ ! -d "${HOME}/code/dotfiles" ]; then
-    echo "bootstrap dotfiles"
-    wget -O - https://raw.githubusercontent.com/possibilities/dotfiles-next/main/bootstrap-dotfiles.sh | sh
-  else
-    echo "skip bootstrap dotfiles"
-  fi
-else
-  echo "skip post bootstrap"
-fi
-
-echo "done bootstrapping system."
+#   libxcb-xrm0 \
+#   libxcb1 \
+#   libxkbcommon-x11-dev \
+#   libxcb-cursor-dev \
+#   libxcb-xinerama0-dev \
+#   libcairo2-dev \
+#   libpango1.0-dev \
+#   libstartup-notification0-dev \
+#   libgdk-pixbuf2.0-dev \
+#   check
+
+# rm -rf ${HOME}/src/rofi
+# git clone https://github.com/davatorium/rofi.git ${HOME}/src/rofi
+# cd ${HOME}/src/rofi
+# git checkout ${rofi_version}
+# git submodule update --init
+# autoreconf -i
+# mkdir build && cd build
+# ../configure
+# make
+# sudo make prefix=/usr/local install
+
+# echo "install keychain"
+
+# sudo apt install --yes keychain
+
+# echo "install audio dependencies"
+
+# sudo apt-get remove --purge --yes alsa-utils pulseaudio
+# sudo apt-get install --yes pulseaudio
+# sudo apt-get install --yes alsa-utils
+
+# echo "install veracrypt"
+
+# cd ${HOME}/src
+# wget https://launchpad.net/veracrypt/trunk/1.25.9/+download/veracrypt-1.25.9-Debian-11-amd64.deb
+# sudo apt install --yes ./veracrypt*.deb
+
+# echo "start cleanup process"
+
+# arch="`uname -r | sed 's/^.*[0-9]\{1,\}\.[0-9]\{1,\}\.[0-9]\{1,\}\(-[0-9]\{1,2\}\)-//'`"
+# debian_version="`lsb_release -r | awk '{print $2}'`";
+# major_version="`echo $debian_version | awk -F. '{print $1}'`";
+
+# # Disable systemd apt timers/services
+# sudo systemctl stop apt-daily.timer;
+# sudo systemctl stop apt-daily-upgrade.timer;
+# sudo systemctl disable apt-daily.timer;
+# sudo systemctl disable apt-daily-upgrade.timer;
+# sudo systemctl mask apt-daily.service;
+# sudo systemctl mask apt-daily-upgrade.service;
+# sudo systemctl daemon-reload;
+
+# # Disable periodic activities of apt
+# cat <<EOF | sudo tee -a /etc/apt/apt.conf.d/10periodic;
+# APT::Periodic::Enable "0";
+# APT::Periodic::Update-Package-Lists "0";
+# APT::Periodic::Download-Upgradeable-Packages "0";
+# APT::Periodic::AutocleanInterval "0";
+# APT::Periodic::Unattended-Upgrade "0";
+# EOF
+
+# sudo apt -y upgrade linux-image-$arch;
+# sudo apt -y install linux-headers-`uname -r`;
+
+# echo "configure networking"
+
+# # Adding a 2 sec delay to the interface up, to make the dhclient happy
+# echo "pre-up sleep 2" | sudo tee -a /etc/network/interfaces
+
+# # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=751636
+# sudo apt install --yes libpam-systemd
+
+# echo "install open-vm-tools"
+# sudo apt install -y open-vm-tools;
+# sudo mkdir -p /mnt/hgfs;
+# sudo systemctl enable open-vm-tools
+# sudo systemctl start open-vm-tools
+
+# echo "remove cron"
+# sudo apt -y purge cron;
+
+# echo "remove obsolete networking packages"
+# sudo apt -y purge ppp pppconfig pppoeconf;
+
+# echo "remove popularity-contest package"
+# sudo apt -y purge popularity-contest;
+
+# echo "remove installation-report package"
+# sudo apt -y purge installation-report;
+
+# echo "autoremoving packages and cleaning apt data"
+# sudo apt -y autoremove;
+# sudo apt -y clean;
+
+# echo "remove /var/cache"
+# sudo find /var/cache -type f -exec rm -rf {} \;
+
+# echo "truncate any logs that have built up during the install"
+# sudo find /var/log -type f -exec truncate --size=0 {} \;
+
+# echo "blank netplan machine-id (DUID) so machines get unique ID generated on boot"
+# sudo truncate -s 0 /etc/machine-id
+
+# echo "remove the contents of /tmp and /var/tmp"
+# sudo rm -rf /tmp/* /var/tmp/*
+
+# echo "force a new random seed to be generated"
+# sudo rm -f /var/lib/systemd/random-seed
+
+# echo "clear the history so our install isn't there"
+# sudo rm -f /root/.wget-hsts
+# export HISTSIZE=0
+
+# if [ ! -n "$SKIP_POST_BOOTSTRAP" ]; then
+#   echo "bootstrap apps"
+#   wget -O - https://raw.githubusercontent.com/possibilities/dotfiles-next/main/install-apps.sh | sh
+
+#   if [ ! -d "${HOME}/code/dotfiles" ]; then
+#     echo "bootstrap dotfiles"
+#     wget -O - https://raw.githubusercontent.com/possibilities/dotfiles-next/main/bootstrap-dotfiles.sh | sh
+#   else
+#     echo "skip bootstrap dotfiles"
+#   fi
+# else
+#   echo "skip post bootstrap"
+# fi
+
+# echo "done bootstrapping system."

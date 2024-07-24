@@ -16,6 +16,7 @@ hc keybind $Mod-Control-z spawn xdotool mousemove 2133 1384 click --repeat 2 1
 hc keybind $Mod-Control-x spawn xdotool mousemove 2439 1376 click --repeat 2 1
 
 hc keybind Control+Shift+$Mod+q spawn sudo reboot
+hc keybind Control+Shift+$Mod+z spawn sudo shutdown -h now
 
 hc keybind Control-$Mod-1 spawn amixer set Master 5%-
 hc keybind Control-$Mod-2 spawn amixer set Master 5%+
