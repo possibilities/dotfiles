@@ -22,8 +22,8 @@ Plug 'NLKNguyen/pipe.vim'
 Plug 'NLKNguyen/pipe-mysql.vim'
 " linting
 Plug 'dense-analysis/ale'
-" theme
-Plug 'arcticicestudio/nord-vim'
+" " theme
+" Plug 'arcticicestudio/nord-vim'
 " syntax
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 " comment toggling
@@ -158,13 +158,13 @@ syntax enable
 syntax on
 set t_Co=256
 set background=dark
-colorscheme nord
+" colorscheme nord
 
 " lightline
 set noshowmode " avoid duplicate modes displayed
-let g:lightline = {
-      \ 'colorscheme': 'nord',
-      \ }
+" let g:lightline = {
+"       \ 'colorscheme': 'nord',
+"       \ }
 
 " setup gist
 let g:gist_show_privates = 1

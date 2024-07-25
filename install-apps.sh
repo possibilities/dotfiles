@@ -21,13 +21,11 @@ install_flatpak () {
 }
 
 install_flatpak warehouse io.github.flattool.Warehouse
-install_flatpak keyboard org.cubocore.CoreKeyboard
 install_flatpak flipclock one.alynx.FlipClock
 install_flatpak clock org.kde.kclock
 install_flatpak calculator org.gnome.Calculator
 install_flatpak brave com.brave.Browser
 install_flatpak tor org.torproject.torbrowser-launcher
-install_flatpak peek com.uploadedlobster.peek
 install_flatpak slack com.slack.Slack
 install_flatpak discord com.discordapp.Discord
 install_flatpak obs com.obsproject.Studio

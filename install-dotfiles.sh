@@ -47,21 +47,21 @@ do
   sudo ln -sfT $PWD/$file /usr/local/bin/$file_name
 done
 
-echo "setup vim backup dir"
-
-mkdir -p ${HOME}/.vim/backups
-
-echo "configure qutebrowser"
-
-rm -rf /home/mike/src/nord-qutebrowser
-git clone https://github.com/Linuus/nord-qutebrowser.git /home/mike/src/nord-qutebrowser
-ln -sfT /home/mike/src/nord-qutebrowser/nord-qutebrowser.py /home/mike/.config/qutebrowser/nord-qutebrowser.py
-
-sudo update-alternatives \
-  --install \
-  /usr/bin/x-www-browser \
-  x-www-browser \
-  /usr/local/bin/qutebrowser \
-  199
-
+#echo "setup vim backup dir"
+#
+#mkdir -p ${HOME}/.vim/backups
+#
+#echo "configure qutebrowser"
+#
+#rm -rf /home/mike/src/nord-qutebrowser
+#git clone https://github.com/Linuus/nord-qutebrowser.git /home/mike/src/nord-qutebrowser
+#ln -sfT /home/mike/src/nord-qutebrowser/nord-qutebrowser.py /home/mike/.config/qutebrowser/nord-qutebrowser.py
+#
+#sudo update-alternatives \
+#  --install \
+#  /usr/bin/x-www-browser \
+#  x-www-browser \
+#  /usr/local/bin/qutebrowser \
+#  199
+#
 echo "done installing dotfiles."

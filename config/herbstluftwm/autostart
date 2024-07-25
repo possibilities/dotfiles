@@ -150,10 +150,10 @@ hc keybind $Mod-Control-f chain \
   , set_attr clients.focus.ewmhnotify on \
   , sprintf CMD 'sleep 2 ; herbstclient attr clients.%s.ewmhrequests on' clients.focus.winid spawn bash -c CMD
 
-inner_width=4
-outer_width=7
-background_color='#3B4252'
-active_border_color='#D8DEE9'
+inner_width=2
+outer_width=4
+background_color='#000000'
+active_border_color='#ffffff'
 urgent_color='#B48EAD'
 
 xsetroot -solid $background_color
@@ -164,17 +164,13 @@ hc set frame_border_active_color $background_color
 hc set frame_border_normal_color $background_color
 hc set frame_bg_normal_color $background_color
 hc set frame_bg_active_color $active_border_color
-hc set frame_border_width 1
+hc set frame_border_width 0
 hc set always_show_frame on
 hc set frame_bg_transparent on
 hc set frame_transparent_width $outer_width
-hc set frame_gap $inner_width
-
-# Toggle title
-hc keybind $Mod-t or . \
-    and , compare theme.title_height = 0 , attr theme.title_height 25 \
-    . \
-    and , compare theme.title_height = 25 , attr theme.title_height 0
+hc set frame_gap 0
+hc set window_gap 0
+hc set frame_padding 0
 
 hc attr theme.title_height 0
 hc attr theme.title_depth 10
@@ -198,16 +194,27 @@ hc attr theme.normal.outer_color $background_color
 hc attr theme.active.outer_width 1
 hc attr theme.background_color $background_color
 
-hc set window_gap 0
-hc set frame_padding 0
 hc set smart_window_surroundings off
-hc set smart_frame_surroundings on
+hc set smart_frame_surroundings off
 hc set mouse_recenter_gap 0
+
+# Toggle title
+hc keybind $Mod-t or . \
+    and , compare theme.title_height = 0 , attr theme.title_height 25 \
+    . \
+    and , compare theme.title_height = 25 , attr theme.title_height 0
+
+
+hc keybind $Mod-Shift-s spawn /home/mike/code/dotfiles/bin/toggle_borders_and_spacing.sh
 
 hc unrule -F
 hc rule focus=on
 hc rule floatplacement=center
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' floating=on
+
+
+hc rule class="Brave-browser" tag=5 focus=on
+
 
 hc rule windowtype='_NET_WM_WINDOW_TYPE_DIALOG' focus=on
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
@@ -216,6 +223,10 @@ hc rule class=kclock floating=on
 hc rule class=flipclock floating=on
 hc rule class=Gcr-prompter floating=on
 hc rule class=TelegramDesktop floatplacement=smart
+
+xdg-settings set default-web-browser com.google.Chrome.desktop
+xdg-mime default com.google.Chrome.desktop x-scheme-handler/http
+xdg-mime default com.google.Chrome.desktop x-scheme-handler/https
 
 hc set tree_style '╾│ ├└╼─┐'
 
