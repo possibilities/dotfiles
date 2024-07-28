@@ -22,6 +22,14 @@ JQ_VERSION="1.6"
 ROFI_VERSION="1.7.3"
 VERACRYPT_VERSION="1.26.7"
 
+echo "install sqlitestudio"
+
+cd ~/src
+mkdir -p ~/src/sqlitestudio
+wget \
+  --output-document ${HOME}/src/sqlitestudio/install.run \
+  https://github.com/pawelsalawa/sqlitestudio/releases/download/3.4.4/SQLiteStudio-3.4.4-linux-x64-installer.run
+chmod +x ${HOME}/src/sqlitestudio/install.run
 
 #echo "install tmux resurrect"
 #TMUX_RESURRECT_VERSION="4.0.0"
@@ -607,4 +615,7 @@ sudo apt install --yes ./veracrypt*.deb
 ##   echo "skip post bootstrap"
 ## fi
 #
-## echo "done bootstrapping system."
+
+echo RUN THIS TO INSTALL SQLITE UI ${HOME}/src/sqlitestudio/install.run
+
+echo "done bootstrapping system."
