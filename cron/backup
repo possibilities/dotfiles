@@ -1,0 +1,9 @@
+7 * * * * root /usr/bin/rsnapshot -c /home/mike/code/dotfiles/rsnapshot-jacoby.conf hourly
+20 14 * * * root /usr/bin/rsnapshot -c /home/mike/code/dotfiles/rsnapshot-jacoby.conf daily
+20 15 * * 0 root /usr/bin/rsnapshot -c /home/mike/code/dotfiles/rsnapshot-jacoby.conf weekly
+20 9 1 * * root /usr/bin/rsnapshot -c /home/mike/code/dotfiles/rsnapshot-jacoby.conf monthly
+
+15 * * * * root /usr/bin/rsnapshot -c /home/mike/code/dotfiles/rsnapshot-cooper.conf hourly
+40 16 * * * root /usr/bin/rsnapshot -c /home/mike/code/dotfiles/rsnapshot-cooper.conf daily
+40 17 * * 0 root /usr/bin/rsnapshot -c /home/mike/code/dotfiles/rsnapshot-cooper.conf weekly
+40 11 1 * * root /usr/bin/rsnapshot -c /home/mike/code/dotfiles/rsnapshot-cooper.conf monthly

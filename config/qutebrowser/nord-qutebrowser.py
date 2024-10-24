@@ -1,1 +1,0 @@
-/home/mike/src/nord-qutebrowser/nord-qutebrowser.py

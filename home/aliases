@@ -3,7 +3,8 @@ alias vim='nvim'
 alias mkdir='mkdir -p'
 alias no='nodemon -e js,coffee,json --verbose'
 # note trailing space is needed to support watching aliased commands
-alias watch='watch --color --no-title '
+alias watch='watch --color --no-title -x '
+alias less='less -R '
 alias zh='cat $HOME/.zsh_history'
 alias woman='man'
 

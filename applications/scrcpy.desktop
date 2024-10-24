@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Android
+GenericName=scrcpy
+Comment=Display and control your Android device
+Exec=scrcpy --stay-awake --no-audio --disable-screensaver --show-touches
+Icon=scrcpy
+Terminal=false
+Type=Application
+Categories=Utility;RemoteAccess;
+StartupNotify=false

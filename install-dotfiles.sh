@@ -15,6 +15,17 @@ do
   ln -sfT $PWD/$file $HOME/.$file_name
 done
 
+echo "link application files into ~/.local/share/applications"
+
+mkdir -p ${HOME}/.local/share/applications
+
+for file in applications/*
+do
+  file_name=`basename $file`
+  echo "   * $file -> ~/.local/share/applications/$file_name"
+  ln -sfT $PWD/$file $HOME/.local/share/applications/$file_name
+done
+
 echo "link config files into ~/.config"
 
 mkdir -p ${HOME}/.config
@@ -42,26 +53,27 @@ echo "link scripts into /usr/local/bin"
 
 for file in bin/*
 do
+  # Create a link with extension, TODO remove
   file_name=`basename $file`
   echo "   * $file -> /usr/local/bin/$file_name"
   sudo ln -sfT $PWD/$file /usr/local/bin/$file_name
+
+  # Create a link without extension
+  file_name_no_ext="${file_name%.*}"
+  echo "   * $file -> /usr/local/bin/$file_name_no_ext"
+  sudo ln -sfT $PWD/$file /usr/local/bin/$file_name_no_ext
 done
 
-#echo "setup vim backup dir"
-#
-#mkdir -p ${HOME}/.vim/backups
-#
-#echo "configure qutebrowser"
-#
-#rm -rf /home/mike/src/nord-qutebrowser
-#git clone https://github.com/Linuus/nord-qutebrowser.git /home/mike/src/nord-qutebrowser
-#ln -sfT /home/mike/src/nord-qutebrowser/nord-qutebrowser.py /home/mike/.config/qutebrowser/nord-qutebrowser.py
-#
-#sudo update-alternatives \
-#  --install \
-#  /usr/bin/x-www-browser \
-#  x-www-browser \
-#  /usr/local/bin/qutebrowser \
-#  199
-#
+echo "copy cronjobs into /etc/cron.d/"
+
+for file in cron/*
+do
+  file_name=`basename $file`
+  echo "   * $file -> /etc/cron.d/$file_name"
+  sudo rm -rf /etc/cron.d/$file_name
+  echo "# COPIED FROM DOTFILES DONT EDIT" | sudo tee -a /etc/cron.d/$file_name > /dev/null
+  echo "" | sudo tee -a /etc/cron.d/$file_name > /dev/null
+  sudo cat $PWD/$file |  sudo tee -a /etc/cron.d/$file_name > /dev/null
+done
+
 echo "done installing dotfiles."

@@ -12,9 +12,6 @@ Alt=Mod1
 
 herbstclient keybind $Mod-Control-Shift-l spawn dm-tool switch-to-greeter
 
-hc keybind $Mod-Control-z spawn xdotool mousemove 2133 1384 click --repeat 2 1
-hc keybind $Mod-Control-x spawn xdotool mousemove 2439 1376 click --repeat 2 1
-
 hc keybind Control+Shift+$Mod+q spawn sudo reboot
 hc keybind Control+Shift+$Mod+z spawn sudo shutdown -h now
 
@@ -31,7 +28,10 @@ hc keybind $Mod-Shift-q quit
 hc keybind $Mod-Shift-r reload
 hc keybind $Mod-Shift-c close
 
+hc keybind Control-Shift-$Mod-z spawn /home/mike/code/dotfiles/bin/clear-tag.sh
+
 hc keybind Control-Shift-$Mod-c spawn /home/mike/code/dotfiles/bin/copy-mouse-coordinates.sh
+hc keybind Control-Shift-$Mod-t spawn /home/mike/code/dotfiles/bin/copy-timestamp.py
 
 hc keybind $Mod-m set_attr clients.focus.minimized toggle
 hc keybind $Mod-Shift-m spawn rofi -show windowcd -modi windowcd,window
@@ -210,9 +210,6 @@ hc rule floatplacement=center
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' floating=on
 
 
-hc rule class="Brave-browser" tag=5 focus=on
-
-
 hc rule windowtype='_NET_WM_WINDOW_TYPE_DIALOG' focus=on
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
 hc rule class=gnome-calculator floating=on
@@ -220,6 +217,9 @@ hc rule class=kclock floating=on
 hc rule class=flipclock floating=on
 hc rule class=Gcr-prompter floating=on
 hc rule class=TelegramDesktop floatplacement=smart
+hc rule class=scrcpy floating=on
+
+hc rule class=feh floating=on
 
 xdg-settings set default-web-browser com.google.Chrome.desktop
 xdg-mime default com.google.Chrome.desktop x-scheme-handler/http

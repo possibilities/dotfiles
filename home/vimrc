@@ -214,5 +214,16 @@ let @x = '<pre>{JSON.stringify({}, null, 2)}</pre>'
 let g:copilot_filetypes = {
     \ 'yaml': v:false,
     \ 'markdown': v:false,
-    \ 'json': v:false
+    \ 'json': v:false,
+    \ 'sql': v:false
     \ }
+
+" Excecuting commands
+vnoremap <leader>x :<C-u>execute "!".getline("'<","'>")->join(" ")<CR>
+vnoremap <leader>X :<C-u>let @a = system(getline("'<","'>")->join(" ")) \| put a<CR>
+nnoremap <leader>x :execute "!" . getline(".")<CR>
+nnoremap <leader>X :let @a = system(getline(".")) \| put a<CR>
+
+" Search helpers
+nnoremap <leader>g :Ggrep<Space>
+nnoremap <leader>G :Ggrep \b<C-R><C-W><CR>\b<Enter>

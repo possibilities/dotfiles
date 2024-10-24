@@ -15,11 +15,14 @@ install_flatpak () {
   echo "install ${APP_NAME}"
   sudo flatpak install ${FLATPAK_NAME} --assumeyes
   sudo flatpak update ${FLATPAK_NAME} --assumeyes
-  # flatpak override --user --filesystem=home ${FLATPAK_NAME}
   flatpak override --user --filesystem=/steam ${FLATPAK_NAME}
   sudo ln -sf /var/lib/flatpak/exports/bin/${FLATPAK_NAME} /usr/local/bin/${APP_NAME}
 }
 
+install_flatpak androidstudio com.google.AndroidStudio
+install_flatpak connections org.gnome.Connections
+install_flatpak shotwell org.gnome.Shotwell
+install_flatpak xnview com.xnview.XnViewMP
 install_flatpak warehouse io.github.flattool.Warehouse
 install_flatpak flipclock one.alynx.FlipClock
 install_flatpak clock org.kde.kclock
@@ -41,5 +44,6 @@ install_flatpak firefox org.mozilla.firefox
 install_flatpak gimp org.gimp.GIMP
 install_flatpak audacity org.audacityteam.Audacity
 install_flatpak avidemux org.avidemux.Avidemux
+install_flatpak kdiskmark io.github.jonmagon.kdiskmark
 
 echo "done installing apps."
