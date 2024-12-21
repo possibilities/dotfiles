@@ -225,5 +225,5 @@ nnoremap <leader>x :execute "!" . getline(".")<CR>
 nnoremap <leader>X :let @a = system(getline(".")) \| put a<CR>
 
 " Search helpers
-nnoremap <leader>g :Ggrep<Space>
-nnoremap <leader>G :Ggrep \b<C-R><C-W><CR>\b<Enter>
+nnoremap <leader>g :Ggrep \b
+nnoremap <leader>G :Ggrep \\<<C-R><C-W>\\>

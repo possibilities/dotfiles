@@ -219,7 +219,7 @@ hc rule class=Gcr-prompter floating=on
 hc rule class=TelegramDesktop floatplacement=smart
 hc rule class=scrcpy floating=on
 
-hc rule class=feh floating=on
+# hc rule class=feh floating=on
 
 xdg-settings set default-web-browser com.google.Chrome.desktop
 xdg-mime default com.google.Chrome.desktop x-scheme-handler/http

@@ -19,6 +19,7 @@ install_flatpak () {
   sudo ln -sf /var/lib/flatpak/exports/bin/${FLATPAK_NAME} /usr/local/bin/${APP_NAME}
 }
 
+install_flatpak obsidian md.obsidian.Obsidian
 install_flatpak androidstudio com.google.AndroidStudio
 install_flatpak connections org.gnome.Connections
 install_flatpak shotwell org.gnome.Shotwell

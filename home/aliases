@@ -3,21 +3,19 @@ alias vim='nvim'
 alias mkdir='mkdir -p'
 alias no='nodemon -e js,coffee,json --verbose'
 # note trailing space is needed to support watching aliased commands
-alias watch='watch --color --no-title -x '
+alias watch='watch --color --no-title '
+alias watchx='watch --color --no-title -x '
 alias less='less -R '
 alias zh='cat $HOME/.zsh_history'
 alias woman='man'
 
 # apps
 alias g="git"
-alias clone="hub clone"
 alias t="tmux"
 alias ta="tmux attach"
 alias tnd="tmux_name_window_after_directory"
 alias tn="tmux_name_window"
 alias gh="grep_history"
-alias gist="gist --open --private 2&> /dev/null"
-alias gbrlt="git brl | tail"
 
 alias misc="git add . ; git ci -am'Misc'"
 alias miscpush="git add . ; git ci -am'Misc' ; git push"
@@ -30,8 +28,6 @@ alias pbpaste="xclip -selection clipboard -o"
 
 alias mr="lab mr create origin develop --assignee possibilities --remove-source-branch --squash"
 alias pr="hub pull-request"
-alias wts="nodemon --exec 'yarn tsc' --ext 'ts,tsx'"
-alias wl="nodemon --exec 'yarn lint' --ext 'ts,tsx,js'"
 
 alias ls="ls --color=auto"
 
@@ -41,6 +37,3 @@ alias vu='nordvpn connect New_York && nordvpn set killswitch on'
 alias vd='nordvpn disconnect'
 alias vk='nordvpn set killswitch on'
 alias vko='nordvpn set killswitch off'
-
-alias tg="tree --gitignore"
-alias gt="tree --gitignore"

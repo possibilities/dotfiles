@@ -68,7 +68,7 @@ echo "install termdbms"
 go install github.com/mathaou/termdbms@latest
 
 echo "install scrcpy"
-sudo apt install \
+sudo apt install --yes \
   ffmpeg \
   libsdl2-2.0-0 \
   adb \
