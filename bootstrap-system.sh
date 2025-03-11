@@ -21,15 +21,6 @@ ROFI_VERSION="1.7.5"
 VERACRYPT_VERSION="1.26.15"
 SQLITESTUDIO_VERSION="3.4.4"
 
-echo "install sqlitestudio"
-
-cd ~/src
-mkdir -p ~/src/sqlitestudio
-wget \
-  --output-document ${HOME}/src/sqlitestudio/install.run \
-  https://github.com/pawelsalawa/sqlitestudio/releases/download/${SQLITESTUDIO_VERSION}/SQLiteStudio-${SQLITESTUDIO_VERSION}-linux-x64-installer.run
-chmod +x ${HOME}/src/sqlitestudio/install.run
-
 echo "update apt"
 
 sudo apt update
@@ -60,12 +51,52 @@ sudo apt install --yes \
   scrot \
   xdotool \
   wipe \
-  rsnapshot \
-  golang
+  rsnapshot
 
+
+echo "Install golang"
+
+sudo rm -rf /usr/local/go
+latest_version=$(curl -s https://go.dev/dl/ | grep -Eo 'go[0-9]+(\.[0-9]+)*\.linux-amd64\.tar\.gz' | head -n 1 | sed 's/\.linux-amd64\.tar\.gz//')
+if [ -z "$latest_version" ]; then
+    echo "Error: Could not determine the latest Go version."
+    exit 1
+fi
+download_url="https://go.dev/dl/${latest_version}.linux-amd64.tar.gz"
+wget "$download_url"
+if [ ! -f "${latest_version}.linux-amd64.tar.gz" ]; then
+    echo "Error: Download failed."
+    exit 1
+fi
+sudo tar -C /usr/local -xzf "${latest_version}.linux-amd64.tar.gz"
+rm "${latest_version}.linux-amd64.tar.gz"
+
+echo "Installing GitLab CLI"
+
+/usr/local/go/bin/go install "gitlab.com/gitlab-org/cli/cmd/glab@latest"
+
+echo "Installing GitHub CLI"
+
+sudo mkdir -p -m 755 /etc/apt/keyrings
+out=$(mktemp)
+wget -nv -O$out https://cli.github.com/packages/githubcli-archive-keyring.gpg
+cat $out | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null
+sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+sudo apt update
+sudo apt install gh --yes
+
+echo "install sqlitestudio"
+
+cd ~/src
+mkdir -p ~/src/sqlitestudio
+wget \
+  --output-document ${HOME}/src/sqlitestudio/install.run \
+  https://github.com/pawelsalawa/sqlitestudio/releases/download/${SQLITESTUDIO_VERSION}/SQLiteStudio-${SQLITESTUDIO_VERSION}-linux-x64-installer.run
+chmod +x ${HOME}/src/sqlitestudio/install.run
 
 echo "install termdbms"
-go install github.com/mathaou/termdbms@latest
+/usr/local/go/bin/go install github.com/mathaou/termdbms@latest
 
 echo "install scrcpy"
 sudo apt install --yes \
@@ -225,9 +256,8 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
-nvm install 18
-nvm install 20
-nvm alias default 20
+nvm install 22
+nvm alias default 22
 
 echo "install yarn"
 
@@ -240,17 +270,13 @@ sudo apt update && sudo apt install --yes --no-install-recommends yarn
 
 echo "install nodemon"
 
-nvm use 18
-npm install --global nodemon
-nvm use 20
+nvm use 22
 npm install --global nodemon
 
  echo "install serve"
 
 sudo apt install --yes xsel
-nvm use 18
-npm install --global serve
-nvm use 20
+nvm use 22
 npm install --global serve
 
 echo "install neovim"

@@ -10,6 +10,11 @@ export PATH=$HOME/.local/bin:/root/.local/bin:$PATH
 export PATH=$HOME/.cargo/bin:$PATH
 . "$HOME/.cargo/env"
 
+# Golang
+PATH=$PATH:/usr/local/go/bin
+GOPATH=$HOME/go
+PATH=$PATH:$GOPATH/bin
+
 # History settings
 
 setopt hist_ignore_dups

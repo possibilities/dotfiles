@@ -19,6 +19,7 @@ install_flatpak () {
   sudo ln -sf /var/lib/flatpak/exports/bin/${FLATPAK_NAME} /usr/local/bin/${APP_NAME}
 }
 
+install_flatpak blanket com.rafaelmardojai.Blanket
 install_flatpak obsidian md.obsidian.Obsidian
 install_flatpak androidstudio com.google.AndroidStudio
 install_flatpak connections org.gnome.Connections
@@ -39,7 +40,6 @@ install_flatpak flameshot org.flameshot.Flameshot
 install_flatpak chrome com.google.Chrome
 install_flatpak chromium org.chromium.Chromium
 install_flatpak chrome-dev com.google.ChromeDev
-install_flatpak vscode com.visualstudio.code
 install_flatpak vlc org.videolan.VLC
 install_flatpak firefox org.mozilla.firefox
 install_flatpak gimp org.gimp.GIMP

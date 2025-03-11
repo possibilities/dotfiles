@@ -76,7 +76,9 @@ def main():
                     capture_output=True,
                 )
             except subprocess.CalledProcessError as result:
+                subprocess.run(["notify-send", "Password error"], check=True)
                 print(result.stderr)
+
                 main()
 
     del vc_password

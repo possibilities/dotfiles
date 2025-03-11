@@ -1,7 +1,6 @@
 # Utils
 alias vim='nvim'
 alias mkdir='mkdir -p'
-alias no='nodemon -e js,coffee,json --verbose'
 # note trailing space is needed to support watching aliased commands
 alias watch='watch --color --no-title '
 alias watchx='watch --color --no-title -x '
@@ -11,20 +10,19 @@ alias woman='man'
 
 # apps
 alias g="git"
+alias p="pnpm"
 alias t="tmux"
+alias a='autocil'
 alias ta="tmux attach"
 alias tnd="tmux_name_window_after_directory"
 alias tn="tmux_name_window"
-alias gh="grep_history"
+alias grh="grep_history"
 
 alias misc="git add . ; git ci -am'Misc'"
 alias miscpush="git add . ; git ci -am'Misc' ; git push"
 alias mp="git add . ; git ci -am'Misc' ; git push"
 alias wip="git add .; git commit --no-verify -a -m 'wip [skip ci]'"
 alias wipush="git add .; git commit --no-verify -a -m 'wip [skip ci]' ; git push"
-
-alias pbcopy="xclip -selection clipboard"
-alias pbpaste="xclip -selection clipboard -o"
 
 alias mr="lab mr create origin develop --assignee possibilities --remove-source-branch --squash"
 alias pr="hub pull-request"
