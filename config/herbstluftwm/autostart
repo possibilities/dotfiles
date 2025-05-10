@@ -36,6 +36,8 @@ hc keybind Control-Shift-$Mod-t spawn /home/mike/code/dotfiles/bin/copy-timestam
 hc keybind $Mod-m set_attr clients.focus.minimized toggle
 hc keybind $Mod-Shift-m spawn rofi -show windowcd -modi windowcd,window
 
+hc keybind $Mod-Alt-Control-h spawn rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'
+
 default_term='alacritty'
 hc keybind $Mod-Return spawn ${TERMINAL:-$default_term}
 
@@ -235,7 +237,7 @@ obsidian &
 
 # Start Chrome and move it to tag 1
 /usr/bin/flatpak run --branch=stable --arch=x86_64 --command=/app/bin/chrome --file-forwarding com.google.Chrome --enable-features=WebUIDarkMode --force-dark-mode &
-sleep 1
+sleep 0.5
 
 # Move Chrome to tag 1
 herbstclient foreach CLIENT clients. \
@@ -245,10 +247,11 @@ herbstclient foreach CLIENT clients. \
     , compare CLASSATTR = Google-chrome \
     , bring WINIDATTR \
     , use_index 0
+sleep 0.5
 
 # Start Alacritty and move it to tag 1
 alacritty &
-sleep 1
+sleep 0.5
 
 # Move Alacritty to tag 1
 herbstclient foreach CLIENT clients. \
@@ -258,3 +261,6 @@ herbstclient foreach CLIENT clients. \
     , compare CLASSATTR = Alacritty \
     , bring WINIDATTR \
     , use_index 0
+sleep 0.5
+
+greenclip daemon &
