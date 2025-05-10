@@ -30,8 +30,6 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'tpope/vim-commentary'
 " surround things with things
 Plug 'tpope/vim-surround'
-" nice minimal/pluggable statusline
-Plug 'tpope/vim-flagship'
 " vim and git make love
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
@@ -101,9 +99,6 @@ set splitright
 set listchars=tab:\|\ ,trail:.,extends:#,nbsp:.
 set tabstop=4
 set expandtab
-" NOTE turned off by default because it breaks indentation
-" set paste
-set pastetoggle=<F2>
 set number
 " recommended by flagship
 set laststatus=2
