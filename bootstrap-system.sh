@@ -53,6 +53,14 @@ sudo apt install --yes \
   wipe \
   rsnapshot
 
+echo "Install greenclip"
+mkdir -p ~/src/greenclip
+cd ~/src/greenclip
+wget https://github.com/erebe/greenclip/releases/download/v4.2/greenclip
+chmod +x ./greenclip
+cp -r ./greenclip ~/.local/bin/greenclip
+
+
 
 echo "Install golang"
 
@@ -371,37 +379,7 @@ sudo gem install gist
 
 echo "install rofi"
 
-sudo apt install --yes \
-  libglib2.0-dev \
-  flex \
-  libxcb-xkb-dev \
-  libxcb-ewmh-dev \
-  libxcb-ewmh2 \
-  libxcb-icccm4-dev \
-  libxcb-randr0-dev \
-  libxcb-util0-dev \
-  libxcb-xkb1 \
-  libxcb-xrm0 \
-  libxcb1 \
-  libxkbcommon-x11-dev \
-  libxcb-cursor-dev \
-  libxcb-xinerama0-dev \
-  libcairo2-dev \
-  libpango1.0-dev \
-  libstartup-notification0-dev \
-  libgdk-pixbuf2.0-dev \
-  check
-
-rm -rf ${HOME}/src/rofi
-git clone https://github.com/davatorium/rofi.git ${HOME}/src/rofi
-cd ${HOME}/src/rofi
-git checkout ${ROFI_VERSION}
-git submodule update --init
-autoreconf -i
-mkdir build && cd build
-../configure
-make
-sudo make prefix=/usr/local install
+sudo apt install rofi
 
 echo "install keychain"
 
@@ -422,4 +400,3 @@ sudo apt install --yes ./veracrypt*.deb
 echo RUN THIS TO INSTALL SQLITE UI ${HOME}/src/sqlitestudio/install.run
 
 echo "done bootstrapping system."
-
