@@ -3,4 +3,4 @@ configuration {
     display-drun:    "";
 }
 
-@theme "/usr/local/share/rofi/themes/sidebar.rasi"
+@theme "~/code/dotfiles/config/rofi/spotlight-dark-modified.rasi"
