@@ -3,3 +3,7 @@ Host *
   UseRsh no
   GatewayPorts no
   StrictHostKeyChecking ask
+Host mac
+  HostName localhost
+  Port 50922
+  User mike
