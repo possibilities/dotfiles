@@ -35,3 +35,7 @@ alias vu='nordvpn connect New_York && nordvpn set killswitch on'
 alias vd='nordvpn disconnect'
 alias vk='nordvpn set killswitch on'
 alias vko='nordvpn set killswitch off'
+
+alias copy='xclip -selection clipboard'
+alias clip='xclip -selection clipboard'
+alias clipboard='xclip -selection clipboard'
