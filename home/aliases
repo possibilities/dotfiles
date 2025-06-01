@@ -39,3 +39,13 @@ alias vko='nordvpn set killswitch off'
 alias copy='xclip -selection clipboard'
 alias clip='xclip -selection clipboard'
 alias clipboard='xclip -selection clipboard'
+
+worktree() {
+    i=1; while [ -e "$(dirname "$PWD")/$(basename "$PWD")-worktree-$(printf "%03d" "$i")" ]; do i=$((i+1)); done
+    num=$(printf "%03d" $i)
+    dir="$(dirname "$PWD")/$(basename "$PWD")-worktree-$num" && \
+    git worktree add "$dir" -b "worktree-$num" && \
+    cd "$dir" && \
+    ([ -f pnpm-lock.yaml ] && pnpm install || true) && \
+    ([ -f uv.lock ] && uv sync || true)
+}
