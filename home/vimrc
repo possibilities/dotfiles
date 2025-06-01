@@ -182,11 +182,21 @@ let NERDTreeShowHidden=1
 nnoremap <leader>; :NERDTreeToggle<CR>
 
 " linting
-let g:ale_fixers = {'javascript': ['prettier'], 'javascriptreact': ['prettier'], 'typescriptreact': ['prettier'], 'typescript': ['prettier'], 'python': ['black']}
-let g:ale_linters = {'javascript': ['eslint'], 'python': ['flake8'], 'typescript': ['eslint'], 'typescriptreact': ['eslint']}
+let g:ale_fixers = {
+      \ 'javascript': ['prettier'],
+      \ 'javascriptreact': ['prettier'],
+      \ 'typescriptreact': ['prettier'],
+      \ 'typescript': ['prettier'],
+      \ 'python': ['ruff_format']
+      \ }
+let g:ale_linters = {
+      \ 'javascript': ['eslint'],
+      \ 'python': ['ruff'],
+      \ 'typescript': ['eslint'],
+      \ 'typescriptreact': ['eslint']
+      \ }
 let g:ale_fix_on_save = 1
 let g:ale_list_window_size = 5
-let g:ale_python_flake8_options = '--builtins="show_object" --max-line-length=88 --extend-ignore=E203,E501'
 
 " Allow aliases in shell commands
 
