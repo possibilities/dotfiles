@@ -15,6 +15,7 @@
     br = branch -v
     df = diff
     dfc = diff --cached
+    dfh = diff HEAD
     co = checkout
     praise = blame
     pl = log --pretty=oneline
