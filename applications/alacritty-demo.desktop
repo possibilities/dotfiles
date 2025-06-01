@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Alacritty (for demos)
+Comment=Alacritty terminal with demo-friendly settings
+Exec=alacritty --config-file /home/mike/code/dotfiles/config/alacritty/demo.toml
+Icon=Alacritty
+Terminal=false
+Categories=System;TerminalEmulator;
