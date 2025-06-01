@@ -1,5 +1,6 @@
 [diff]
     tool = opendiff
+	wsErrorHighlight = none
 
 [core]
     pager = less -FRSX
