@@ -96,7 +96,7 @@ set splitbelow
 set splitright
 " NOTE here we map literal characters to something
 "      hopefully more palatable
-set listchars=tab:\|\ ,trail:.,extends:#,nbsp:.
+set listchars=tab:\|\ ,trail:\ ,extends:#,nbsp:.
 set tabstop=4
 set expandtab
 set number
