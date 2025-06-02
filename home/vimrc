@@ -13,6 +13,11 @@ Plug 'github/copilot.vim'
 
 Plug 'jpalardy/vim-slime'
 
+" Zenbones theme
+Plug 'zenbones-theme/zenbones.nvim'
+" Required dependency for Zenbones
+Plug 'rktjmp/lush.nvim'
+
 Plug 'wuelnerdotexe/vim-astro'
 
 " file explorer
@@ -153,7 +158,21 @@ syntax enable
 syntax on
 set t_Co=256
 set background=dark
-" colorscheme nord
+
+" Zenbones theme setup
+" Set options before loading colorscheme
+let g:zenbones_compat = 1
+let g:zenbones_italic_comments = v:false
+let g:zenbones_darkness = '#0a0a0a'  " Match alacritty background
+
+colorscheme zenbones
+
+" Override background to match alacritty
+highlight Normal guibg=#0a0a0a ctermbg=NONE
+highlight NonText guibg=#0a0a0a ctermbg=NONE
+highlight EndOfBuffer guibg=#0a0a0a ctermbg=NONE
+highlight LineNr guibg=#0a0a0a ctermbg=NONE
+highlight SignColumn guibg=#0a0a0a ctermbg=NONE
 
 " lightline
 set noshowmode " avoid duplicate modes displayed
