@@ -1,0 +1,44 @@
+# Muted Colors Theme - Subtle colors with dark background
+[colors.primary]
+background = '#0a0a0a'  # Very dark grey, matches vim
+foreground = '#d0d0d0'  # Light grey
+
+[colors.normal]
+black   = '#1a1a1a'  # Dark grey
+red     = '#d07070'  # Muted red
+green   = '#70a070'  # Muted green
+yellow  = '#c0a060'  # Muted yellow/amber
+blue    = '#7090c0'  # Muted blue
+magenta = '#b080b0'  # Muted purple
+cyan    = '#70b0b0'  # Muted cyan
+white   = '#c0c0c0'  # Light grey
+
+[colors.bright]
+black   = '#404040'  # Medium grey
+red     = '#e09090'  # Soft red
+green   = '#90c090'  # Soft green
+yellow  = '#e0c080'  # Soft yellow
+blue    = '#90b0e0'  # Soft blue
+magenta = '#d0a0d0'  # Soft purple
+cyan    = '#90d0d0'  # Soft cyan
+white   = '#f0f0f0'  # Near white
+
+[colors.dim]
+black   = '#0f0f0f'
+red     = '#905050'
+green   = '#507050'
+yellow  = '#807050'
+blue    = '#506090'
+magenta = '#705070'
+cyan    = '#507070'
+white   = '#808080'
+
+# Selection colors
+[colors.selection]
+background = '#2a2a2a'
+foreground = '#e0e0e0'
+
+# Cursor colors
+[colors.cursor]
+cursor = '#e0e0e0'
+text = '#0a0a0a'
