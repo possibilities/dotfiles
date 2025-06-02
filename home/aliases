@@ -40,6 +40,9 @@ alias copy='xclip -selection clipboard'
 alias clip='xclip -selection clipboard'
 alias clipboard='xclip -selection clipboard'
 
-# Worktree helpers
+alias claude='claude-composer'
+alias c='claude-composer'
+alias claude-safe='claude'
+
 source $HOME/.worktree-helpers
 

@@ -1,6 +1,6 @@
 worktree-create() {
     # Check if we're already in a worktree directory
-    if [[ "$PWD" == */"/worktrees/"*"-worktree-"* ]]; then
+    if [[ "$PWD" == */worktrees/*-worktree-* ]]; then
         echo "Error: Cannot create a worktree inside a worktree"
         return 1
     fi
@@ -21,7 +21,7 @@ worktree-create() {
 
 worktree-kill() {
     # Check if we're in a worktree directory
-    if [[ "$PWD" != */"/worktrees/"*"-worktree-"* ]]; then
+    if [[ "$PWD" != */worktrees/*-worktree-* ]]; then
         echo "Error: Not in a worktree directory"
         return 1
     fi
@@ -48,7 +48,7 @@ worktree-kill() {
 
 worktree-merge() {
     # Check if we're in a worktree directory
-    if [[ "$PWD" != */"/worktrees/"*"-worktree-"* ]]; then
+    if [[ "$PWD" != */worktrees/*-worktree-* ]]; then
         echo "Error: Not in a worktree directory"
         return 1
     fi
