@@ -121,6 +121,9 @@ worktree-merge() {
         worktree-kill
     else
         echo "Error: Cherry-pick failed. Please resolve conflicts manually."
+        # Go back to worktree directory
+        cd "$worktree_path"
+        echo "Returned to worktree directory: $worktree_path"
         return 1
     fi
 }
