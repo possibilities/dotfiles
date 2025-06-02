@@ -41,11 +41,46 @@ alias clip='xclip -selection clipboard'
 alias clipboard='xclip -selection clipboard'
 
 worktree() {
-    i=1; while [ -e "$(dirname "$PWD")/$(basename "$PWD")-worktree-$(printf "%03d" "$i")" ]; do i=$((i+1)); done
+    worktrees_dir="$(dirname "$PWD")/worktrees"
+    mkdir -p "$worktrees_dir"
+    i=1
+    while [ -e "$worktrees_dir/$(basename "$PWD")-worktree-$(printf "%03d" "$i")" ] || git branch --list "worktree-$(printf "%03d" "$i")" | grep -q .; do
+        i=$((i+1))
+    done
     num=$(printf "%03d" $i)
-    dir="$(dirname "$PWD")/$(basename "$PWD")-worktree-$num" && \
+    dir="$worktrees_dir/$(basename "$PWD")-worktree-$num" && \
     git worktree add "$dir" -b "worktree-$num" && \
     cd "$dir" && \
     ([ -f pnpm-lock.yaml ] && pnpm install || true) && \
     ([ -f uv.lock ] && uv sync || true)
+}
+
+worktree-kill() {
+    # Check if we're in a worktree directory
+    if [[ "$PWD" != *"/worktrees/"*"-worktree-"* ]]; then
+        echo "Error: Not in a worktree directory"
+        return 1
+    fi
+
+    # Get the branch name (current branch)
+    branch=$(git branch --show-current)
+
+    # Get the worktree path
+    worktree_path="$PWD"
+
+    # Extract the project name from the worktree directory name
+    # e.g., from "foo-worktree-001" extract "foo"
+    worktree_dirname=$(basename "$worktree_path")
+    project_name=${worktree_dirname%-worktree-*}
+
+    # Navigate to the main project directory
+    cd "$(dirname "$(dirname "$worktree_path")")/$project_name"
+
+    # Remove the worktree
+    git worktree remove --force "$worktree_path"
+
+    # Delete the branch
+    git branch -D "$branch"
+
+    echo "Removed worktree and branch: $branch"
 }
