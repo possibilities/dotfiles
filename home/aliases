@@ -95,6 +95,18 @@ worktree-merge() {
         return 1
     fi
 
+    # Check for pending changes
+    if ! git diff-index --quiet HEAD -- || ! git diff --cached --quiet; then
+        echo "Error: There are pending changes in the worktree. Please commit or stash them first."
+        return 1
+    fi
+
+    # Check for untracked files
+    if [[ -n $(git ls-files --others --exclude-standard) ]]; then
+        echo "Error: There are untracked files in the worktree. Please add or remove them first."
+        return 1
+    fi
+
     # Get the branch name (current branch)
     branch=$(git branch --show-current)
 
@@ -106,24 +118,48 @@ worktree-merge() {
     worktree_dirname=$(basename "$worktree_path")
     project_name=${worktree_dirname%-worktree-*}
 
+    # Save current directory
+    local original_dir="$PWD"
+    
     # Navigate to the main project directory
-    cd "$(dirname "$(dirname "$worktree_path")")/$project_name"
-
-    # Switch to main branch
-    git checkout main
-
-    # Cherry-pick all commits from the worktree branch
-    if git cherry-pick main.."$branch"; then
-        echo "Successfully cherry-picked commits from $branch into main"
+    main_dir="$(dirname "$(dirname "$worktree_path")")/$project_name"
+    
+    # Run operations in main directory
+    (
+        cd "$main_dir" || exit 1
         
-        # Go back to worktree directory to run worktree-kill
-        cd "$worktree_path"
+        # Switch to main branch
+        git checkout main || exit 1
+        
+        # Cherry-pick all commits from the worktree branch
+        if git cherry-pick main.."$branch"; then
+            echo "Successfully cherry-picked commits from $branch into main"
+            
+            # Push the changes to origin
+            if git push origin HEAD -u; then
+                echo "Successfully pushed changes to origin"
+            else
+                echo "Warning: Failed to push changes to origin"
+            fi
+            
+            # Success - we'll handle worktree removal outside the subshell
+            exit 0
+        else
+            echo "Error: Cherry-pick failed. Please resolve conflicts manually."
+            echo "You are in: $(pwd)"
+            echo "To return to worktree, run: cd $worktree_path"
+            exit 1
+        fi
+    )
+    
+    # Check if the subshell succeeded
+    if [ $? -eq 0 ]; then
+        # Cherry-pick succeeded, remove the worktree
         worktree-kill
     else
-        echo "Error: Cherry-pick failed. Please resolve conflicts manually."
-        # Go back to worktree directory
-        cd "$worktree_path"
-        echo "Returned to worktree directory: $worktree_path"
+        # Cherry-pick failed, make sure we're back in the worktree
+        cd "$original_dir"
         return 1
     fi
 }
+
