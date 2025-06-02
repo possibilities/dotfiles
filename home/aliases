@@ -85,10 +85,7 @@ worktree-kill() {
     # Remove the worktree
     git worktree remove --force "$worktree_path"
 
-    # Delete the branch
-    git branch -D "$branch"
-
-    echo "Removed worktree and branch: $branch"
+    echo "Removed worktree: $branch"
 }
 
 worktree-merge() {
