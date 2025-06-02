@@ -40,7 +40,13 @@ alias copy='xclip -selection clipboard'
 alias clip='xclip -selection clipboard'
 alias clipboard='xclip -selection clipboard'
 
-worktree() {
+worktree-create() {
+    # Check if we're already in a worktree directory
+    if [[ "$PWD" == *"/worktrees/"*"-worktree-"* ]]; then
+        echo "Error: Cannot create a worktree inside a worktree"
+        return 1
+    fi
+    
     worktrees_dir="$(dirname "$PWD")/worktrees"
     mkdir -p "$worktrees_dir"
     i=1
@@ -83,4 +89,41 @@ worktree-kill() {
     git branch -D "$branch"
 
     echo "Removed worktree and branch: $branch"
+}
+
+worktree-merge() {
+    # Check if we're in a worktree directory
+    if [[ "$PWD" != *"/worktrees/"*"-worktree-"* ]]; then
+        echo "Error: Not in a worktree directory"
+        return 1
+    fi
+
+    # Get the branch name (current branch)
+    branch=$(git branch --show-current)
+
+    # Get the worktree path
+    worktree_path="$PWD"
+
+    # Extract the project name from the worktree directory name
+    # e.g., from "foo-worktree-001" extract "foo"
+    worktree_dirname=$(basename "$worktree_path")
+    project_name=${worktree_dirname%-worktree-*}
+
+    # Navigate to the main project directory
+    cd "$(dirname "$(dirname "$worktree_path")")/$project_name"
+
+    # Switch to main branch
+    git checkout main
+
+    # Cherry-pick all commits from the worktree branch
+    if git cherry-pick main.."$branch"; then
+        echo "Successfully cherry-picked commits from $branch into main"
+        
+        # Go back to worktree directory to run worktree-kill
+        cd "$worktree_path"
+        worktree-kill
+    else
+        echo "Error: Cherry-pick failed. Please resolve conflicts manually."
+        return 1
+    fi
 }
