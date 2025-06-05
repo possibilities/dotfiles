@@ -89,6 +89,22 @@ worktree-merge() {
         # Switch to main branch
         git checkout main || exit 1
         
+        # Update main branch with latest changes
+        git pull origin main || exit 1
+        
+        # Go back to worktree to rebase
+        cd "$original_dir" || exit 1
+        
+        # Rebase the worktree branch against main
+        if ! git rebase main; then
+            echo "Error: Rebase failed. Please resolve conflicts and try again."
+            echo "You are in: $(pwd)"
+            exit 1
+        fi
+        
+        # Go back to main directory for cherry-pick
+        cd "$main_dir" || exit 1
+        
         # Cherry-pick all commits from the worktree branch
         if git cherry-pick main.."$branch"; then
             echo "Successfully cherry-picked commits from $branch into main"
