@@ -1,7 +1,13 @@
 worktree-create() {
+    local no_cd=false
+    if [[ "$1" == "--no-cd" ]]; then
+        no_cd=true
+        shift
+    fi
+    
     # Check if we're already in a worktree directory
     if [[ "$PWD" == */worktrees/*-worktree-* ]]; then
-        echo "Error: Cannot create a worktree inside a worktree"
+        echo "Error: Cannot create a worktree inside a worktree" >&2
         return 1
     fi
     
@@ -12,11 +18,32 @@ worktree-create() {
         i=$((i+1))
     done
     num=$(printf "%03d" $i)
-    dir="$worktrees_dir/$(basename "$PWD")-worktree-$num" && \
-    git worktree add "$dir" -b "worktree-$num" && \
-    cd "$dir" && \
-    ([ -f pnpm-lock.yaml ] && pnpm install || true) && \
-    ([ -f uv.lock ] && uv sync || true)
+    dir="$worktrees_dir/$(basename "$PWD")-worktree-$num"
+    
+    # Create the worktree with quiet flag, redirecting any remaining output to stderr
+    if ! git worktree add -q "$dir" -b "worktree-$num" 2>&1 >&2; then
+        echo "Error: Failed to create worktree" >&2
+        return 1
+    fi
+    
+    # Change directory if not using --no-cd
+    if [[ "$no_cd" == false ]]; then
+        cd "$dir" || return 1
+    fi
+    
+    # Install dependencies if lock files exist
+    if [ -f "$dir/pnpm-lock.yaml" ]; then
+        (cd "$dir" && pnpm install >&2 2>&1)
+    fi
+    
+    if [ -f "$dir/uv.lock" ]; then
+        (cd "$dir" && uv sync >&2 2>&1)
+    fi
+    
+    # Output the directory path to stdout only when using --no-cd
+    if [[ "$no_cd" == true ]]; then
+        echo "$dir"
+    fi
 }
 
 worktree-kill() {
