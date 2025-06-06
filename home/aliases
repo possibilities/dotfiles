@@ -46,3 +46,5 @@ alias claude-safe='claude'
 
 source $HOME/.worktree-helpers
 
+alias worktree-session='autocil --no-attach $(worktree-create --no-cd) && sleep 1 && tmux switch-client -t $(cat package.json | jq -r .name)'
+
