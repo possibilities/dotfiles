@@ -46,5 +46,35 @@ alias claude-safe='claude'
 
 source $HOME/.worktree-helpers
 
-alias worktree-session='autocil --no-attach $(worktree-create --no-cd) && sleep 1 && tmux switch-client -t $(cat package.json | jq -r .name)'
+alias session-start='autocil --no-attach $(worktree-create --no-cd) && sleep 1 && tmux switch-client -t $(cat package.json | jq -r .name)'
+
+session-finish() {
+    # Save current tmux session name
+    local current_session=$(tmux display-message -p '#S')
+    
+    # Run context-composer
+    if context-composer work commit-composer; then
+        # Context-composer succeeded, try worktree-merge (but don't fail if it doesn't work)
+        worktree-merge || true
+        
+        # Only switch and kill session if we're in a worktree
+        if [[ "$PWD" == */worktrees/*-worktree-* ]]; then
+            # Get a different session to switch to (previous or any other)
+            local target_session=$(tmux list-sessions -F '#{session_name}' | grep -v "^${current_session}$" | head -1)
+            
+            if [ -n "$target_session" ]; then
+                # Switch to the other session first
+                tmux switch-client -t "$target_session"
+                # Then kill the worktree session
+                tmux kill-session -t "$current_session"
+            else
+                echo "Error: No other tmux session to switch to"
+                return 1
+            fi
+        fi
+    else
+        echo "Error: context-composer failed"
+        return 1
+    fi
+}
 
