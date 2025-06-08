@@ -70,7 +70,7 @@ session-finish() {
     local merge_status="❌"
     
     # Run context-composer
-    if context-composer work commit-composer; then
+    if commit-creator; then
         commit_status="✅"
         # Context-composer succeeded, try worktree-merge
         if worktree-merge; then
