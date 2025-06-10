@@ -47,3 +47,8 @@ alias claude-safe='claude'
 source $HOME/.worktree-helpers
 source $HOME/.session-helpers
 
+nvim-listen() {
+    local socket_path="/tmp/neovim-socket--$(echo "$PWD" | sed 's|^/||; s|/|-|g')"
+    nvim --listen "$socket_path" "$@"
+}
+
