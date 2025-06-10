@@ -38,19 +38,28 @@ session-finish() {
                     # Send notification that session was kept
                     notify-send -u critical "Session Kept" "Project: $project_name\nWorktree: $worktree_name\nCommit: $commit_status Merge: $merge_status"
                 else
-                    # Get a different session to switch to (previous or any other)
-                    local target_session=$(tmux list-sessions -F '#{session_name}' | grep -v "^${current_session}$" | head -1)
+                    # Check if we're still in the original worktree session
+                    local current_active_session=$(tmux display-message -p '#S')
                     
-                    if [ -n "$target_session" ]; then
-                        # Send notification before switching sessions
-                        notify-send -u critical "Session Closed" "Project: $project_name\nWorktree: $worktree_name\nCommit: $commit_status Merge: $merge_status"
-                        # Switch to the other session first
-                        tmux switch-client -t "$target_session"
-                        # Then kill the worktree session
-                        tmux kill-session -t "$current_session"
+                    if [ "$current_active_session" = "$current_session" ]; then
+                        # We're still in the worktree session, need to switch before killing
+                        local target_session=$(tmux list-sessions -F '#{session_name}' | grep -v "^${current_session}$" | head -1)
+                        
+                        if [ -n "$target_session" ]; then
+                            # Send notification before switching sessions
+                            notify-send -u critical "Session Closed" "Project: $project_name\nWorktree: $worktree_name\nCommit: $commit_status Merge: $merge_status"
+                            # Switch to the other session first
+                            tmux switch-client -t "$target_session"
+                            # Then kill the worktree session
+                            tmux kill-session -t "$current_session"
+                        else
+                            echo "Error: No other tmux session to switch to"
+                            return 1
+                        fi
                     else
-                        echo "Error: No other tmux session to switch to"
-                        return 1
+                        # We've already switched to a different session, just kill the worktree session
+                        notify-send -u critical "Session Closed" "Project: $project_name\nWorktree: $worktree_name\nCommit: $commit_status Merge: $merge_status"
+                        tmux kill-session -t "$current_session"
                     fi
                 fi
             fi
