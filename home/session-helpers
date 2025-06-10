@@ -23,10 +23,8 @@ session-finish() {
     local commit_status="❌"
     local merge_status="❌"
     
-    # Run context-composer
     if commit-creator; then
         commit_status="✅"
-        # Context-composer succeeded, try worktree-merge
         if worktree-merge; then
             merge_status="✅"
             
@@ -67,7 +65,7 @@ session-finish() {
             return 1
         fi
     else
-        echo "Error: context-composer failed"
+        echo "Error: commit creator failed"
         # Still send notification if in worktree
         if [ "$in_worktree" = true ]; then
             local project_name=$(echo "$current_session" | sed 's/-worktree-[0-9]*$//')

@@ -94,6 +94,10 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubc
 sudo apt update
 sudo apt install gh --yes
 
+echo "install yamlfmt"
+
+go install github.com/google/yamlfmt/cmd/yamlfmt@latest
+
 echo "install sqlitestudio"
 
 cd ~/src
