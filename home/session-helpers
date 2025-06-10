@@ -1,5 +1,8 @@
 session-start() {
-    dir=$(worktree-create --no-cd) && project_name=$(basename "$dir" | sed "s/-worktree-[0-9]*$//") && session_name="$project_name-$(basename "$dir" | grep -o "worktree-[0-9]*")" && autocil --no-attach --name "$session_name" "$dir" && sleep 2 && tmux switch-client -t "$session_name"
+    # Save the current session we're starting from
+    local original_session=$(tmux display-message -p '#S')
+    
+    dir=$(worktree-create --no-cd) && project_name=$(basename "$dir" | sed "s/-worktree-[0-9]*$//") && session_name="$project_name-$(basename "$dir" | grep -o "worktree-[0-9]*")" && autocil --no-attach --name "$session_name" "$dir" && sleep 2 && tmux switch-client -t "$session_name" && tmux set-option -t "$session_name" @original_session "$original_session"
 }
 
 session-finish() {
@@ -43,7 +46,17 @@ session-finish() {
                     
                     if [ "$current_active_session" = "$current_session" ]; then
                         # We're still in the worktree session, need to switch before killing
-                        local target_session=$(tmux list-sessions -F '#{session_name}' | grep -v "^${current_session}$" | head -1)
+                        # Try to get the original session we came from
+                        local original_session=$(tmux show-option -t "$current_session" -v @original_session 2>/dev/null)
+                        local target_session=""
+                        
+                        # Check if original session exists and is still active
+                        if [ -n "$original_session" ] && tmux has-session -t "$original_session" 2>/dev/null; then
+                            target_session="$original_session"
+                        else
+                            # Fall back to any other session
+                            target_session=$(tmux list-sessions -F '#{session_name}' | grep -v "^${current_session}$" | head -1)
+                        fi
                         
                         if [ -n "$target_session" ]; then
                             # Send notification before switching sessions
