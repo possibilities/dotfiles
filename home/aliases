@@ -17,6 +17,7 @@ alias ta="tmux attach"
 alias tnd="tmux_name_window_after_directory"
 alias tn="tmux_name_window"
 alias grh="grep_history"
+alias gsa="git-status-all"
 
 alias misc="git add . ; git ci -am'Misc'"
 alias miscpush="git add . ; git ci -am'Misc' ; git push"

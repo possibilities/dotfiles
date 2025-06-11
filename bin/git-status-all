@@ -1,0 +1,48 @@
+#!/bin/bash
+
+# Function to check git status
+check_git_status() {
+    local dir="$1"
+    local project=$(basename "$dir")
+    
+    if [ -d "$dir/.git" ]; then
+        cd "$dir"
+        
+        # Check for uncommitted changes
+        if [ -n "$(git status --porcelain 2>/dev/null)" ]; then
+            echo "❌ $project"
+        else
+            # Check for unpushed commits
+            local branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+            if [ -n "$branch" ] && [ "$branch" != "HEAD" ]; then
+                local upstream=$(git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null)
+                if [ -n "$upstream" ]; then
+                    local ahead=$(git rev-list --count @{u}..HEAD 2>/dev/null)
+                    if [ "$ahead" -gt 0 ]; then
+                        echo "⚠️  $project (${ahead} unpushed)"
+                    else
+                        echo "✅ $project"
+                    fi
+                else
+                    echo "⚠️  $project (no upstream)"
+                fi
+            else
+                echo "✅ $project"
+            fi
+        fi
+    else
+        echo "   $project (not a git repo)"
+    fi
+}
+
+# Main
+# Loop through all directories in ~/code
+for dir in ~/code/*/; do
+    if [ -d "$dir" ]; then
+        # Skip backups and worktrees directories
+        basename_dir=$(basename "$dir")
+        if [ "$basename_dir" != "backups" ] && [ "$basename_dir" != "worktrees" ]; then
+            check_git_status "$dir"
+        fi
+    fi
+done

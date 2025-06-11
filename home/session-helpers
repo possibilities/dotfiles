@@ -60,7 +60,7 @@ session-finish() {
                         
                         if [ -n "$target_session" ]; then
                             # Send notification before switching sessions
-                            notify-send -u critical "Session Complete" "Project: $project_name\nWorktree: $worktree_name\nCommit: $commit_status Merge: $merge_status"
+                            notify-send -u critical "🏁 Session Complete" "Project: $project_name\nWorktree: $worktree_name\nCommit: $commit_status Merge: $merge_status"
                             # Switch to the other session first
                             tmux switch-client -t "$target_session"
                             # Then kill the worktree session
@@ -71,7 +71,7 @@ session-finish() {
                         fi
                     else
                         # We've already switched to a different session, just kill the worktree session
-                        notify-send -u critical "Session Complete" "Project: $project_name\nWorktree: $worktree_name\nCommit: $commit_status Merge: $merge_status"
+                        notify-send -u critical "🏁 Session Complete" "Project: $project_name\nWorktree: $worktree_name\nCommit: $commit_status Merge: $merge_status"
                         tmux kill-session -t "$current_session"
                     fi
                 fi
