@@ -20,18 +20,12 @@ check_git_status() {
                     local ahead=$(git rev-list --count @{u}..HEAD 2>/dev/null)
                     if [ "$ahead" -gt 0 ]; then
                         echo "⚠️  $project (${ahead} unpushed)"
-                    else
-                        echo "✅ $project"
                     fi
                 else
                     echo "⚠️  $project (no upstream)"
                 fi
-            else
-                echo "✅ $project"
             fi
         fi
-    else
-        echo "   $project (not a git repo)"
     fi
 }
 
