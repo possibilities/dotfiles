@@ -155,8 +155,9 @@ worktree-merge() {
     
     # Check if the subshell succeeded
     if [ $? -eq 0 ]; then
-        # Cherry-pick succeeded, remove the worktree
-        worktree-kill
+        # Cherry-pick succeeded, return to original directory
+        cd "$original_dir"
+        return 0
     else
         # Cherry-pick failed, make sure we're back in the worktree
         cd "$original_dir"
