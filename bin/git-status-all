@@ -8,22 +8,9 @@ check_git_status() {
     if [ -d "$dir/.git" ]; then
         cd "$dir"
         
-        # Check for package.json and build:watch command
-        local has_package=""
-        local build_watch=""
-        if [ -f "package.json" ]; then
-            has_package="yes"
-            # Extract build:watch command using jq if available, otherwise use grep/sed
-            if command -v jq &> /dev/null; then
-                build_watch=$(jq -r '.scripts."build:watch" // ""' package.json 2>/dev/null)
-            else
-                build_watch=$(grep -A1 '"build:watch"' package.json 2>/dev/null | grep -o '"[^"]*"' | tail -1 | tr -d '"')
-            fi
-        fi
-        
         # Check for uncommitted changes
         if [ -n "$(git status --porcelain 2>/dev/null)" ]; then
-            echo "$project|error|x|$has_package|$build_watch"
+            echo "$project|error"
             return
         fi
         
@@ -34,17 +21,17 @@ check_git_status() {
             if [ -n "$upstream" ]; then
                 local ahead=$(git rev-list --count @{u}..HEAD 2>/dev/null)
                 if [ "$ahead" -gt 0 ]; then
-                    echo "$project|error|x|$has_package|$build_watch"
+                    echo "$project|error"
                     return
                 fi
             else
-                echo "$project|error|x|$has_package|$build_watch"
+                echo "$project|error"
                 return
             fi
         fi
         
         # All good
-        echo "$project|ok||$has_package|$build_watch"
+        echo "$project|ok"
     fi
 }
 
@@ -73,21 +60,16 @@ for result in "${results[@]}"; do
 done
 
 # Print header
-printf "%-${max_len}s | %-6s | %-4s | %s\n" "Repository" "Status" "Node" "Build Command"
-printf "%s-+-%s-+-%s-+-%s\n" "$(printf '%*s' $max_len | tr ' ' '-')" "------" "----" "-------------"
+printf "%-${max_len}s | %s\n" "Repository" "Status"
+printf "%s-+-%s\n" "$(printf '%*s' $max_len | tr ' ' '-')" "------"
 
 # Print results
 for result in "${results[@]}"; do
-    IFS='|' read -r repo state status package build_cmd <<< "$result"
+    IFS='|' read -r repo state <<< "$result"
     if [ "$state" = "error" ]; then
         status="x"
     else
         status=""
     fi
-    if [ "$package" = "yes" ]; then
-        package="x"
-    else
-        package=""
-    fi
-    printf "%-${max_len}s | %-6s | %-4s | %s\n" "$repo" "$status" "$package" "$build_cmd"
+    printf "%-${max_len}s | %-6s\n" "$repo" "$status"
 done
