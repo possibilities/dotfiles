@@ -8,9 +8,17 @@ check_git_status() {
     if [ -d "$dir/.git" ]; then
         cd "$dir"
         
+        # Check for types:watch and build:watch scripts
+        local types_watch=""
+        local build_watch=""
+        if [ -f "package.json" ]; then
+            types_watch=$(jq -r '.scripts."types:watch" // ""' package.json 2>/dev/null || echo "")
+            build_watch=$(jq -r '.scripts."build:watch" // ""' package.json 2>/dev/null || echo "")
+        fi
+        
         # Check for uncommitted changes
         if [ -n "$(git status --porcelain 2>/dev/null)" ]; then
-            echo "$project|error"
+            echo "$project|error|$types_watch|$build_watch"
             return
         fi
         
@@ -21,17 +29,17 @@ check_git_status() {
             if [ -n "$upstream" ]; then
                 local ahead=$(git rev-list --count @{u}..HEAD 2>/dev/null)
                 if [ "$ahead" -gt 0 ]; then
-                    echo "$project|error"
+                    echo "$project|error|$types_watch|$build_watch"
                     return
                 fi
             else
-                echo "$project|error"
+                echo "$project|error|$types_watch|$build_watch"
                 return
             fi
         fi
         
         # All good
-        echo "$project|ok"
+        echo "$project|ok|$types_watch|$build_watch"
     fi
 }
 
@@ -50,26 +58,34 @@ for dir in ~/code/*/; do
     fi
 done
 
-# Find the longest repo name for proper column width
-max_len=10  # Minimum width for "Repository" header
+# Find the longest values for proper column widths
+max_repo_len=10  # Minimum width for "Repository" header
+max_types_len=11  # Minimum width for "types:watch" header
+max_build_len=11  # Minimum width for "build:watch" header
 for result in "${results[@]}"; do
-    repo_name="${result%%|*}"
-    if [ ${#repo_name} -gt $max_len ]; then
-        max_len=${#repo_name}
+    IFS='|' read -r repo state types_watch build_watch <<< "$result"
+    if [ ${#repo} -gt $max_repo_len ]; then
+        max_repo_len=${#repo}
+    fi
+    if [ ${#types_watch} -gt $max_types_len ]; then
+        max_types_len=${#types_watch}
+    fi
+    if [ ${#build_watch} -gt $max_build_len ]; then
+        max_build_len=${#build_watch}
     fi
 done
 
 # Print header
-printf "%-${max_len}s | %s\n" "Repository" "Status"
-printf "%s-+-%s\n" "$(printf '%*s' $max_len | tr ' ' '-')" "------"
+printf "%-${max_repo_len}s | %-6s | %-${max_types_len}s | %-${max_build_len}s\n" "Repository" "Status" "types:watch" "build:watch"
+printf "%s-+-%s-+-%s-+-%s\n" "$(printf '%*s' $max_repo_len | tr ' ' '-')" "------" "$(printf '%*s' $max_types_len | tr ' ' '-')" "$(printf '%*s' $max_build_len | tr ' ' '-')"
 
 # Print results
 for result in "${results[@]}"; do
-    IFS='|' read -r repo state <<< "$result"
+    IFS='|' read -r repo state types_watch build_watch <<< "$result"
     if [ "$state" = "error" ]; then
         status="x"
     else
         status=""
     fi
-    printf "%-${max_len}s | %-6s\n" "$repo" "$status"
+    printf "%-${max_repo_len}s | %-6s | %-${max_types_len}s | %-${max_build_len}s\n" "$repo" "$status" "$types_watch" "$build_watch"
 done
