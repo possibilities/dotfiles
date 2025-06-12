@@ -56,6 +56,11 @@ nvim-listen() {
 run-prompt() {
     local prompt_name="$1"
     shift
-    claude-composer "$(prompt-composer "$prompt_name")" "$@"
+    local prompt_output
+    prompt_output=$(prompt-composer "$prompt_name")
+    if [ $? -ne 0 ]; then
+        return 1
+    fi
+    claude-composer "$prompt_output" "$@"
 }
 
