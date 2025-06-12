@@ -53,3 +53,9 @@ nvim-listen() {
     nvim --listen "$socket_path" "$@"
 }
 
+run-prompt() {
+    local prompt_name="$1"
+    shift
+    claude-composer "$(prompt-composer "$prompt_name")" "$@"
+}
+
