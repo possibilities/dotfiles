@@ -1,4 +1,10 @@
 session-start() {
+    # Check if git repository is dirty
+    if ! git diff --quiet || ! git diff --cached --quiet; then
+        echo "Error: Current git repository has uncommitted changes"
+        return 1
+    fi
+    
     # Save the current session we're starting from
     local original_session=$(tmux display-message -p '#S')
     

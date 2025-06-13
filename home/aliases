@@ -44,6 +44,19 @@ alias clipboard='xclip -selection clipboard'
 alias claude='claude-composer'
 alias c='claude-composer'
 alias claude-safe='claude'
+alias claude-upgrade='(
+    echo "Checking for Claude updates..." && 
+    old_version=$(claude --version 2>/dev/null | grep -oP "\\d+\\.\\d+\\.\\d+") && 
+    echo "Current version: $old_version" && 
+    cd ~/.claude/local && 
+    npm update @anthropic-ai/claude-code && 
+    new_version=$(claude --version 2>/dev/null | grep -oP "\\d+\\.\\d+\\.\\d+") && 
+    if [ "$old_version" = "$new_version" ]; then 
+        echo "No updates available."; 
+    else 
+        echo "Successfully updated to version $new_version"; 
+    fi
+)'
 
 source $HOME/.worktree-helpers
 source $HOME/.session-helpers
@@ -64,3 +77,13 @@ run-prompt() {
     claude-composer "$prompt_output" "$@"
 }
 
+
+claude_ping() {
+  until timeout 30s bash -c "$HOME/.claude/local/claude \"are you alive?\" \
+    --print --max-turns 1 --model sonnet --output-format stream-json --verbose | jq ."
+  do
+    sleep 10
+  done
+  notify-send -u critical -t 0 "🧠 Claude Response" "Claude replied!"
+}
+alias pingclaude=claude_ping
