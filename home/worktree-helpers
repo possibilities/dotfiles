@@ -132,6 +132,22 @@ worktree-merge() {
         # Go back to main directory for cherry-pick
         cd "$main_dir" || exit 1
         
+        # Check if there are any commits to cherry-pick
+        commits_to_pick=$(git rev-list main.."$branch")
+        if [ -z "$commits_to_pick" ]; then
+            echo "Branch $branch is already up to date with main"
+            
+            # Push to ensure remote is up to date
+            if git push origin HEAD -u; then
+                echo "Successfully pushed changes to origin"
+            else
+                echo "Warning: Failed to push changes to origin"
+            fi
+            
+            # Success - no commits to cherry-pick
+            exit 0
+        fi
+        
         # Cherry-pick all commits from the worktree branch
         if git cherry-pick main.."$branch"; then
             echo "Successfully cherry-picked commits from $branch into main"
