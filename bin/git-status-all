@@ -16,9 +16,15 @@ check_git_status() {
             build_watch=$(jq -r '.scripts."build:watch" // ""' package.json 2>/dev/null || echo "")
         fi
         
+        # Check for Makefile
+        local has_makefile=""
+        if [ -f "Makefile" ]; then
+            has_makefile="✓"
+        fi
+        
         # Check for uncommitted changes
         if [ -n "$(git status --porcelain 2>/dev/null)" ]; then
-            echo "$project|error|$types_watch|$build_watch"
+            echo "$project|$has_makefile|error|$types_watch|$build_watch"
             return
         fi
         
@@ -29,17 +35,17 @@ check_git_status() {
             if [ -n "$upstream" ]; then
                 local ahead=$(git rev-list --count @{u}..HEAD 2>/dev/null)
                 if [ "$ahead" -gt 0 ]; then
-                    echo "$project|error|$types_watch|$build_watch"
+                    echo "$project|$has_makefile|error|$types_watch|$build_watch"
                     return
                 fi
             else
-                echo "$project|error|$types_watch|$build_watch"
+                echo "$project|$has_makefile|error|$types_watch|$build_watch"
                 return
             fi
         fi
         
         # All good
-        echo "$project|ok|$types_watch|$build_watch"
+        echo "$project|$has_makefile|ok|$types_watch|$build_watch"
     fi
 }
 
@@ -62,8 +68,9 @@ done
 max_repo_len=10  # Minimum width for "Repository" header
 max_types_len=11  # Minimum width for "types:watch" header
 max_build_len=11  # Minimum width for "build:watch" header
+max_makefile_len=8  # Minimum width for "Makefile" header
 for result in "${results[@]}"; do
-    IFS='|' read -r repo state types_watch build_watch <<< "$result"
+    IFS='|' read -r repo has_makefile state types_watch build_watch <<< "$result"
     if [ ${#repo} -gt $max_repo_len ]; then
         max_repo_len=${#repo}
     fi
@@ -73,19 +80,22 @@ for result in "${results[@]}"; do
     if [ ${#build_watch} -gt $max_build_len ]; then
         max_build_len=${#build_watch}
     fi
+    if [ ${#has_makefile} -gt $max_makefile_len ]; then
+        max_makefile_len=${#has_makefile}
+    fi
 done
 
 # Print header
-printf "%-${max_repo_len}s | %-6s | %-${max_types_len}s | %-${max_build_len}s\n" "Repository" "Status" "types:watch" "build:watch"
-printf "%s-+-%s-+-%s-+-%s\n" "$(printf '%*s' $max_repo_len | tr ' ' '-')" "------" "$(printf '%*s' $max_types_len | tr ' ' '-')" "$(printf '%*s' $max_build_len | tr ' ' '-')"
+printf "%-${max_repo_len}s | %-${max_makefile_len}s | %-6s | %-${max_types_len}s | %-${max_build_len}s\n" "Repository" "Makefile" "Status" "types:watch" "build:watch"
+printf "%s | %s | %s | %s | %s\n" "$(printf '%*s' $max_repo_len | tr ' ' '-')" "$(printf '%*s' $max_makefile_len | tr ' ' '-')" "------" "$(printf '%*s' $max_types_len | tr ' ' '-')" "$(printf '%*s' $max_build_len | tr ' ' '-')"
 
 # Print results
 for result in "${results[@]}"; do
-    IFS='|' read -r repo state types_watch build_watch <<< "$result"
+    IFS='|' read -r repo has_makefile state types_watch build_watch <<< "$result"
     if [ "$state" = "error" ]; then
         status="x"
     else
         status=""
     fi
-    printf "%-${max_repo_len}s | %-6s | %-${max_types_len}s | %-${max_build_len}s\n" "$repo" "$status" "$types_watch" "$build_watch"
+    printf "%-${max_repo_len}s | %-${max_makefile_len}s | %-6s | %-${max_types_len}s | %-${max_build_len}s\n" "$repo" "$has_makefile" "$status" "$types_watch" "$build_watch"
 done
