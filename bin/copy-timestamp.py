@@ -63,7 +63,7 @@ def main():
         ["xclip", "-selection", "clipboard"], input=timestamp_str.encode("utf-8")
     )
 
-    subprocess.run(["notify-send", "Timestamp copied to clipboard"])
+    subprocess.run(["notify-send", "-t", "12000", "Timestamp copied to clipboard"])
 
 
 if __name__ == "__main__":

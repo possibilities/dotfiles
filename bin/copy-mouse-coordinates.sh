@@ -16,4 +16,4 @@ echo $formatted_coordinates
 echo -n $formatted_coordinates | xclip -selection c
 
 # Notify user
-notify-send "Mouse coordinates copied to clipboard: $formatted_coordinates"
+notify-send -t 12000 "Mouse coordinates copied to clipboard: $formatted_coordinates"

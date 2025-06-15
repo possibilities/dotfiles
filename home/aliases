@@ -84,6 +84,6 @@ claude_ping() {
   do
     sleep 10
   done
-  notify-send -u critical -t 0 "🧠 Claude Response" "Claude replied!"
+  notify-send -u critical -t 12000 "🧠 Claude Response" "Claude replied!"
 }
 alias pingclaude=claude_ping
