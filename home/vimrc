@@ -234,13 +234,6 @@ set mouse=
 let @z = 'console.log(JSON.stringify({}, null, 2))'
 let @x = '<pre>{JSON.stringify({}, null, 2)}</pre>'
 
-" don't use ai on config files
-let g:copilot_filetypes = {
-    \ 'yaml': v:false,
-    \ 'markdown': v:false,
-    \ 'json': v:false,
-    \ 'sql': v:false
-    \ }
 
 " Excecuting commands
 vnoremap <leader>x :<C-u>execute "!".getline("'<","'>")->join(" ")<CR>
