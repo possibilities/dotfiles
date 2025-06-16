@@ -76,7 +76,7 @@ def main():
                     capture_output=True,
                 )
             except subprocess.CalledProcessError as result:
-                subprocess.run(["notify-send", "-t", "12000", "Password error"], check=True)
+                subprocess.run(["notify-send", "-t", "0", "Password error"], check=True)
                 print(result.stderr)
 
                 main()
