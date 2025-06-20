@@ -51,7 +51,7 @@ HERBSTLUFTWM_VERSION="v0.9.5"
 TMUX_VERSION="3.5"
 JQ_VERSION="1.7.1"
 ROFI_VERSION="1.7.5"
-VERACRYPT_VERSION="1.26.15"
+VERACRYPT_VERSION="1.26.14"
 SQLITESTUDIO_VERSION="3.4.4"
 
 mkdir -p ~/.local/bin/
@@ -395,8 +395,8 @@ sudo apt-get install --yes alsa-utils
 echo "install veracrypt"
 
 cd ${HOME}/src
-wget https://launchpad.net/veracrypt/trunk/${VERACRYPT_VERSION}/+download/veracrypt-${VERACRYPT_VERSION}-Debian-12-amd64.deb
-sudo apt install --yes ./veracrypt*.deb
+wget "https://launchpad.net/veracrypt/trunk/${VERACRYPT_VERSION}/+download/veracrypt-${VERACRYPT_VERSION}-Debian-12-amd64.deb"
+sudo apt install --yes ./veracrypt-${VERACRYPT_VERSION}-Debian-12-amd64.deb
 
 echo RUN THIS TO INSTALL SQLITE UI ${HOME}/src/sqlitestudio/install.run
 
