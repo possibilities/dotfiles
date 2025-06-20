@@ -103,3 +103,30 @@ session-finish() {
         return 1
     fi
 }
+
+session-close() {
+    # Get the current session name
+    local current_session=$(tmux display-message -p '#S')
+    
+    # Count the number of active sessions
+    local session_count=$(tmux list-sessions | wc -l)
+    
+    if [ "$session_count" -eq 1 ]; then
+        # Only one session, just kill it
+        tmux kill-session -t "$current_session"
+    else
+        # Multiple sessions exist
+        # Get the next session (excluding current one)
+        local next_session=$(tmux list-sessions -F '#{session_name}' | grep -v "^${current_session}$" | head -1)
+        
+        if [ -n "$next_session" ]; then
+            # Switch to the next session first
+            tmux switch-client -t "$next_session"
+            # Then kill the previous session
+            tmux kill-session -t "$current_session"
+        else
+            # Fallback: just kill the current session
+            tmux kill-session -t "$current_session"
+        fi
+    fi
+}
