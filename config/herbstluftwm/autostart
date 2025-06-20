@@ -229,6 +229,8 @@ xdg-mime default com.google.Chrome.desktop x-scheme-handler/https
 
 hc set tree_style '╾│ ├└╼─┐'
 
+setxkbmap -option caps:escape
+
 hc unlock
 
 # Start Chrome and move it to tag 1

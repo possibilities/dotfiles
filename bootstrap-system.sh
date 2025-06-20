@@ -200,7 +200,7 @@ echo v4l2loopback | sudo tee /etc/modules-load.d/v4l2loopback.conf
 
 echo "install fira font"
 
-sudo apt install fonts-firacode
+sudo apt install --yes fonts-firacode
 
 echo "install cargo"
 
@@ -341,7 +341,7 @@ git checkout v${ALACRITTY_VERSION}
 ${HOME}/.cargo/bin/cargo build --release
 sudo ln -sfT ${HOME}/src/alacritty/target/release/alacritty /usr/local/bin/alacritty
 
-mkdir -p /usr/local/share/man/man1
+sudo mkdir -p /usr/local/share/man/man1
 gzip -c extra/alacritty.man | sudo tee /usr/local/share/man/man1/alacritty.1.gz > /dev/null
 gzip -c extra/alacritty-msg.man | sudo tee /usr/local/share/man/man1/alacritty-msg.1.gz > /dev/null
 
@@ -375,7 +375,7 @@ sudo make install
 
 echo "install rofi"
 
-sudo apt install rofi
+sudo apt install --yes rofi
 
 echo "install keychain"
 
