@@ -276,15 +276,6 @@ export NVM_DIR="$HOME/.nvm"
 nvm install 22
 nvm alias default 22
 
-echo "install yarn"
-
-sudo apt --yes install gnupg2
-
-echo " - install yarn"
-curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-sudo apt update && sudo apt install --yes --no-install-recommends yarn
-
 echo "install nodemon"
 
 nvm use 22
