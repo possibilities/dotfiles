@@ -156,6 +156,10 @@ sudo apt install --yes \
 pipx install poetry
 pipx install deadcode
 
+echo "install ruby"
+
+sudo apt install --yes ruby-full
+
 echo "install teamocil"
 
 sudo gem install teamocil
@@ -377,10 +381,6 @@ cd ${HOME}/src/jq-${JQ_VERSION}
 ./configure
 make
 sudo make install
-
-echo "install gist"
-
-sudo gem install gist
 
 echo "install rofi"
 
