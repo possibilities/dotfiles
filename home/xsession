@@ -1,1 +1,1 @@
-exec herbstluftwm --locked --no-transparency
+exec /usr/local/bin/herbstluftwm --locked --no-transparency

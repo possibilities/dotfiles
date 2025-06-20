@@ -1,6 +1,3 @@
 #!/bin/sh
 
-# Ensure /usr/local/bin is in PATH
-export PATH="/usr/local/bin:$PATH"
-
-exec dbus-run-session herbstluftwm --locked --no-transparency
+exec dbus-run-session /usr/local/bin/herbstluftwm --locked --no-transparency
