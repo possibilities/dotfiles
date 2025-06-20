@@ -45,6 +45,7 @@ get_latest_version() {
 NVM_VERSION=$(get_latest_version nvm-sh/nvm)
 ALACRITTY_VERSION=$(get_latest_version alacritty/alacritty)
 NEOVIM_VERSION=$(get_latest_version neovim/neovim)
+UV_VERSION=$(get_latest_version astral-sh/uv)
 
 HERBSTLUFTWM_VERSION="v0.9.5"
 TMUX_VERSION="3.5"
@@ -153,8 +154,12 @@ sudo apt install --yes \
   python3-pip \
   python3-venv
 
-pipx install poetry
 pipx install deadcode
+
+echo "install uv"
+
+# Download and install uv
+curl -LsSf https://github.com/astral-sh/uv/releases/download/v${UV_VERSION}/uv-installer.sh | sh
 
 echo "install ruby"
 
