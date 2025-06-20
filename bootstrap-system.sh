@@ -2,25 +2,6 @@
 
 set -e
 
-get_latest_version() {
-    local REDIRECTED_RELEASE_URL
-    REDIRECTED_RELEASE_URL=$(curl -s -L -o /dev/null -w "%{url_effective}" "https://github.com/$1/releases/latest")
-    local VERSION
-    VERSION=$(echo $REDIRECTED_RELEASE_URL | awk -F'/' '{print $NF}' | awk -F'v' '{print $2}')
-    echo $VERSION
-}
-
-NVM_VERSION=$(get_latest_version nvm-sh/nvm)
-ALACRITTY_VERSION=$(get_latest_version alacritty/alacritty)
-NEOVIM_VERSION=$(get_latest_version neovim/neovim)
-
-HERBSTLUFTWM_VERSION="v0.9.5"
-TMUX_VERSION="3.5"
-JQ_VERSION="1.7.1"
-ROFI_VERSION="1.7.5"
-VERACRYPT_VERSION="1.26.15"
-SQLITESTUDIO_VERSION="3.4.4"
-
 echo "update apt"
 
 sudo apt update
@@ -53,14 +34,34 @@ sudo apt install --yes \
   wipe \
   rsnapshot
 
+get_latest_version() {
+    local REDIRECTED_RELEASE_URL
+    REDIRECTED_RELEASE_URL=$(curl -s -L -o /dev/null -w "%{url_effective}" "https://github.com/$1/releases/latest")
+    local VERSION
+    VERSION=$(echo $REDIRECTED_RELEASE_URL | awk -F'/' '{print $NF}' | awk -F'v' '{print $2}')
+    echo $VERSION
+}
+
+NVM_VERSION=$(get_latest_version nvm-sh/nvm)
+ALACRITTY_VERSION=$(get_latest_version alacritty/alacritty)
+NEOVIM_VERSION=$(get_latest_version neovim/neovim)
+
+HERBSTLUFTWM_VERSION="v0.9.5"
+TMUX_VERSION="3.5"
+JQ_VERSION="1.7.1"
+ROFI_VERSION="1.7.5"
+VERACRYPT_VERSION="1.26.15"
+SQLITESTUDIO_VERSION="3.4.4"
+
+mkdir -p ~/.local/bin/
+
 echo "Install greenclip"
+
 mkdir -p ~/src/greenclip
 cd ~/src/greenclip
 wget https://github.com/erebe/greenclip/releases/download/v4.2/greenclip
 chmod +x ./greenclip
 cp -r ./greenclip ~/.local/bin/greenclip
-
-
 
 echo "Install golang"
 
@@ -96,7 +97,7 @@ sudo apt install gh --yes
 
 echo "install yamlfmt"
 
-go install github.com/google/yamlfmt/cmd/yamlfmt@latest
+/usr/local/go/bin/go install github.com/google/yamlfmt/cmd/yamlfmt@latest
 
 echo "install sqlitestudio"
 
@@ -141,7 +142,7 @@ curl https://rclone.org/install.sh | sudo bash | true
 
 echo "install pipx"
 
-sudo apt install pipx
+sudo apt --yes install pipx
 pipx ensurepath
 sudo pipx ensurepath
 
