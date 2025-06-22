@@ -386,6 +386,13 @@ echo "install keychain"
 
 sudo apt install --yes keychain
 
+echo "install ghostty"
+
+echo 'deb http://download.opensuse.org/repositories/home:/clayrisser:/bookworm/Debian_12/ /' | sudo tee /etc/apt/sources.list.d/home:clayrisser:bookworm.list
+curl -fsSL https://download.opensuse.org/repositories/home:clayrisser:bookworm/Debian_12/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/home_clayrisser_bookworm.gpg > /dev/null
+sudo apt update
+sudo apt install --yes ghostty
+
 echo "install audio dependencies"
 
 sudo apt-get remove --purge --yes alsa-utils pulseaudio
