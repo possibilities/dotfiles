@@ -30,12 +30,12 @@ session-finish() {
     
     # Track status of operations
     local commit_status="❌"
-    local merge_status="❌"
+    local sync_status="❌"
     
     if commit-creator; then
         commit_status="✅"
-        if worktree-merge; then
-            merge_status="✅"
+        if worktree-sync; then
+            sync_status="✅"
             
             # Only switch and kill session if we were in a worktree and not keeping session
             if [ "$in_worktree" = true ]; then
@@ -45,7 +45,7 @@ session-finish() {
                 
                 if [ "$keep_session" = true ]; then
                     # Send notification that session was kept
-                    notify-send -u critical -t 0 "Session Kept" "Project: $project_name\nWorktree: $worktree_name\nCommit: $commit_status Merge: $merge_status"
+                    notify-send -u critical -t 0 "Session Kept" "Project: $project_name\nWorktree: $worktree_name\nCommit: $commit_status Sync: $sync_status"
                 else
                     # Check if we're still in the original worktree session
                     local current_active_session=$(tmux display-message -p '#S')
@@ -66,7 +66,7 @@ session-finish() {
                         
                         if [ -n "$target_session" ]; then
                             # Send notification before switching sessions
-                            notify-send -u critical -t 0 "🏁 Session Complete" "Project: $project_name\nWorktree: $worktree_name\nCommit: $commit_status Merge: $merge_status"
+                            notify-send -u critical -t 0 "🏁 Session Complete" "Project: $project_name\nWorktree: $worktree_name\nCommit: $commit_status Sync: $sync_status"
                             # Switch to the other session first
                             tmux switch-client -t "$target_session"
                             # Then kill the worktree session
@@ -87,9 +87,9 @@ session-finish() {
             if [ "$in_worktree" = true ]; then
                 local project_name=$(echo "$current_session" | sed 's/-worktree-[0-9]*$//')
                 local worktree_name=$(echo "$current_session" | grep -o 'worktree-[0-9]*')
-                notify-send -u critical -t 0 "Merge Failed - Session Kept" "Project: $project_name\nWorktree: $worktree_name\nCommit: $commit_status Merge: $merge_status\n\nResolve conflicts and try again"
+                notify-send -u critical -t 0 "Sync Failed - Session Kept" "Project: $project_name\nWorktree: $worktree_name\nCommit: $commit_status Sync: $sync_status\n\nResolve conflicts and try again"
             fi
-            echo "Error: worktree-merge failed - session kept open"
+            echo "Error: worktree-sync failed - session kept open"
             return 1
         fi
     else
@@ -98,7 +98,7 @@ session-finish() {
         if [ "$in_worktree" = true ]; then
             local project_name=$(echo "$current_session" | sed 's/-worktree-[0-9]*$//')
             local worktree_name=$(echo "$current_session" | grep -o 'worktree-[0-9]*')
-            notify-send -u critical -t 0 "Session Failed" "Project: $project_name\nWorktree: $worktree_name\nCommit: $commit_status Merge: $merge_status"
+            notify-send -u critical -t 0 "Session Failed" "Project: $project_name\nWorktree: $worktree_name\nCommit: $commit_status Sync: $sync_status"
         fi
         return 1
     fi
