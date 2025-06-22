@@ -19,6 +19,7 @@ install_flatpak () {
   sudo ln -sf /var/lib/flatpak/exports/bin/${FLATPAK_NAME} /usr/local/bin/${APP_NAME}
 }
 
+install_flatpak trayscale dev.deedles.Trayscale
 install_flatpak blanket com.rafaelmardojai.Blanket
 install_flatpak obsidian md.obsidian.Obsidian
 install_flatpak androidstudio com.google.AndroidStudio

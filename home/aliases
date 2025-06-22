@@ -41,7 +41,6 @@ alias copy='xclip -selection clipboard'
 alias clip='xclip -selection clipboard'
 alias clipboard='xclip -selection clipboard'
 
-alias claude='claude-composer'
 alias c='claude-composer'
 alias claude-safe='claude'
 alias cs='claude-sessions'
