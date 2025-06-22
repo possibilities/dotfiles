@@ -50,6 +50,7 @@ test -r "~/.dir_colors" && eval $(dircolors ~/.dir_colors)
 
 # Ssh agent magic
 eval `keychain --eval --quiet --ignore-missing --agents ssh id_ed25519`
+eval `keychain --eval --quiet --ignore-missing --agents ssh id_rsa`
 
 # export PYENV_ROOT="$HOME/.pyenv"
 # command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
