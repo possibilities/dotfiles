@@ -58,11 +58,15 @@ mkdir -p ~/.local/bin/
 
 echo "Install greenclip"
 
-mkdir -p ~/src/greenclip
-cd ~/src/greenclip
-wget https://github.com/erebe/greenclip/releases/download/v4.2/greenclip
-chmod +x ./greenclip
-cp -r ./greenclip ~/.local/bin/greenclip
+if [ ! -f ~/.local/bin/greenclip ]; then
+    mkdir -p ~/src/greenclip
+    cd ~/src/greenclip
+    wget https://github.com/erebe/greenclip/releases/download/v4.2/greenclip
+    chmod +x ./greenclip
+    cp ./greenclip ~/.local/bin/greenclip
+else
+    echo "greenclip already installed, skipping"
+fi
 
 echo "Install golang"
 
