@@ -61,6 +61,24 @@ alias claude-upgrade='(
 source $HOME/.worktree-helpers
 source $HOME/.session-helpers
 
+gap() {
+    local clipboard_content=$(xclip -selection clipboard -o)
+    
+    if ! echo "$clipboard_content" | grep -q "git apply"; then
+        echo "Error: Clipboard doesn't contain a git apply command"
+        return 1
+    fi
+    
+    local patch_content=$(echo "$clipboard_content" | sed -n '/^diff --git/,/^EOF/p' | sed '$d')
+    
+    if [ -z "$patch_content" ]; then
+        echo "Error: Could not extract patch content"
+        return 1
+    fi
+    
+    echo "$patch_content" | git apply --3way
+}
+
 nvim-listen() {
     local socket_path="/tmp/neovim-socket--$(echo "$PWD" | sed 's|^/||; s|/|-|g')"
     nvim --listen "$socket_path" "$@"
