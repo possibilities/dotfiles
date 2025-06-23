@@ -76,4 +76,15 @@ do
   sudo cat $PWD/$file |  sudo tee -a /etc/cron.d/$file_name > /dev/null
 done
 
+echo "copy X11 configuration files into /etc/X11/xorg.conf.d/"
+
+sudo mkdir -p /etc/X11/xorg.conf.d
+
+for file in xorg/xorg.conf.d/*
+do
+  file_name=`basename $file`
+  echo "   * $file -> /etc/X11/xorg.conf.d/$file_name"
+  sudo cp -f $PWD/$file /etc/X11/xorg.conf.d/$file_name
+done
+
 echo "done installing dotfiles."
