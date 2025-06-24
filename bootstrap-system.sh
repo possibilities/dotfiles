@@ -404,4 +404,7 @@ sudo apt install --yes ./veracrypt-${VERACRYPT_VERSION}-Debian-12-amd64.deb
 
 echo RUN THIS TO INSTALL SQLITE UI ${HOME}/src/sqlitestudio/install.run
 
+echo "setup dark mode"
+${HOME}/code/dotfiles/setup-dark-mode.sh
+
 echo "done bootstrapping system."
