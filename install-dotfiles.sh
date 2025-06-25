@@ -49,6 +49,14 @@ do
   ln -sfT $PWD/$file $HOME/.ssh/$file_name
 done
 
+echo "generate meshnet SSH config"
+
+mkdir -p $HOME/.ssh/config.d
+chmod 700 $HOME/.ssh/config.d
+
+# Generate meshnet SSH config (this will fail if nordvpn is not installed/logged in)
+$PWD/bin/generate-meshnet-ssh-config
+
 echo "link scripts into /usr/local/bin"
 
 for file in bin/*

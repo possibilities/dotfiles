@@ -1,3 +1,6 @@
+# Include additional config files
+Include ~/.ssh/config.d/*
+
 Host *
   FallBackToRsh no
   UseRsh no
