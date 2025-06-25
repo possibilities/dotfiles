@@ -1,0 +1,113 @@
+#!/bin/bash
+
+set -euo pipefail
+
+# Check if nordvpn is installed
+if ! command -v nordvpn &> /dev/null; then
+    echo "Error: nordvpn command not found" >&2
+    exit 1
+fi
+
+# Check if logged in to nordvpn
+if ! nordvpn account &> /dev/null; then
+    echo "Error: Not logged in to NordVPN" >&2
+    exit 1
+fi
+
+# Markers for managed section in /etc/hosts
+START_MARKER="# MESHNET HOSTS START"
+END_MARKER="# MESHNET HOSTS END"
+
+# Temporary file for new entries
+TEMP_FILE=$(mktemp)
+trap "rm -f $TEMP_FILE" EXIT
+
+echo "Generating Meshnet hosts entries..."
+
+# Start with markers
+echo "$START_MARKER" >> "$TEMP_FILE"
+echo "# Auto-generated NordVPN Meshnet hosts with custom aliases" >> "$TEMP_FILE"
+echo "# Generated on $(date)" >> "$TEMP_FILE"
+echo "" >> "$TEMP_FILE"
+
+# First, add the current device
+CURRENT_HOSTNAME=$(nordvpn meshnet peer list | grep -A5 "This device:" | grep "Hostname:" | awk '{print $2}')
+CURRENT_IP=$(nordvpn meshnet peer list | grep -A5 "This device:" | grep "IP:" | awk '{print $2}')
+
+if [[ -n "$CURRENT_HOSTNAME" && -n "$CURRENT_IP" ]]; then
+    # Try to get the actual hostname
+    ACTUAL_HOSTNAME=$(hostname)
+    
+    echo "# Current device ($ACTUAL_HOSTNAME)" >> "$TEMP_FILE"
+    
+    # Add NordVPN entries (these duplicate what NordVPN adds, but we need them in our section)
+    SHORT_NAME=$(echo "$CURRENT_HOSTNAME" | cut -d'.' -f1 | sed 's/mikebannister-//')
+    echo "$CURRENT_IP	$CURRENT_HOSTNAME	$SHORT_NAME" >> "$TEMP_FILE"
+    
+    # Add actual hostname if different
+    if [[ "$ACTUAL_HOSTNAME" != "$CURRENT_HOSTNAME" ]] && [[ "$ACTUAL_HOSTNAME" != "$SHORT_NAME" ]]; then
+        echo "$CURRENT_IP	$ACTUAL_HOSTNAME" >> "$TEMP_FILE"
+    fi
+    echo "" >> "$TEMP_FILE"
+    
+    echo "Added current device: $ACTUAL_HOSTNAME ($CURRENT_IP)"
+fi
+
+# Parse local peers
+echo "# Local peers" >> "$TEMP_FILE"
+
+# Extract peer information in pairs (Hostname followed by IP)
+nordvpn meshnet peer list | grep -A50 "Local Peers:" | grep -E "^(Hostname|IP):" | while read -r line; do
+    if [[ "$line" =~ ^Hostname: ]]; then
+        HOSTNAME=$(echo "$line" | awk '{print $2}')
+        # Read the next line which should be the IP
+        read -r ip_line
+        if [[ "$ip_line" =~ ^IP: ]]; then
+            IP=$(echo "$ip_line" | awk '{print $2}')
+            
+            # Extract short name
+            SHORT_NAME=$(echo "$HOSTNAME" | cut -d'.' -f1 | sed 's/mikebannister-//')
+            
+            # Try to get the actual hostname via SSH
+            echo -n "  Checking $HOSTNAME... "
+            ACTUAL_HOSTNAME=$(timeout 5 ssh -o StrictHostKeyChecking=no -o ConnectTimeout=3 -o BatchMode=yes "$IP" hostname 2>/dev/null)
+            
+            if [[ -n "$ACTUAL_HOSTNAME" ]]; then
+                echo "found hostname: $ACTUAL_HOSTNAME"
+                echo "# Peer: $ACTUAL_HOSTNAME" >> "$TEMP_FILE"
+            else
+                echo "unreachable"
+                echo "# Peer: $HOSTNAME (unreachable)" >> "$TEMP_FILE"
+            fi
+            
+            # Add NordVPN entries
+            echo "$IP	$HOSTNAME	$SHORT_NAME" >> "$TEMP_FILE"
+            
+            # Add actual hostname if we got it and it's different
+            if [[ -n "$ACTUAL_HOSTNAME" ]] && [[ "$ACTUAL_HOSTNAME" != "$HOSTNAME" ]] && [[ "$ACTUAL_HOSTNAME" != "$SHORT_NAME" ]]; then
+                echo "$IP	$ACTUAL_HOSTNAME" >> "$TEMP_FILE"
+            fi
+            echo "" >> "$TEMP_FILE"
+        fi
+    fi
+done
+
+echo "$END_MARKER" >> "$TEMP_FILE"
+
+# Now update /etc/hosts
+echo ""
+echo "Updating /etc/hosts..."
+
+# Create a backup
+sudo cp /etc/hosts /etc/hosts.backup.$(date +%Y%m%d%H%M%S)
+
+# Remove existing managed section and append new one
+if grep -q "$START_MARKER" /etc/hosts; then
+    # Remove old section
+    sudo sed -i "/$START_MARKER/,/$END_MARKER/d" /etc/hosts
+fi
+
+# Append new section
+sudo cat "$TEMP_FILE" | sudo tee -a /etc/hosts > /dev/null
+
+echo "Successfully updated /etc/hosts with Meshnet entries"
