@@ -1,1 +1,4 @@
+# Load xprofile if it exists
+[ -f ~/.xprofile ] && . ~/.xprofile
+
 exec /usr/local/bin/herbstluftwm --locked --no-transparency
