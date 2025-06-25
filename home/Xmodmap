@@ -1,0 +1,14 @@
+! Swap caps lock and escape
+clear lock
+keycode 66 = Escape
+keycode 9 = Caps_Lock
+add lock = Caps_Lock
+
+! Set Right Alt as Mode_switch
+keycode 108 = Mode_switch
+
+! Map HJKL with Mode_switch to arrow keys
+keycode 43 = h H Left Left
+keycode 44 = j J Down Down  
+keycode 45 = k K Up Up
+keycode 46 = l L Right Right
