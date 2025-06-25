@@ -43,6 +43,13 @@ session-finish() {
                 local project_name=$(echo "$current_session" | sed 's/-worktree-[0-9]*$//')
                 local worktree_name=$(echo "$current_session" | grep -o 'worktree-[0-9]*')
                 
+                # Check if we need to run pnpm install in the main project after sync
+                local main_dir="$(dirname "$(dirname "$PWD")")/$project_name"
+                if [ -f "$main_dir/pnpm-lock.yaml" ]; then
+                    echo "Checking for dependency updates in main project..."
+                    (cd "$main_dir" && pnpm install >&2 2>&1)
+                fi
+                
                 if [ "$keep_session" = true ]; then
                     # Send notification that session was kept
                     notify-send -u critical -t 0 "Session Kept" "Project: $project_name\nWorktree: $worktree_name\nCommit: $commit_status Sync: $sync_status"

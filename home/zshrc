@@ -75,4 +75,3 @@ case ":$PATH:" in
 esac
 # pnpm end
 
-alias claude="/home/mike/.claude/local/claude"
