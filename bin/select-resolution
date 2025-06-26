@@ -1,0 +1,108 @@
+#!/bin/bash
+
+# Check if we can access the X display
+if ! xrandr &>/dev/null; then
+    echo "Error: Cannot access X display. Make sure you're running this from within an X session."
+    exit 1
+fi
+
+# Get list of connected monitors
+mapfile -t monitors < <(xrandr | grep " connected" | awk '{print $1}')
+
+if [ ${#monitors[@]} -eq 0 ]; then
+    echo "No connected monitors found."
+    exit 1
+fi
+
+# Select monitor if multiple are connected
+if [ ${#monitors[@]} -gt 1 ]; then
+    echo "Select a monitor:"
+    select monitor in "${monitors[@]}"; do
+        if [ -n "$monitor" ]; then
+            break
+        fi
+    done
+else
+    monitor="${monitors[0]}"
+    echo "Using monitor: $monitor"
+fi
+
+# Get current resolution for the selected monitor
+current_mode=$(xrandr | grep "^$monitor" -A100 | grep -E "^\s+[0-9]+x[0-9]+" | grep "\*" | awk '{print $1}')
+
+# Get available resolutions for the selected monitor
+mapfile -t resolutions < <(xrandr | grep "^$monitor" -A100 | grep -E "^\s+[0-9]+x[0-9]+" | awk '{print $1}' | sort -u -t'x' -k1,1nr -k2,2nr)
+
+if [ ${#resolutions[@]} -eq 0 ]; then
+    echo "No resolutions found for $monitor"
+    exit 1
+fi
+
+# Display resolutions with current one marked
+echo -e "\nAvailable resolutions for $monitor:"
+echo "(Current resolution: $current_mode)"
+echo
+
+# Create menu options with current resolution marked
+menu_options=()
+for res in "${resolutions[@]}"; do
+    if [ "$res" = "$current_mode" ]; then
+        menu_options+=("$res [CURRENT]")
+    else
+        menu_options+=("$res")
+    fi
+done
+
+# Select resolution
+select resolution_choice in "${menu_options[@]}" "Cancel"; do
+    if [ "$resolution_choice" = "Cancel" ]; then
+        echo "Cancelled."
+        exit 0
+    elif [ -n "$resolution_choice" ]; then
+        # Extract just the resolution part (remove [CURRENT] if present)
+        resolution=$(echo "$resolution_choice" | awk '{print $1}')
+        break
+    fi
+done
+
+# Check if selected resolution has multiple refresh rates
+refresh_rates=$(xrandr | grep "^$monitor" -A100 | grep -E "^\s+$resolution\s+" | grep -oE "[0-9]+\.[0-9]+|[0-9]+\s*\*|\+")
+
+# Count number of refresh rates
+num_rates=$(echo "$refresh_rates" | wc -l)
+
+if [ "$num_rates" -gt 1 ]; then
+    echo -e "\nMultiple refresh rates available for $resolution:"
+    mapfile -t rate_options < <(xrandr | grep "^$monitor" -A100 | grep -E "^\s+$resolution\s+" | awk '{for(i=2;i<=NF;i++) if($i ~ /[0-9]+\.[0-9]+/) print $i}')
+    
+    select rate in "${rate_options[@]}"; do
+        if [ -n "$rate" ]; then
+            refresh_rate="$rate"
+            break
+        fi
+    done
+else
+    # Use default refresh rate
+    refresh_rate=""
+fi
+
+# Apply the resolution
+echo -e "\nApplying resolution $resolution to $monitor..."
+
+if [ -n "$refresh_rate" ]; then
+    if xrandr --output "$monitor" --mode "$resolution" --rate "$refresh_rate"; then
+        dunstify --timeout=3000 "Resolution changed" "$monitor set to $resolution @ ${refresh_rate}Hz"
+        echo "Successfully set $monitor to $resolution @ ${refresh_rate}Hz"
+    else
+        echo "Failed to set resolution"
+        exit 1
+    fi
+else
+    if xrandr --output "$monitor" --mode "$resolution"; then
+        dunstify --timeout=3000 "Resolution changed" "$monitor set to $resolution"
+        echo "Successfully set $monitor to $resolution"
+    else
+        echo "Failed to set resolution"
+        exit 1
+    fi
+fi
