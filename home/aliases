@@ -12,10 +12,12 @@ alias woman='man'
 alias g="git"
 alias p="pnpm"
 alias t="tmux"
-alias a='autocil'
 alias ta="tmux attach"
 alias tnd="tmux_name_window_after_directory"
 alias tn="tmux_name_window"
+alias tc="tmux -S /tmp/control-app-tmux"
+alias tac="tmux -S /tmp/control-app-tmux attach"
+alias a='autocil'
 alias grh="grep_history"
 alias gsa="git-status-all"
 
