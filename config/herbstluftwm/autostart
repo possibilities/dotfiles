@@ -229,13 +229,6 @@ xdg-mime default com.google.Chrome.desktop x-scheme-handler/https
 
 hc set tree_style '╾│ ├└╼─┐'
 
-setxkbmap -option caps:escape
-
-# Load Xmodmap for Alt+HJKL arrow keys
-if [ -f ~/.Xmodmap ]; then
-    xmodmap ~/.Xmodmap
-fi
-
 hc unlock
 
 # Start Chrome and move it to tag 1

@@ -1,8 +1,6 @@
-! Swap caps lock and escape
+! Map caps lock to escape
 clear lock
 keycode 66 = Escape
-keycode 9 = Caps_Lock
-add lock = Caps_Lock
 
 ! Set Right Alt as Mode_switch
 keycode 108 = Mode_switch
