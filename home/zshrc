@@ -11,6 +11,9 @@ fi
 # Ignore duplicate history entries
 setopt histignoredups
 
+# Ignore commands that start with a space
+setopt HIST_IGNORE_SPACE
+
 # Allow comments in shell
 setopt interactivecomments
 
@@ -74,5 +77,3 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
-
-alias claude='/home/mike/.claude/local/claude'
