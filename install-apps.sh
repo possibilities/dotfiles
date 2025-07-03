@@ -47,5 +47,6 @@ install_flatpak gimp org.gimp.GIMP
 install_flatpak audacity org.audacityteam.Audacity
 install_flatpak avidemux org.avidemux.Avidemux
 install_flatpak kdiskmark io.github.jonmagon.kdiskmark
+install_flatpak steam com.valvesoftware.Steam
 
 echo "done installing apps."
