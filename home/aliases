@@ -43,7 +43,6 @@ alias copy='xclip -selection clipboard'
 alias clip='xclip -selection clipboard'
 alias clipboard='xclip -selection clipboard'
 
-alias c='claude-composer'
 alias claude='~/.claude/local/claude'
 alias claude-safe='claude'
 alias cs='claude-sessions'
@@ -81,30 +80,3 @@ gap() {
     
     echo "$patch_content" | git apply --3way
 }
-
-nvim-listen() {
-    local socket_path="/tmp/neovim-socket--$(echo "$PWD" | sed 's|^/||; s|/|-|g')"
-    nvim --listen "$socket_path" "$@"
-}
-
-run-prompt() {
-    local prompt_name="$1"
-    shift
-    local prompt_output
-    prompt_output=$(prompt-composer "$prompt_name")
-    if [ $? -ne 0 ]; then
-        return 1
-    fi
-    claude-composer "$prompt_output" "$@"
-}
-
-
-claude_ping() {
-  until timeout 30s bash -c "$HOME/.claude/local/claude \"are you alive?\" \
-    --print --max-turns 1 --model sonnet --output-format stream-json --verbose | jq ."
-  do
-    sleep 10
-  done
-  notify-send -u critical -t 0 "🧠 Claude Response" "Claude replied!"
-}
-alias pingclaude=claude_ping
