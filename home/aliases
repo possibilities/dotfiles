@@ -60,6 +60,14 @@ alias claude-upgrade='(
     fi
 )'
 
+claude-work() {
+    dirty-confirm && claude-inject && context-composer "$1" | claude --mcp-config ./.claude/inject-mcps.json "${@:2} ; claude-inject --uninject"
+}
+
+commit-work() {
+    claude-inject --uninject && commit-creator "$@"
+}
+
 source $HOME/.worktree-helpers
 source $HOME/.session-helpers
 
