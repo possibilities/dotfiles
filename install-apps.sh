@@ -19,6 +19,19 @@ install_flatpak () {
   sudo ln -sf /var/lib/flatpak/exports/bin/${FLATPAK_NAME} /usr/local/bin/${APP_NAME}
 }
 
+install_flatpak_from_url () {
+  APP_NAME=${1}
+  URL=${2}
+  FLATPAK_NAME=${3}
+  echo "install ${APP_NAME} from URL"
+  wget -O "/tmp/${APP_NAME}.flatpak" "${URL}"
+  sudo flatpak install "/tmp/${APP_NAME}.flatpak" --assumeyes
+  rm "/tmp/${APP_NAME}.flatpak"
+  flatpak override --user --filesystem=/steam ${FLATPAK_NAME}
+  sudo ln -sf /var/lib/flatpak/exports/bin/${FLATPAK_NAME} /usr/local/bin/${APP_NAME}
+}
+
+install_flatpak_from_url distill "https://utils.distill.io/electron/download/beta/linux/flatpak/latest" io.distill.distill
 install_flatpak trayscale dev.deedles.Trayscale
 install_flatpak blanket com.rafaelmardojai.Blanket
 install_flatpak obsidian md.obsidian.Obsidian
