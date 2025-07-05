@@ -61,7 +61,11 @@ alias claude-upgrade='(
 )'
 
 claude-work() {
-    dirty-confirm && claude-inject && context-composer "$1" | claude --mcp-config ./.claude/inject-mcps.json "${@:2} ; claude-inject --uninject"
+    if [ $# -eq 0 ]; then
+        echo "Error: claude-work requires at least 1 argument" >&2
+        return 1
+    fi
+    dirty-confirm && claude-inject && claude "$(context-composer "$1")" --mcp-config ./.claude/inject-mcps.json ${@:2} ; claude-inject --uninject
 }
 
 commit-work() {
