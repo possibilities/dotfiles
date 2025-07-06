@@ -167,12 +167,13 @@ let g:zenbones_darkness = '#0a0a0a'  " Match alacritty background
 
 colorscheme zenbones
 
-" Override background to match alacritty
-highlight Normal guibg=#0a0a0a ctermbg=NONE
-highlight NonText guibg=#0a0a0a ctermbg=NONE
-highlight EndOfBuffer guibg=#0a0a0a ctermbg=NONE
-highlight LineNr guibg=#0a0a0a ctermbg=NONE
-highlight SignColumn guibg=#0a0a0a ctermbg=NONE
+" Enable transparency for tmux pane styling
+highlight Normal guibg=NONE ctermbg=NONE
+highlight NonText guibg=NONE ctermbg=NONE
+highlight EndOfBuffer guibg=NONE ctermbg=NONE
+highlight LineNr guibg=NONE ctermbg=NONE
+highlight SignColumn guibg=NONE ctermbg=NONE
+highlight CursorLine guibg=#1a1a1a ctermbg=234
 
 " lightline
 set noshowmode " avoid duplicate modes displayed
