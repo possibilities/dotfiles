@@ -16,6 +16,8 @@ install_flatpak () {
   sudo flatpak install ${FLATPAK_NAME} --assumeyes
   sudo flatpak update ${FLATPAK_NAME} --assumeyes
   flatpak override --user --filesystem=/steam ${FLATPAK_NAME}
+  flatpak override --user --socket=x11 ${FLATPAK_NAME}
+  flatpak override --user --talk-name=org.freedesktop.portal.Desktop ${FLATPAK_NAME}
   sudo ln -sf /var/lib/flatpak/exports/bin/${FLATPAK_NAME} /usr/local/bin/${APP_NAME}
 }
 
@@ -28,6 +30,8 @@ install_flatpak_from_url () {
   sudo flatpak install "/tmp/${APP_NAME}.flatpak" --assumeyes
   rm "/tmp/${APP_NAME}.flatpak"
   flatpak override --user --filesystem=/steam ${FLATPAK_NAME}
+  flatpak override --user --socket=x11 ${FLATPAK_NAME}
+  flatpak override --user --talk-name=org.freedesktop.portal.Desktop ${FLATPAK_NAME}
   sudo ln -sf /var/lib/flatpak/exports/bin/${FLATPAK_NAME} /usr/local/bin/${APP_NAME}
 }
 
