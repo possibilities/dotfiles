@@ -233,3 +233,190 @@ create-new-ui-app() {
     # Run rebrand command
     claude /rebrand-ui
 }
+
+release-all-projects() {
+    local dry_run=false
+    
+    # Parse arguments
+    while [[ $# -gt 0 ]]; do
+        case $1 in
+            --dry-run|-d)
+                dry_run=true
+                shift
+                ;;
+            *)
+                echo "Error: Unknown option $1" >&2
+                echo "Usage: release-all-projects [--dry-run|-d]" >&2
+                return 1
+                ;;
+        esac
+    done
+    
+    if [ "$dry_run" = true ]; then
+        echo "=== DRY RUN MODE - No releases will be performed ==="
+        echo
+    fi
+    
+    local projects_found=0
+    local projects_needing_release=0
+    local current_dir=$(pwd)
+    local dirty_projects=()
+    
+    # Iterate through directories in ~/code
+    for dir in "$HOME/code"/*; do
+        # Skip if not a directory
+        [ ! -d "$dir" ] && continue
+        
+        # Get directory name
+        local project_name=$(basename "$dir")
+        
+        # Skip release-script directory
+        [ "$project_name" = "release-script" ] && continue
+        
+        # Check if release.sh exists
+        [ ! -f "$dir/release.sh" ] && continue
+        
+        # Check if package.json exists
+        if [ ! -f "$dir/package.json" ]; then
+            echo "Warning: $project_name has release.sh but no package.json, skipping"
+            continue
+        fi
+        
+        projects_found=$((projects_found + 1))
+        
+        # Change to project directory
+        cd "$dir" || continue
+        
+        # Get current version from package.json
+        local current_version=$(grep -o '"version":[[:space:]]*"[^"]*"' package.json | sed 's/.*"version":[[:space:]]*"\([^"]*\)".*/\1/')
+        
+        if [ -z "$current_version" ]; then
+            echo "Warning: Could not determine version for $project_name, skipping"
+            cd "$current_dir"
+            continue
+        fi
+        
+        # Check if there are commits since the last version tag
+        local version_tag="v$current_version"
+        local commits_since_tag=0
+        
+        # Check if the version tag exists
+        if git rev-parse "$version_tag" >/dev/null 2>&1; then
+            commits_since_tag=$(git rev-list "$version_tag"..HEAD --count 2>/dev/null || echo 0)
+        else
+            # If tag doesn't exist, count all commits
+            commits_since_tag=$(git rev-list HEAD --count 2>/dev/null || echo 0)
+        fi
+        
+        if [ "$commits_since_tag" -gt 0 ]; then
+            projects_needing_release=$((projects_needing_release + 1))
+            echo "📦 $project_name (v$current_version) - $commits_since_tag commits since last release"
+            
+            # Check if project is dirty (has uncommitted changes)
+            if [ "$dry_run" = true ]; then
+                if [ -n "$(git status --porcelain)" ]; then
+                    dirty_projects+=("$project_name")
+                fi
+            fi
+            
+            if [ "$dry_run" = false ]; then
+                echo "   Running: pnpm run release:patch"
+                pnpm run release:patch
+                echo
+            else
+                echo "   Would run: pnpm run release:patch"
+                echo
+            fi
+        fi
+        
+        # Return to original directory
+        cd "$current_dir"
+    done
+    
+    echo "═══════════════════════════════════════════════════════════"
+    echo "Scanned $projects_found projects with release.sh"
+    echo "$projects_needing_release projects need releasing"
+    
+    if [ "$dry_run" = true ]; then
+        if [ ${#dirty_projects[@]} -gt 0 ]; then
+            echo
+            echo -e "\033[33m⚠️  Warning: The following projects have uncommitted changes:\033[0m"
+            for project in "${dirty_projects[@]}"; do
+                echo -e "\033[33m   - $project\033[0m"
+            done
+            echo -e "\033[33mCommit or discard changes before releasing these projects.\033[0m"
+        fi
+        
+        if [ "$projects_needing_release" -gt 0 ]; then
+            echo
+            echo "Run 'release-all-projects' without --dry-run to perform releases"
+        fi
+    fi
+}
+
+comment-destroyer-report() {
+    local base_dir="$HOME/code"
+    local report_file="$base_dir/docs/comment-destroyer-report.md"
+    local current_dir=$(pwd)
+    local skipped_projects=()
+    
+    # Ensure docs directory exists
+    mkdir -p "$base_dir/docs"
+    
+    # Start the report
+    echo "# Comment Destroyer Report" > "$report_file"
+    echo "Generated on: $(date)" >> "$report_file"
+    echo "" >> "$report_file"
+    
+    # Loop through projects
+    for dir in "$base_dir"/*; do
+        [ ! -d "$dir" ] && continue
+        
+        local project_name=$(basename "$dir")
+        
+        # Skip if no package.json
+        [ ! -f "$dir/package.json" ] && continue
+        
+        cd "$dir" || continue
+        
+        # Check if git repo is clean
+        if [ -n "$(git status --porcelain 2>/dev/null)" ]; then
+            skipped_projects+=("$project_name")
+            cd "$current_dir"
+            continue
+        fi
+        
+        # Run comment-destroyer
+        echo "Processing $project_name..."
+        comment-destroyer 2>/dev/null
+        
+        # Capture the diff
+        local diff_output=$(git diff)
+        
+        if [ -n "$diff_output" ]; then
+            echo "## $project_name" >> "$report_file"
+            echo '```diff' >> "$report_file"
+            echo "$diff_output" >> "$report_file"
+            echo '```' >> "$report_file"
+            echo "" >> "$report_file"
+        fi
+        
+        # Revert changes
+        git reset --hard >/dev/null 2>&1
+        
+        cd "$current_dir"
+    done
+    
+    # Add skipped projects section
+    if [ ${#skipped_projects[@]} -gt 0 ]; then
+        echo "## Skipped Projects (Dirty)" >> "$report_file"
+        echo "" >> "$report_file"
+        echo "The following projects were skipped because they had uncommitted changes:" >> "$report_file"
+        echo "" >> "$report_file"
+        for project in "${skipped_projects[@]}"; do
+            echo "- $project" >> "$report_file"
+        done
+    fi
+    
+    echo "Report generated at: $report_file"
+}
