@@ -103,7 +103,11 @@ claude-work() {
     if [ $# -eq 0 ]; then
         dirty-confirm && claude-inject && claude --mcp-config ./.claude/inject-mcps.json
     else
-        dirty-confirm && claude-inject && claude "$(context-composer "$1")" --mcp-config ./.claude/inject-mcps.json ${@:2}
+        if [[ ! "$1" =~ ^/ ]]; then
+            echo "Error: First argument must start with a slash (/)" >&2
+            return 1
+        fi
+        dirty-confirm && claude-inject && claude $1 --mcp-config ./.claude/inject-mcps.json ${@:2}
     fi
 }
 
