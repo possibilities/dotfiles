@@ -60,16 +60,59 @@ alias claude-upgrade='(
     fi
 )'
 
-claude-work() {
-    if [ $# -eq 0 ]; then
-        echo "Error: claude-work requires at least 1 argument" >&2
+bt-connect() {
+    local paired_devices=$(bluetoothctl devices Paired | grep -i "headphone\|earphone\|airpod\|buds\|wh-\|wf-")
+    
+    if [ -z "$paired_devices" ]; then
+        echo "No paired headphones found"
         return 1
     fi
-    dirty-confirm && claude-inject && claude "$(context-composer "$1")" --mcp-config ./.claude/inject-mcps.json ${@:2} ; claude-inject --uninject
+    
+    echo "$paired_devices" | while read -r line; do
+        local mac_address=$(echo "$line" | awk '{print $2}')
+        local device_name=$(echo "$line" | cut -d' ' -f3-)
+        
+        echo "Attempting to connect to $device_name ($mac_address)..."
+        bluetoothctl connect "$mac_address" && {
+            echo "Successfully connected to $device_name"
+            return 0
+        }
+    done
+}
+
+bt-disconnect() {
+    local connected_devices=$(bluetoothctl devices Connected | grep -i "headphone\|earphone\|airpod\|buds\|wh-\|wf-")
+    
+    if [ -z "$connected_devices" ]; then
+        echo "No connected headphones found"
+        return 1
+    fi
+    
+    echo "$connected_devices" | while read -r line; do
+        local mac_address=$(echo "$line" | awk '{print $2}')
+        local device_name=$(echo "$line" | cut -d' ' -f3-)
+        
+        echo "Disconnecting from $device_name ($mac_address)..."
+        bluetoothctl disconnect "$mac_address" && {
+            echo "Successfully disconnected from $device_name"
+        }
+    done
+}
+
+claude-work() {
+    if [ $# -eq 0 ]; then
+        dirty-confirm && claude-inject && claude --mcp-config ./.claude/inject-mcps.json
+    else
+        dirty-confirm && claude-inject && claude "$(context-composer "$1")" --mcp-config ./.claude/inject-mcps.json ${@:2}
+    fi
+}
+
+claude-work-continue() {
+    dirty-confirm && claude-inject && claude --continue --mcp-config ./.claude/inject-mcps.json ${@:1}
 }
 
 commit-work() {
-    claude-inject --uninject && commit-creator "$@"
+    rm -rf ./.claude ; commit-creator "$@"
 }
 
 source $HOME/.worktree-helpers
@@ -91,4 +134,102 @@ gap() {
     fi
     
     echo "$patch_content" | git apply --3way
+}
+
+create-new-cli-app() {
+    if [ $# -eq 0 ]; then
+        echo "Error: create-new-cli-app requires a project name argument" >&2
+        echo "Usage: create-new-cli-app <project-name>" >&2
+        return 1
+    fi
+    
+    local project_name="$1"
+    local source_dir="$HOME/code/commanderjs-template"
+    local target_dir="$HOME/code/$project_name"
+    
+    # Check if source template exists
+    if [ ! -d "$source_dir" ]; then
+        echo "Error: Template directory not found at $source_dir" >&2
+        return 1
+    fi
+    
+    # Check if target directory already exists
+    if [ -d "$target_dir" ]; then
+        echo "Error: Directory $target_dir already exists" >&2
+        return 1
+    fi
+    
+    # Clone the template
+    echo "Creating new CLI app: $project_name"
+    cp -r "$source_dir" "$target_dir" || {
+        echo "Error: Failed to copy template" >&2
+        return 1
+    }
+    
+    # Change to the new project directory
+    cd "$target_dir" || {
+        echo "Error: Failed to cd into $target_dir" >&2
+        return 1
+    }
+    
+    # Remove existing .git directory
+    rm -rf .git
+    
+    # Initialize new git repository
+    git init
+    
+    # Create initial commit
+    commit-creator
+    
+    # Run rebrand command
+    claude /rebrand-cli
+}
+
+create-new-ui-app() {
+    if [ $# -eq 0 ]; then
+        echo "Error: create-new-ui-app requires a project name argument" >&2
+        echo "Usage: create-new-ui-app <project-name>" >&2
+        return 1
+    fi
+    
+    local project_name="$1"
+    local source_dir="$HOME/code/nextjs-template"
+    local target_dir="$HOME/code/$project_name"
+    
+    # Check if source template exists
+    if [ ! -d "$source_dir" ]; then
+        echo "Error: Template directory not found at $source_dir" >&2
+        return 1
+    fi
+    
+    # Check if target directory already exists
+    if [ -d "$target_dir" ]; then
+        echo "Error: Directory $target_dir already exists" >&2
+        return 1
+    fi
+    
+    # Clone the template
+    echo "Creating new UI app: $project_name"
+    cp -r "$source_dir" "$target_dir" || {
+        echo "Error: Failed to copy template" >&2
+        return 1
+    }
+    
+    # Change to the new project directory
+    cd "$target_dir" || {
+        echo "Error: Failed to cd into $target_dir" >&2
+        return 1
+    }
+    
+    # Remove existing .git directory
+    rm -rf .git
+    
+    # Initialize new git repository
+    git init
+    
+    # Create initial commit
+    commit-creator
+    
+    # Run rebrand command
+    claude /rebrand-ui
 }

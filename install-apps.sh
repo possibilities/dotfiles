@@ -13,8 +13,12 @@ install_flatpak () {
   APP_NAME=${1}
   FLATPAK_NAME=${2}
   echo "install ${APP_NAME}"
-  sudo flatpak install ${FLATPAK_NAME} --assumeyes
-  sudo flatpak update ${FLATPAK_NAME} --assumeyes
+  if flatpak list | grep -q ${FLATPAK_NAME}; then
+    echo "${APP_NAME} already installed, updating..."
+    sudo flatpak update ${FLATPAK_NAME} --assumeyes
+  else
+    sudo flatpak install ${FLATPAK_NAME} --assumeyes
+  fi
   flatpak override --user --filesystem=/steam ${FLATPAK_NAME}
   flatpak override --user --socket=x11 ${FLATPAK_NAME}
   flatpak override --user --talk-name=org.freedesktop.portal.Desktop ${FLATPAK_NAME}
@@ -26,9 +30,13 @@ install_flatpak_from_url () {
   URL=${2}
   FLATPAK_NAME=${3}
   echo "install ${APP_NAME} from URL"
-  wget -O "/tmp/${APP_NAME}.flatpak" "${URL}"
-  sudo flatpak install "/tmp/${APP_NAME}.flatpak" --assumeyes
-  rm "/tmp/${APP_NAME}.flatpak"
+  if flatpak list | grep -q ${FLATPAK_NAME}; then
+    echo "${APP_NAME} already installed, skipping download and install..."
+  else
+    wget -O "/tmp/${APP_NAME}.flatpak" "${URL}"
+    sudo flatpak install "/tmp/${APP_NAME}.flatpak" --assumeyes
+    rm "/tmp/${APP_NAME}.flatpak"
+  fi
   flatpak override --user --filesystem=/steam ${FLATPAK_NAME}
   flatpak override --user --socket=x11 ${FLATPAK_NAME}
   flatpak override --user --talk-name=org.freedesktop.portal.Desktop ${FLATPAK_NAME}
