@@ -22,6 +22,7 @@ alias grh="grep_history"
 alias gsa="git-status-all"
 alias sdp="show-dirty-projects"
 alias cdp="commit-dirty-projects"
+alias srv="show-repo-visibility"
 
 alias misc="git add . ; git ci -am'Misc'"
 alias miscpush="git add . ; git ci -am'Misc' ; git push"
@@ -830,4 +831,108 @@ commit-dirty-projects() {
             done
         fi
     fi
+}
+
+show-repo-visibility() {
+    local current_dir=$(pwd)
+    local public_count=0
+    local private_count=0
+    local no_remote_count=0
+    local error_count=0
+    local total_count=0
+    
+    echo -e "\033[1m🔍 Checking repository visibility in ~/code...\033[0m"
+    echo
+    
+    # Arrays to store repos by category
+    local public_repos=()
+    local private_repos=()
+    local no_remote_repos=()
+    local error_repos=()
+    
+    # Iterate through directories in ~/code
+    for dir in "$HOME/code"/*; do
+        [ ! -d "$dir" ] && continue
+        
+        local project_name=$(basename "$dir")
+        
+        # Skip special directories
+        [ "$project_name" = "backups" ] && continue
+        [ "$project_name" = "worktrees" ] && continue
+        
+        # Check if it's a git repo
+        [ ! -d "$dir/.git" ] && continue
+        
+        total_count=$((total_count + 1))
+        
+        cd "$dir" || continue
+        
+        # Check if repo has a remote
+        local remote_url=$(git config --get remote.origin.url 2>/dev/null)
+        
+        if [ -z "$remote_url" ]; then
+            no_remote_count=$((no_remote_count + 1))
+            no_remote_repos+=("$project_name")
+            cd "$current_dir"
+            continue
+        fi
+        
+        # Use gh repo view in the current directory
+        local visibility=$(gh repo view --json visibility 2>/dev/null | jq -r '.visibility' 2>/dev/null)
+        
+        if [ -n "$visibility" ]; then
+            if [ "$visibility" = "PUBLIC" ]; then
+                public_count=$((public_count + 1))
+                public_repos+=("$project_name")
+            elif [ "$visibility" = "PRIVATE" ]; then
+                private_count=$((private_count + 1))
+                private_repos+=("$project_name")
+            else
+                error_count=$((error_count + 1))
+                error_repos+=("$project_name (unknown visibility: $visibility)")
+            fi
+        else
+            error_count=$((error_count + 1))
+            error_repos+=("$project_name (unable to determine visibility)")
+        fi
+        
+        cd "$current_dir"
+    done
+    
+    # Display results
+    if [ ${#public_repos[@]} -gt 0 ]; then
+        echo -e "\033[32m🌐 Public repositories ($public_count):\033[0m"
+        for repo in "${public_repos[@]}"; do
+            echo "  - $repo"
+        done
+        echo
+    fi
+    
+    if [ ${#private_repos[@]} -gt 0 ]; then
+        echo -e "\033[33m🔒 Private repositories ($private_count):\033[0m"
+        for repo in "${private_repos[@]}"; do
+            echo "  - $repo"
+        done
+        echo
+    fi
+    
+    if [ ${#no_remote_repos[@]} -gt 0 ]; then
+        echo -e "\033[90m📁 Local only (no remote) ($no_remote_count):\033[0m"
+        for repo in "${no_remote_repos[@]}"; do
+            echo "  - $repo"
+        done
+        echo
+    fi
+    
+    if [ ${#error_repos[@]} -gt 0 ]; then
+        echo -e "\033[31m❌ Errors ($error_count):\033[0m"
+        for repo in "${error_repos[@]}"; do
+            echo "  - $repo"
+        done
+        echo
+    fi
+    
+    # Summary
+    echo -e "\033[1m═══════════════════════════════════════════════════════════\033[0m"
+    echo -e "\033[1mTotal repositories scanned: $total_count\033[0m"
 }
