@@ -130,8 +130,6 @@ commit-work() {
     rm -rf ./.claude ; commit-creator "$@"
 }
 
-source $HOME/.worktree-helpers
-source $HOME/.session-helpers
 
 gap() {
     local clipboard_content=$(xclip -selection clipboard -o)
