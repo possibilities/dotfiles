@@ -47,8 +47,6 @@ alias clip='xclip -selection clipboard'
 alias clipboard='xclip -selection clipboard'
 
 alias claude='~/.claude/local/claude'
-alias claude-safe='claude'
-alias cs='claude-sessions'
 alias claude-upgrade='(
     echo "Checking for Claude updates..." && 
     old_version=$(claude --version 2>/dev/null | grep -oP "\\d+\\.\\d+\\.\\d+") && 
@@ -200,8 +198,8 @@ create-new-cli-app() {
         return 1
     }
     
-    # Run rebrand command
-    claude /rebrand-cli
+
+    dirty-confirm && claude-inject && claude /rebrand-cli --mcp-config ./.claude/inject-mcps.json
 }
 
 create-new-ui-app() {
@@ -253,7 +251,7 @@ create-new-ui-app() {
     }
     
     # Run rebrand command
-    claude /rebrand-ui
+    dirty-confirm && claude-inject && claude /rebrand-ui --mcp-config ./.claude/inject-mcps.json
 }
 
 release-all-projects() {
@@ -594,15 +592,41 @@ git-grep-all() {
         return 0
     fi
     
-    # Create gist and show notification
+    # Create gist
     echo "Creating gist..."
-    gist "$output_file" --open &
     
-    notify-send "Git Grep Complete" "Found results in $repos_with_results repositories. Gist created and opened."
+    # Check if we're in SSH session or have no display
+    if [ -n "$SSH_CONNECTION" ] || [ -z "$DISPLAY" ]; then
+        # SSH or no display - just create gist without opening
+        local gist_url=$(gist "$output_file")
+        
+        if [ -n "$gist_url" ]; then
+            echo
+            echo "═══════════════════════════════════════════════════════════"
+            echo "Gist URL: $gist_url"
+            echo "═══════════════════════════════════════════════════════════"
+            echo
+        else
+            echo "Failed to create gist"
+        fi
+    else
+        # Local session with display - create and open gist
+        local gist_url=$(gist "$output_file" --open)
+        
+        if [ -n "$gist_url" ]; then
+            # Show notification
+            notify-send "Git Grep Complete" "Found results in $repos_with_results repositories. Gist created and opened."
+            
+            echo
+            echo "Gist URL: $gist_url"
+            echo "(Opened in browser)"
+            echo
+        else
+            echo "Failed to create gist"
+        fi
+    fi
     
-    echo
     echo "Results saved to: $output_file"
-    echo "Gist created and opened in browser"
 }
 
 show-dirty-projects() {
