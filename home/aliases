@@ -20,6 +20,8 @@ alias tac="tmux -S /tmp/control-app-tmux attach"
 alias a='autocil'
 alias grh="grep_history"
 alias gsa="git-status-all"
+alias sdp="show-dirty-projects"
+alias cdp="commit-dirty-projects"
 
 alias misc="git add . ; git ci -am'Misc'"
 alias miscpush="git add . ; git ci -am'Misc' ; git push"
@@ -600,4 +602,232 @@ git-grep-all() {
     echo
     echo "Results saved to: $output_file"
     echo "Gist created and opened in browser"
+}
+
+show-dirty-projects() {
+    local current_dir=$(pwd)
+    local dirty_count=0
+    local total_count=0
+    local show_details=false
+    
+    # Parse arguments
+    while [[ $# -gt 0 ]]; do
+        case $1 in
+            -d|--details)
+                show_details=true
+                shift
+                ;;
+            *)
+                echo "Usage: show-dirty-projects [-d|--details]" >&2
+                return 1
+                ;;
+        esac
+    done
+    
+    echo -e "\033[1m📁 Checking projects in ~/code...\033[0m"
+    echo
+    
+    # Iterate through directories in ~/code
+    for dir in "$HOME/code"/*; do
+        [ ! -d "$dir" ] && continue
+        
+        local project_name=$(basename "$dir")
+        
+        # Skip special directories
+        [ "$project_name" = "backups" ] && continue
+        [ "$project_name" = "worktrees" ] && continue
+        
+        # Check if it's a git repo
+        [ ! -d "$dir/.git" ] && continue
+        
+        total_count=$((total_count + 1))
+        
+        cd "$dir" || continue
+        
+        # Check for uncommitted changes
+        local status_output=$(git status --porcelain 2>/dev/null)
+        
+        if [ -n "$status_output" ]; then
+            dirty_count=$((dirty_count + 1))
+            
+            # Count different types of changes
+            local modified_count=$(echo "$status_output" | grep -c "^ M")
+            local added_count=$(echo "$status_output" | grep -c "^A ")
+            local deleted_count=$(echo "$status_output" | grep -c "^D ")
+            local untracked_count=$(echo "$status_output" | grep -c "^??")
+            local total_changes=$(echo "$status_output" | wc -l)
+            
+            # Display project with change summary
+            echo -e "\033[31m✗\033[0m \033[1m$project_name\033[0m"
+            echo -n "  "
+            
+            local summary=""
+            [ $modified_count -gt 0 ] && summary="${summary}${modified_count} modified, "
+            [ $added_count -gt 0 ] && summary="${summary}${added_count} added, "
+            [ $deleted_count -gt 0 ] && summary="${summary}${deleted_count} deleted, "
+            [ $untracked_count -gt 0 ] && summary="${summary}${untracked_count} untracked, "
+            
+            # Remove trailing comma and space
+            summary=${summary%, }
+            
+            echo -e "\033[90m($summary)\033[0m"
+            
+            # Show detailed status if requested
+            if [ "$show_details" = true ]; then
+                echo "$status_output" | sed 's/^/    /'
+                echo
+            fi
+        fi
+        
+        cd "$current_dir"
+    done
+    
+    # Summary
+    echo
+    echo -e "\033[1m═══════════════════════════════════════════════════════════\033[0m"
+    
+    if [ $dirty_count -eq 0 ]; then
+        echo -e "\033[32m✓ All $total_count projects are clean!\033[0m"
+    else
+        echo -e "\033[33m⚠️  Found $dirty_count dirty projects out of $total_count total\033[0m"
+        
+        if [ "$show_details" = false ]; then
+            echo -e "\033[90mRun 'show-dirty-projects --details' to see file changes\033[0m"
+        fi
+    fi
+}
+
+commit-dirty-projects() {
+    local current_dir=$(pwd)
+    local dirty_count=0
+    local committed_count=0
+    local failed_count=0
+    local dry_run=false
+    local failed_projects=()
+    local succeeded_projects=()
+    
+    # Parse arguments
+    while [[ $# -gt 0 ]]; do
+        case $1 in
+            --dry-run|-d)
+                dry_run=true
+                shift
+                ;;
+            *)
+                echo "Usage: commit-dirty-projects [--dry-run|-d]" >&2
+                return 1
+                ;;
+        esac
+    done
+    
+    echo -e "\033[1m🔍 Finding dirty projects in ~/code...\033[0m"
+    echo
+    
+    # First, find all dirty projects
+    local dirty_projects=()
+    for dir in "$HOME/code"/*; do
+        [ ! -d "$dir" ] && continue
+        
+        local project_name=$(basename "$dir")
+        
+        # Skip special directories
+        [ "$project_name" = "backups" ] && continue
+        [ "$project_name" = "worktrees" ] && continue
+        
+        # Check if it's a git repo
+        [ ! -d "$dir/.git" ] && continue
+        
+        cd "$dir" || continue
+        
+        # Check for uncommitted changes
+        if [ -n "$(git status --porcelain 2>/dev/null)" ]; then
+            dirty_projects+=("$dir")
+            dirty_count=$((dirty_count + 1))
+        fi
+        
+        cd "$current_dir"
+    done
+    
+    if [ ${#dirty_projects[@]} -eq 0 ]; then
+        echo -e "\033[32m✓ No dirty projects found!\033[0m"
+        return 0
+    fi
+    
+    echo -e "\033[33mFound $dirty_count dirty projects:\033[0m"
+    for project_dir in "${dirty_projects[@]}"; do
+        echo "  - $(basename "$project_dir")"
+    done
+    echo
+    
+    if [ "$dry_run" = true ]; then
+        echo -e "\033[36m🔸 DRY RUN MODE - No commits will be created\033[0m"
+        echo
+    fi
+    
+    # Process each dirty project
+    for project_dir in "${dirty_projects[@]}"; do
+        local project_name=$(basename "$project_dir")
+        
+        echo -e "\033[1m📦 Processing: $project_name\033[0m"
+        
+        cd "$project_dir" || {
+            echo -e "\033[31m  ✗ Failed to change to directory\033[0m"
+            failed_count=$((failed_count + 1))
+            failed_projects+=("$project_name")
+            continue
+        }
+        
+        if [ "$dry_run" = true ]; then
+            echo -e "\033[36m  Would run: rm -rf .claude && commit-creator\033[0m"
+            
+            # Show what changes would be committed
+            local status_output=$(git status --porcelain)
+            local change_count=$(echo "$status_output" | wc -l)
+            echo -e "\033[90m  Changes to be committed: $change_count files\033[0m"
+        else
+            # Remove .claude directory
+            rm -rf .claude
+            
+            # Run commit-creator
+            if commit-creator; then
+                echo -e "\033[32m  ✓ Successfully committed\033[0m"
+                committed_count=$((committed_count + 1))
+                succeeded_projects+=("$project_name")
+            else
+                echo -e "\033[31m  ✗ Failed to create commit\033[0m"
+                failed_count=$((failed_count + 1))
+                failed_projects+=("$project_name")
+            fi
+        fi
+        
+        echo
+        cd "$current_dir"
+    done
+    
+    # Summary
+    echo -e "\033[1m═══════════════════════════════════════════════════════════\033[0m"
+    
+    if [ "$dry_run" = true ]; then
+        echo -e "\033[36m🔸 DRY RUN SUMMARY:\033[0m"
+        echo -e "\033[36m   Would process $dirty_count projects\033[0m"
+        echo
+        echo -e "\033[90mRun 'commit-dirty-projects' without --dry-run to create commits\033[0m"
+    else
+        echo -e "\033[1mSUMMARY:\033[0m"
+        echo -e "  Total dirty projects: $dirty_count"
+        
+        if [ $committed_count -gt 0 ]; then
+            echo -e "  \033[32m✓ Successfully committed: $committed_count\033[0m"
+            for project in "${succeeded_projects[@]}"; do
+                echo -e "    \033[32m- $project\033[0m"
+            done
+        fi
+        
+        if [ $failed_count -gt 0 ]; then
+            echo -e "  \033[31m✗ Failed: $failed_count\033[0m"
+            for project in "${failed_projects[@]}"; do
+                echo -e "    \033[31m- $project\033[0m"
+            done
+        fi
+    fi
 }
