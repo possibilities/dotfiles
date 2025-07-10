@@ -107,6 +107,17 @@ claude-work() {
             echo "Error: First argument must start with a slash (/)" >&2
             return 1
         fi
+        
+        # Extract command name (part after the slash)
+        local command_name="${1#/}"
+        local command_file="$HOME/.claude/commands/${command_name}.md"
+        
+        # Check if command file exists
+        if [ ! -f "$command_file" ]; then
+            echo "Error: Command file not found: $command_file" >&2
+            return 1
+        fi
+        
         dirty-confirm && claude-inject && claude $1 --mcp-config ./.claude/inject-mcps.json ${@:2}
     fi
 }
@@ -183,7 +194,10 @@ create-new-cli-app() {
     git init
     
     # Create initial commit
-    commit-creator
+    commit-creator || {
+        echo "Error: Failed to create initial commit" >&2
+        return 1
+    }
     
     # Run rebrand command
     claude /rebrand-cli
@@ -232,7 +246,10 @@ create-new-ui-app() {
     git init
     
     # Create initial commit
-    commit-creator
+    commit-creator || {
+        echo "Error: Failed to create initial commit" >&2
+        return 1
+    }
     
     # Run rebrand command
     claude /rebrand-ui
@@ -423,4 +440,166 @@ comment-destroyer-report() {
     fi
     
     echo "Report generated at: $report_file"
+}
+
+update-release-scripts() {
+    local source_release="$HOME/code/release-script/release.sh"
+    local current_dir=$(pwd)
+    local updated_projects=()
+    local dirty_projects=()
+    local projects_checked=0
+    local projects_updated=0
+    
+    # Check if source release.sh exists
+    if [ ! -f "$source_release" ]; then
+        echo "Error: Source release.sh not found at $source_release" >&2
+        return 1
+    fi
+    
+    echo "Updating release.sh files across all projects..."
+    echo
+    
+    # Find all projects with release.sh
+    for dir in "$HOME/code"/*; do
+        [ ! -d "$dir" ] && continue
+        
+        local project_name=$(basename "$dir")
+        local project_release="$dir/release.sh"
+        
+        # Skip if no release.sh exists
+        [ ! -f "$project_release" ] && continue
+        
+        projects_checked=$((projects_checked + 1))
+        
+        # Compare with source
+        if cmp -s "$source_release" "$project_release"; then
+            # Files are identical, skip
+            continue
+        fi
+        
+        # Files are different, need to update
+        cd "$dir" || continue
+        
+        # Check if repo is dirty
+        if [ -n "$(git status --porcelain 2>/dev/null)" ]; then
+            dirty_projects+=("$project_name")
+            cd "$current_dir"
+            continue
+        fi
+        
+        # Copy the new release.sh
+        echo "📝 Updating release.sh in $project_name"
+        cp "$source_release" "$project_release" || {
+            echo "Error: Failed to copy release.sh to $project_name" >&2
+            cd "$current_dir"
+            continue
+        }
+        
+        # Create commit
+        commit-creator || {
+            echo "Error: Failed to create commit in $project_name" >&2
+            # Revert the change
+            git reset --hard >/dev/null 2>&1
+            cd "$current_dir"
+            continue
+        }
+        
+        updated_projects+=("$project_name")
+        projects_updated=$((projects_updated + 1))
+        
+        cd "$current_dir"
+    done
+    
+    # Summary
+    echo
+    echo "═══════════════════════════════════════════════════════════"
+    echo "✅ Checked $projects_checked projects with release.sh"
+    echo "📦 Updated $projects_updated projects"
+    
+    if [ ${#updated_projects[@]} -gt 0 ]; then
+        echo
+        echo "Updated projects:"
+        for project in "${updated_projects[@]}"; do
+            echo "  - $project"
+        done
+    fi
+    
+    if [ ${#dirty_projects[@]} -gt 0 ]; then
+        echo
+        echo -e "\033[31m⚠️  The following projects were skipped due to uncommitted changes:\033[0m"
+        for project in "${dirty_projects[@]}"; do
+            echo -e "\033[31m  - $project\033[0m"
+        done
+        echo -e "\033[31mCommit or discard changes in these projects before updating release.sh\033[0m"
+    fi
+}
+
+git-grep-all() {
+    if [ $# -eq 0 ]; then
+        echo "Error: git-grep-all requires arguments to pass to git grep" >&2
+        echo "Usage: git-grep-all <git-grep-arguments>" >&2
+        return 1
+    fi
+    
+    local current_dir=$(pwd)
+    local timestamp=$(date +%Y%m%d_%H%M%S)
+    local output_file="/tmp/git-grep-all-${timestamp}.md"
+    local repos_searched=0
+    local repos_with_results=0
+    
+    # Create markdown header
+    echo "# Git Grep Results" > "$output_file"
+    echo "Generated: $(date)" >> "$output_file"
+    echo "Search arguments: \`git grep $@\`" >> "$output_file"
+    echo "" >> "$output_file"
+    
+    echo "Searching all git repositories in ~/code..."
+    
+    # Find all directories with .git
+    for dir in "$HOME/code"/*; do
+        [ ! -d "$dir/.git" ] && continue
+        
+        local project_name=$(basename "$dir")
+        cd "$dir" || continue
+        
+        repos_searched=$((repos_searched + 1))
+        
+        # Run git grep and capture output
+        local grep_output=$(git grep "$@" 2>/dev/null)
+        
+        if [ -n "$grep_output" ]; then
+            repos_with_results=$((repos_with_results + 1))
+            echo "Found matches in: $project_name"
+            
+            # Add to markdown
+            echo "## $project_name" >> "$output_file"
+            echo '```' >> "$output_file"
+            echo "$grep_output" >> "$output_file"
+            echo '```' >> "$output_file"
+            echo "" >> "$output_file"
+        fi
+        
+        cd "$current_dir"
+    done
+    
+    # Add summary
+    echo "" >> "$output_file"
+    echo "---" >> "$output_file"
+    echo "Searched $repos_searched repositories, found results in $repos_with_results" >> "$output_file"
+    
+    if [ "$repos_with_results" -eq 0 ]; then
+        echo "No matches found in any repository"
+        rm "$output_file"
+        return 0
+    fi
+    
+    # Create gist and show notification
+    echo "Creating gist..."
+    gist "$output_file" --open &
+    
+    notify-send "Git Grep Complete" "Found results in $repos_with_results repositories. Gist created and opened."
+    
+    echo
+    echo "Results saved to: $output_file"
+    echo "Gist created and opened in browser"
 }
