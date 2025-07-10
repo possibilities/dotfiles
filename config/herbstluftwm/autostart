@@ -32,6 +32,7 @@ hc keybind Control-Shift-$Mod-z spawn /home/mike/code/dotfiles/bin/clear-tag.sh
 
 hc keybind Control-Shift-$Mod-c spawn /home/mike/code/dotfiles/bin/copy-mouse-coordinates.sh
 hc keybind Control-Shift-$Mod-t spawn /home/mike/code/dotfiles/bin/copy-timestamp.py
+hc keybind Control-Shift-$Mod-s spawn sh -c 'echo -n "¯\_(ツ)_/¯" | xclip -selection clipboard'
 
 hc keybind $Mod-m set_attr clients.focus.minimized toggle
 hc keybind $Mod-Shift-m spawn rofi -show windowcd -modi windowcd,window
