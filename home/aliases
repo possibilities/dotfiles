@@ -104,10 +104,15 @@ claude-work() {
     if [ $# -eq 0 ]; then
         dirty-confirm && claude-inject && claude --mcp-config ./.claude/inject-mcps.json
     else
-        if [[ ! "$1" =~ ^/ ]]; then
-            echo "Error: First argument must start with a slash (/)" >&2
-            return 1
-        fi
+        case "$1" in
+            /*|\"*|\'*|-*)
+                # Argument starts with /, ", ', or - - valid
+                ;;
+            *)
+                echo "Error: First argument must start with /, \", ', or -" >&2
+                return 1
+                ;;
+        esac
         
         # Extract command name (part after the slash)
         local command_name="${1#/}"

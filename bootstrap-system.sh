@@ -33,7 +33,10 @@ sudo apt install --yes \
   xdotool \
   wipe \
   rsnapshot \
-  dnsmasq
+  dnsmasq \
+  nginx \
+  openssl \
+  ca-certificates
 
 get_latest_version() {
     local REDIRECTED_RELEASE_URL

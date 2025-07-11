@@ -111,4 +111,12 @@ fi
 
 $PWD/setup-wildcard-dns.sh
 
+echo "setup nginx port forwarding"
+
+$PWD/setup-nginx-port-forward.sh
+
+echo "setup nginx SSL"
+
+$PWD/setup-nginx-ssl.sh
+
 echo "done installing dotfiles."
