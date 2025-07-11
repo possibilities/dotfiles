@@ -1,3 +1,3 @@
 commands:
   run-agent: dirty-confirm && claude-inject && claude /work-on-project --mcp-config .claude/inject-mcps.json
-  before-finish: rm -rf ./.claude && commit-creator
+  before-finish: rm -rf ./.claude && commit-composer

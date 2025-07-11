@@ -128,7 +128,7 @@ claude-work-continue() {
 }
 
 commit-work() {
-    rm -rf ./.claude ; commit-creator "$@"
+    rm -rf ./.claude ; commit-composer "$@"
 }
 
 
@@ -193,7 +193,7 @@ create-new-cli-app() {
     git init
     
     # Create initial commit
-    commit-creator || {
+    commit-composer || {
         echo "Error: Failed to create initial commit" >&2
         return 1
     }
@@ -245,7 +245,7 @@ create-new-ui-app() {
     git init
     
     # Create initial commit
-    commit-creator || {
+    commit-composer || {
         echo "Error: Failed to create initial commit" >&2
         return 1
     }
@@ -495,7 +495,7 @@ update-release-scripts() {
         }
         
         # Create commit
-        commit-creator || {
+        commit-composer || {
             echo "Error: Failed to create commit in $project_name" >&2
             # Revert the change
             git reset --hard >/dev/null 2>&1
@@ -803,7 +803,7 @@ commit-dirty-projects() {
         }
         
         if [ "$dry_run" = true ]; then
-            echo -e "\033[36m  Would run: rm -rf .claude && commit-creator\033[0m"
+            echo -e "\033[36m  Would run: rm -rf .claude && commit-composer\033[0m"
             
             # Show what changes would be committed
             local status_output=$(git status --porcelain)
@@ -813,8 +813,8 @@ commit-dirty-projects() {
             # Remove .claude directory
             rm -rf .claude
             
-            # Run commit-creator
-            if commit-creator; then
+            # Run commit-composer
+            if commit-composer; then
                 echo -e "\033[32m  ✓ Successfully committed\033[0m"
                 committed_count=$((committed_count + 1))
                 succeeded_projects+=("$project_name")
