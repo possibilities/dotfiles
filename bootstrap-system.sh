@@ -32,7 +32,8 @@ sudo apt install --yes \
   scrot \
   xdotool \
   wipe \
-  rsnapshot
+  rsnapshot \
+  dnsmasq
 
 get_latest_version() {
     local REDIRECTED_RELEASE_URL
