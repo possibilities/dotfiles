@@ -40,26 +40,25 @@ else
 fi
 
 show() {
-    # Save current focus before hiding other scratchpads
-    local current_focus=$(hc attr monitors.focus.index)
+    # Lock to prevent visual updates during changes
+    hc lock
     
-    # Hide all other scratchpads first
+    # Hide all other scratchpads
     for i in {1..5}; do
         other_monitor="scratchpad_scratch${i}"
         if [ "$other_monitor" != "$monitor" ]; then
-            # Check if this scratchpad exists and is focused
-            if hc compare monitors.focus.name = "$other_monitor" 2>/dev/null; then
-                # Focus main monitor before removing
-                hc focus_monitor 0
-            fi
             hc remove_monitor "$other_monitor" 2>/dev/null
         fi
     done
     
-    hc lock
+    # Show the new scratchpad
     hc raise_monitor "$monitor"
-    hc focus_monitor "$monitor"
+    
+    # Unlock before focusing to ensure proper focus handling
     hc unlock
+    
+    # Now focus the monitor and lock the tag
+    hc focus_monitor "$monitor"
     hc lock_tag "$monitor"
 }
 
