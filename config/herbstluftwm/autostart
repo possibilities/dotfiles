@@ -42,6 +42,8 @@ hc keybind $Mod-Alt-Control-h spawn rofi -modi "clipboard:greenclip print" -show
 default_term='alacritty'
 hc keybind $Mod-Return spawn ${TERMINAL:-$default_term}
 
+hc keybind $Mod-F1 spawn /home/mike/code/dotfiles/bin/scratchpad.sh
+
 hc keybind $Mod-d spawn rofi -show drun -sort -matching fuzzy -sorting-method fzf
 hc keybind $Mod-Shift-d spawn rofi -show run
 
