@@ -1,27 +1,31 @@
 #!/usr/bin/env bash
 
-# herbstluftwm scratchpad for dropdown terminals
-# Based on the official herbstluftwm scratchpad.sh
+# herbstluftwm scratchpad for multiple independent scratchpads
+# Usage: scratchpad.sh [tag] [width%] [height%]
 
 tag="${1:-scratchpad}"
+width_percent="${2:-60}"
+height_percent="${3:-40}"
+
 hc() { herbstclient "$@" ;}
 
-mrect=( $(hc monitor_rect "") )
+mrect=( $(hc monitor_rect "0") )
 
 width=${mrect[2]}
 height=${mrect[3]}
 
-# Configure scratchpad size (60% width, 40% height, centered)
+# Calculate scratchpad geometry
 rect=(
-    $((width*60/100))
-    $((height*40/100))
-    $((${mrect[0]}+(width*20/100)))
+    $((width*width_percent/100))
+    $((height*height_percent/100))
+    $((${mrect[0]}+(width*(100-width_percent)/200)))
     $((${mrect[1]}+20))
 )
 
 hc chain , add "$tag" , set_attr tags.by-name."$tag".at_end true
 
-monitor=scratchpad
+# Use unique monitor name based on tag
+monitor="scratchpad_${tag}"
 
 exists=false
 if ! hc add_monitor $(printf "%dx%d%+d%+d" "${rect[@]}") \
@@ -36,6 +40,22 @@ else
 fi
 
 show() {
+    # Save current focus before hiding other scratchpads
+    local current_focus=$(hc attr monitors.focus.index)
+    
+    # Hide all other scratchpads first
+    for i in {1..5}; do
+        other_monitor="scratchpad_scratch${i}"
+        if [ "$other_monitor" != "$monitor" ]; then
+            # Check if this scratchpad exists and is focused
+            if hc compare monitors.focus.name = "$other_monitor" 2>/dev/null; then
+                # Focus main monitor before removing
+                hc focus_monitor 0
+            fi
+            hc remove_monitor "$other_monitor" 2>/dev/null
+        fi
+    done
+    
     hc lock
     hc raise_monitor "$monitor"
     hc focus_monitor "$monitor"
