@@ -43,7 +43,7 @@ default_term='alacritty'
 hc keybind $Mod-Return spawn ${TERMINAL:-$default_term}
 
 hc keybind $Mod-F1 spawn /home/mike/code/dotfiles/bin/scratchpad.sh -n 1 --initial "/usr/bin/flatpak run --branch=stable --arch=x86_64 --command=/app/bin/chrome --file-forwarding com.google.Chrome --app=https://tmux.fatbird --enable-features=WebUIDarkMode --force-dark-mode"
-hc keybind $Mod-F2 spawn /home/mike/code/dotfiles/bin/scratchpad.sh -n 2 --width 20
+hc keybind $Mod-F2 spawn /home/mike/code/dotfiles/bin/scratchpad.sh -n 2 --initial "alacritty -e \$SHELL -lic 'tmux-composer start-system; exec \$SHELL'"
 hc keybind $Mod-F3 spawn /home/mike/code/dotfiles/bin/scratchpad.sh -n 3
 hc keybind $Mod-F4 spawn /home/mike/code/dotfiles/bin/scratchpad.sh -n 4
 hc keybind $Mod-F5 spawn /home/mike/code/dotfiles/bin/scratchpad.sh -n 5

@@ -88,7 +88,7 @@ hc silent new_attr bool "$initialized_attr" false
 if [[ -n "$initial_command" ]] && hc compare "$initialized_attr" = false 2>/dev/null; then
     hc set_attr "$initialized_attr" true
     hc rule once tag="$scratchpad_tag" focus=off
-    hc spawn $initial_command
+    eval "hc spawn $initial_command"
 fi
 
 hc lock
