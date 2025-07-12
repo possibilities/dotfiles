@@ -6,7 +6,7 @@ Usage: scratchpad.sh [OPTIONS]
 Toggle a floating scratchpad window.
 
 Options:
-  -n, --number NUM    Scratchpad number (1-5, default: 1)
+  -n, --number NUM    Scratchpad number (1-8, default: 1)
   -w, --width PCT     Width percentage (10-100, default: 50)
   -h, --height PCT    Height percentage (10-100, default: 50)
   --initial CMD       Command to run when scratchpad is first created
@@ -57,8 +57,8 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-if [[ ! "$tag" =~ ^[1-5]$ ]]; then
-    echo "Error: Scratchpad number must be 1-5" >&2
+if [[ ! "$tag" =~ ^[1-8]$ ]]; then
+    echo "Error: Scratchpad number must be 1-8" >&2
     exit 1
 fi
 

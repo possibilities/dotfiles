@@ -30,8 +30,8 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-if [[ ! "$tag" =~ ^[1-5]$ ]]; then
-    echo "Error: Scratchpad number must be 1-5" >&2
+if [[ ! "$tag" =~ ^[1-8]$ ]]; then
+    echo "Error: Scratchpad number must be 1-8" >&2
     exit 1
 fi
 

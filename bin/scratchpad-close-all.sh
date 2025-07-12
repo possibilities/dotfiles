@@ -4,7 +4,7 @@ exclude="${1:-}"
 
 hc() { "${herbstclient_command[@]:-herbstclient}" "$@" ;}
 
-for i in {1..5}; do
+for i in {1..8}; do
     if [[ "$i" != "$exclude" ]]; then
         monitor_name="scratchpad_$i"
         hc silent remove_monitor "$monitor_name"
