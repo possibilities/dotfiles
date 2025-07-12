@@ -109,14 +109,14 @@ if dpkg -l resolvconf 2>/dev/null | grep -q "^iF"; then
     sudo dpkg --configure resolvconf || true
 fi
 
-$PWD/setup-wildcard-dns.sh
+$PWD/scripts/setup/setup-wildcard-dns.sh
 
 echo "setup nginx port forwarding"
 
-$PWD/setup-nginx-port-forward.sh
+$PWD/scripts/setup/setup-nginx-port-forward.sh
 
 echo "setup nginx SSL"
 
-$PWD/setup-nginx-ssl.sh
+$PWD/scripts/setup/setup-nginx-mkcert.sh
 
 echo "done installing dotfiles."
