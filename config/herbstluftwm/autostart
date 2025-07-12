@@ -51,6 +51,7 @@ hc keybind $Mod-F6 spawn /home/mike/code/dotfiles/bin/scratchpad.sh -n 6
 hc keybind $Mod-F7 spawn /home/mike/code/dotfiles/bin/scratchpad.sh -n 7
 hc keybind $Mod-F8 spawn /home/mike/code/dotfiles/bin/scratchpad.sh -n 8
 hc keybind $Mod-F9 spawn /home/mike/code/dotfiles/bin/scratchpad-close-all.sh
+hc keybind $Mod-F10 spawn /home/mike/code/dotfiles/bin/scratchpad-reset.sh
 
 hc keybind $Mod-d spawn rofi -show drun -sort -matching fuzzy -sorting-method fzf
 hc keybind $Mod-Shift-d spawn rofi -show run
