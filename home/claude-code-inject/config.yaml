@@ -43,3 +43,12 @@ hooks:
       hooks:
         - type: command
           command: claude-code-generic-hooks store ~/.claude/hooks.db
+  PreCompact:
+    - matcher: "auto"
+      hooks:
+        - type: command
+          command: npx claude-code-generic-hooks store ~/.claude/hooks.db
+    - matcher: "manual"
+      hooks:
+        - type: command
+          command: npx claude-code-generic-hooks store ~/.claude/hooks.db
