@@ -3,6 +3,7 @@
 tag=1
 width_percent=50
 height_percent=50
+initial_command=""
 
 while [[ $# -gt 0 ]]; do
     case $1 in
@@ -16,6 +17,10 @@ while [[ $# -gt 0 ]]; do
             ;;
         -h|--height)
             height_percent="$2"
+            shift 2
+            ;;
+        --initial)
+            initial_command="$2"
             shift 2
             ;;
         *)
@@ -63,6 +68,15 @@ fi
 
 hc silent new_attr string my_scratchpad_current ""
 hc set_attr my_scratchpad_current "$tag"
+
+initialized_attr="my_scratchpad_initialized_$tag"
+hc silent new_attr bool "$initialized_attr" false
+
+if [[ -n "$initial_command" ]] && hc compare "$initialized_attr" = false 2>/dev/null; then
+    hc set_attr "$initialized_attr" true
+    hc rule once tag="$scratchpad_tag" focus=off
+    hc spawn $initial_command
+fi
 
 hc lock
 hc raise_monitor "$monitor_name"
