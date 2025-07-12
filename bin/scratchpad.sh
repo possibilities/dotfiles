@@ -1,9 +1,66 @@
 #!/usr/bin/env bash
 
-tag="${1:-1}"
+print_usage() {
+    cat << EOF
+Usage: scratchpad.sh [OPTIONS]
+Toggle a floating scratchpad window.
+
+Options:
+  -n, --number NUM    Scratchpad number (1-5, default: 1)
+  -w, --width PCT     Width percentage (10-100, default: 50)
+  -h, --height PCT    Height percentage (10-100, default: 50)
+  --help              Show this help message
+
+Examples:
+  scratchpad.sh                    # Toggle scratchpad 1 with default size
+  scratchpad.sh -n 2               # Toggle scratchpad 2 with default size
+  scratchpad.sh -w 80 -h 60        # Toggle scratchpad 1 with 80% width, 60% height
+  scratchpad.sh -n 3 -w 30 -h 40   # Toggle scratchpad 3 with custom size
+EOF
+}
+
+tag=1
+width_percent=50
+height_percent=50
+
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -n|--number)
+            tag="$2"
+            shift 2
+            ;;
+        -w|--width)
+            width_percent="$2"
+            shift 2
+            ;;
+        -h|--height)
+            height_percent="$2"
+            shift 2
+            ;;
+        --help)
+            print_usage
+            exit 0
+            ;;
+        *)
+            echo "Error: Unknown option $1" >&2
+            print_usage >&2
+            exit 1
+            ;;
+    esac
+done
 
 if [[ ! "$tag" =~ ^[1-5]$ ]]; then
-    echo "Error: Scratchpad name must be 1-5" >&2
+    echo "Error: Scratchpad number must be 1-5" >&2
+    exit 1
+fi
+
+if [[ ! "$width_percent" =~ ^[0-9]+$ ]] || [[ "$width_percent" -lt 10 ]] || [[ "$width_percent" -gt 100 ]]; then
+    echo "Error: Width percentage must be between 10-100" >&2
+    exit 1
+fi
+
+if [[ ! "$height_percent" =~ ^[0-9]+$ ]] || [[ "$height_percent" -lt 10 ]] || [[ "$height_percent" -gt 100 ]]; then
+    echo "Error: Height percentage must be between 10-100" >&2
     exit 1
 fi
 
@@ -25,11 +82,11 @@ if [[ -n "$current_scratchpad" ]]; then
         
         hc set_attr my_scratchpad_original_focus ""
     else
-        "$HOME/code/dotfiles/bin/scratchpad-toggle.sh" "$tag"
+        "$HOME/code/dotfiles/bin/scratchpad-toggle.sh" -n "$tag" -w "$width_percent" -h "$height_percent"
     fi
 else
     current_monitor=$(hc get_attr monitors.focus.index)
     hc set_attr my_scratchpad_original_focus "$current_monitor"
     
-    "$HOME/code/dotfiles/bin/scratchpad-show.sh" "$tag"
+    "$HOME/code/dotfiles/bin/scratchpad-show.sh" -n "$tag" -w "$width_percent" -h "$height_percent"
 fi
