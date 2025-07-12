@@ -3,6 +3,8 @@
 tag=1
 width_percent=50
 height_percent=50
+x_percent=50
+y_percent=50
 initial_command=""
 
 while [[ $# -gt 0 ]]; do
@@ -17,6 +19,14 @@ while [[ $# -gt 0 ]]; do
             ;;
         -h|--height)
             height_percent="$2"
+            shift 2
+            ;;
+        --x)
+            x_percent="$2"
+            shift 2
+            ;;
+        --y)
+            y_percent="$2"
             shift 2
             ;;
         --initial)
@@ -36,8 +46,8 @@ if [[ ! "$tag" =~ ^[1-8]$ ]]; then
 fi
 
 if [[ -n "$initial_command" ]]; then
-    "$HOME/code/dotfiles/bin/scratchpad-show.sh" -n "$tag" -w "$width_percent" -h "$height_percent" --initial "$initial_command"
+    "$HOME/code/dotfiles/bin/scratchpad-show.sh" -n "$tag" -w "$width_percent" -h "$height_percent" --x "$x_percent" --y "$y_percent" --initial "$initial_command"
 else
-    "$HOME/code/dotfiles/bin/scratchpad-show.sh" -n "$tag" -w "$width_percent" -h "$height_percent"
+    "$HOME/code/dotfiles/bin/scratchpad-show.sh" -n "$tag" -w "$width_percent" -h "$height_percent" --x "$x_percent" --y "$y_percent"
 fi
 "$HOME/code/dotfiles/bin/scratchpad-close-all.sh" "$tag"

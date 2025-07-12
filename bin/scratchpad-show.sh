@@ -3,6 +3,8 @@
 tag=1
 width_percent=50
 height_percent=50
+x_percent=50
+y_percent=50
 initial_command=""
 
 while [[ $# -gt 0 ]]; do
@@ -17,6 +19,14 @@ while [[ $# -gt 0 ]]; do
             ;;
         -h|--height)
             height_percent="$2"
+            shift 2
+            ;;
+        --x)
+            x_percent="$2"
+            shift 2
+            ;;
+        --y)
+            y_percent="$2"
             shift 2
             ;;
         --initial)
@@ -45,8 +55,11 @@ monitor_height=${mrect[3]}
 scratchpad_width=$((monitor_width * width_percent / 100))
 scratchpad_height=$((monitor_height * height_percent / 100))
 
-x_offset=$(( ${mrect[0]} + (monitor_width - scratchpad_width) / 2 ))
-y_offset=$(( ${mrect[1]} + (monitor_height - scratchpad_height) / 2 ))
+center_x=$(( ${mrect[0]} + monitor_width * x_percent / 100 ))
+center_y=$(( ${mrect[1]} + monitor_height * y_percent / 100 ))
+
+x_offset=$(( center_x - scratchpad_width / 2 ))
+y_offset=$(( center_y - scratchpad_height / 2 ))
 
 rect=(
     $scratchpad_width
