@@ -75,20 +75,12 @@ fi
 hc() { "${herbstclient_command[@]:-herbstclient}" "$@" ;}
 
 hc silent new_attr string my_scratchpad_current ""
-hc silent new_attr string my_scratchpad_original_focus ""
 
 current_scratchpad=$(hc get_attr my_scratchpad_current 2>/dev/null || echo "")
 
 if [[ -n "$current_scratchpad" ]]; then
     if [[ "$current_scratchpad" == "$tag" ]]; then
         "$HOME/code/dotfiles/bin/scratchpad-close-all.sh"
-        
-        original_focus=$(hc get_attr my_scratchpad_original_focus 2>/dev/null || echo "")
-        if [[ -n "$original_focus" ]]; then
-            hc focus_monitor "$original_focus"
-        fi
-        
-        hc set_attr my_scratchpad_original_focus ""
     else
         if [[ -n "$initial_command" ]]; then
             "$HOME/code/dotfiles/bin/scratchpad-toggle.sh" -n "$tag" -w "$width_percent" -h "$height_percent" --initial "$initial_command"
@@ -97,9 +89,6 @@ if [[ -n "$current_scratchpad" ]]; then
         fi
     fi
 else
-    current_monitor=$(hc get_attr monitors.focus.index)
-    hc set_attr my_scratchpad_original_focus "$current_monitor"
-    
     if [[ -n "$initial_command" ]]; then
         "$HOME/code/dotfiles/bin/scratchpad-show.sh" -n "$tag" -w "$width_percent" -h "$height_percent" --initial "$initial_command"
     else
