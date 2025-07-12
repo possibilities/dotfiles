@@ -7,5 +7,5 @@ if [[ ! "$tag" =~ ^[1-5]$ ]]; then
     exit 1
 fi
 
-"$HOME/code/dotfiles/bin/scratchpad-close-all.sh"
 "$HOME/code/dotfiles/bin/scratchpad-show.sh" "$tag"
+"$HOME/code/dotfiles/bin/scratchpad-close-all.sh" "$tag"

@@ -9,7 +9,7 @@ fi
 
 hc() { "${herbstclient_command[@]:-herbstclient}" "$@" ;}
 
-mrect=( $(hc monitor_rect "") )
+mrect=( $(hc monitor_rect 0) )
 
 width=${mrect[2]}
 height=${mrect[3]}
