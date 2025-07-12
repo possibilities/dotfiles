@@ -42,11 +42,11 @@ hc keybind $Mod-Alt-Control-h spawn rofi -modi "clipboard:greenclip print" -show
 default_term='alacritty'
 hc keybind $Mod-Return spawn ${TERMINAL:-$default_term}
 
-hc keybind $Mod-F1 spawn /home/mike/code/dotfiles/bin/scratchpad.sh scratch1
-hc keybind $Mod-F2 spawn /home/mike/code/dotfiles/bin/scratchpad.sh scratch2
-hc keybind $Mod-F3 spawn /home/mike/code/dotfiles/bin/scratchpad.sh scratch3
-hc keybind $Mod-F4 spawn /home/mike/code/dotfiles/bin/scratchpad.sh scratch4
-hc keybind $Mod-F5 spawn /home/mike/code/dotfiles/bin/scratchpad.sh scratch5
+hc keybind $Mod-F1 spawn /home/mike/code/dotfiles/bin/scratchpad.sh 1
+hc keybind $Mod-F2 spawn /home/mike/code/dotfiles/bin/scratchpad.sh 2
+hc keybind $Mod-F3 spawn /home/mike/code/dotfiles/bin/scratchpad.sh 3
+hc keybind $Mod-F4 spawn /home/mike/code/dotfiles/bin/scratchpad.sh 4
+hc keybind $Mod-F5 spawn /home/mike/code/dotfiles/bin/scratchpad.sh 5
 
 hc keybind $Mod-d spawn rofi -show drun -sort -matching fuzzy -sorting-method fzf
 hc keybind $Mod-Shift-d spawn rofi -show run
