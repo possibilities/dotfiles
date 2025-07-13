@@ -27,6 +27,13 @@ sudo mkdir -p /etc/nginx/sites-enabled
 # Copy our configuration
 sudo cp $PWD/config/nginx/port-forward.conf /etc/nginx/sites-available/port-forward
 
+# Copy error pages
+echo "Copying custom error pages..."
+sudo mkdir -p /usr/share/nginx/html
+sudo cp $PWD/config/nginx/error-pages/404.html /usr/share/nginx/html/404.html
+sudo cp $PWD/config/nginx/error-pages/502.html /usr/share/nginx/html/502.html
+echo "✓ Error pages copied"
+
 # Enable our site
 sudo ln -sf /etc/nginx/sites-available/port-forward /etc/nginx/sites-enabled/port-forward
 
