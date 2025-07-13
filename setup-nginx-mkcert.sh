@@ -154,6 +154,12 @@ if [ -L /etc/nginx/sites-enabled/port-forward ]; then
     sudo rm /etc/nginx/sites-enabled/port-forward
 fi
 
+# Disable the default nginx site to prevent duplicate default_server errors
+if [ -L /etc/nginx/sites-enabled/default ]; then
+    sudo rm /etc/nginx/sites-enabled/default
+    echo "Disabled default nginx site"
+fi
+
 # Enable the SSL configuration
 sudo ln -sf /etc/nginx/sites-available/port-forward-ssl /etc/nginx/sites-enabled/port-forward-ssl
 
