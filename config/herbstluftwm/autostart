@@ -98,7 +98,7 @@ for i in "${!tag_names[@]}" ; do
     hc add "${tag_names[$i]}"
     key="${tag_keys[$i]}"
     if ! [ -z "$key" ] ; then
-        hc keybind "$Mod-$key" use_index "$i"
+        hc keybind "$Mod-$key" chain , spawn /home/mike/code/dotfiles/bin/scratchpad-close-all.sh , use_index "$i"
         # if [ "$i" = "0" ] ; then
         #   hc keybind "$Mod-$key" chain , use_index "$i" , attr theme.title_height 0 , hc attr theme.title_depth 0
         # else

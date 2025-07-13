@@ -46,7 +46,6 @@ alias copy='xclip -selection clipboard'
 alias clip='xclip -selection clipboard'
 alias clipboard='xclip -selection clipboard'
 
-alias claude='~/.claude/local/claude'
 alias claude-upgrade='(
     echo "Checking for Claude updates..." && 
     old_version=$(claude --version 2>/dev/null | grep -oP "\\d+\\.\\d+\\.\\d+") && 
