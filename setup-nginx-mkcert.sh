@@ -19,6 +19,13 @@ fi
 
 echo "Running as user: $ACTUAL_USER"
 
+# Stop nginx if running and remove default site to avoid duplicate default_server
+sudo systemctl stop nginx 2>/dev/null || true
+if [ -L /etc/nginx/sites-enabled/default ]; then
+    sudo rm /etc/nginx/sites-enabled/default
+    echo "Disabled default nginx site"
+fi
+
 # Install libnss3-tools for browser certificate management
 if ! command -v certutil &> /dev/null; then
     echo "Installing libnss3-tools for browser support..."

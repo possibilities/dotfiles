@@ -4,7 +4,7 @@ set -e
 
 echo "set zsh as default shell for user"
 
-sudo chsh -s $(which zsh) mike
+sudo chsh -s $(which zsh) "$USER"
 
 echo "link dot files into ~"
 
@@ -117,6 +117,6 @@ $PWD/setup-nginx-port-forward.sh
 
 echo "setup nginx SSL"
 
-$PWD/setup-nginx-ssl.sh
+$PWD/setup-nginx-mkcert.sh
 
 echo "done installing dotfiles."
