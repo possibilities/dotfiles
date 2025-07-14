@@ -100,23 +100,4 @@ do
   sudo cp -f $PWD/$file /etc/X11/xorg.conf.d/$file_name
 done
 
-echo "setup wildcard DNS for hostname"
-
-# Check if resolvconf needs to be configured first
-if dpkg -l resolvconf 2>/dev/null | grep -q "^iF"; then
-    echo "Completing resolvconf configuration..."
-    sudo chattr -i /etc/resolv.conf 2>/dev/null || true
-    sudo dpkg --configure resolvconf || true
-fi
-
-$PWD/setup-wildcard-dns.sh
-
-echo "setup nginx port forwarding"
-
-$PWD/setup-nginx-port-forward.sh
-
-echo "setup nginx SSL"
-
-$PWD/setup-nginx-ssl.sh
-
 echo "done installing dotfiles."
