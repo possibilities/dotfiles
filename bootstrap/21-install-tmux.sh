@@ -9,6 +9,8 @@ sudo apt install --yes \
   automake \
   bison
 
+TMUX_VERSION="3.5"
+
 rm -rf ${HOME}/src/tmux
 git clone https://github.com/tmux/tmux.git ${HOME}/src/tmux
 cd ${HOME}/src/tmux

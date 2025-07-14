@@ -2,6 +2,8 @@
 
 echo "install sqlitestudio"
 
+SQLITESTUDIO_VERSION="3.4.4"
+
 cd ~/src
 mkdir -p ~/src/sqlitestudio
 wget \

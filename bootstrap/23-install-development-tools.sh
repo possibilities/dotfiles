@@ -6,6 +6,8 @@ curl -s https://raw.githubusercontent.com/zaquestion/lab/master/install.sh | sud
 
 echo "install jq"
 
+JQ_VERSION="1.7.1"
+
 sudo apt --yes install libonig-dev
 
 rm -rf ${HOME}/src/jq*

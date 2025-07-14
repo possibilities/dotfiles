@@ -1,6 +1,11 @@
 #!/bin/bash
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "${SCRIPT_DIR}/helpers.sh"
+
 echo "install alacritty"
+
+ALACRITTY_VERSION=$(get_latest_version alacritty/alacritty)
 
 rm -rf ${HOME}/src/alacritty
 git clone https://github.com/alacritty/alacritty.git ${HOME}/src/alacritty

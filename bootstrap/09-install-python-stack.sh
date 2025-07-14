@@ -1,5 +1,8 @@
 #!/bin/bash
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "${SCRIPT_DIR}/helpers.sh"
+
 echo "install pipx"
 
 sudo apt --yes install pipx
@@ -16,6 +19,8 @@ sudo apt install --yes \
 pipx install deadcode
 
 echo "install uv"
+
+UV_VERSION=$(get_latest_version astral-sh/uv)
 
 # Download and install uv
 curl -LsSf https://github.com/astral-sh/uv/releases/download/v${UV_VERSION}/uv-installer.sh | sh

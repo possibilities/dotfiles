@@ -1,5 +1,8 @@
 #!/bin/bash
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "${SCRIPT_DIR}/helpers.sh"
+
 echo "install neovim"
 
 npm install --global tree-sitter
@@ -19,6 +22,8 @@ sudo apt --yes install \
   pkg-config \
   unzip \
   doxygen
+
+NEOVIM_VERSION=$(get_latest_version neovim/neovim)
 
 rm -rf ${HOME}/src/neovim
 git clone https://github.com/neovim/neovim.git ${HOME}/src/neovim

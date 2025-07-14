@@ -30,6 +30,8 @@ sudo apt install --yes \
   xdg-desktop-portal-gtk \
   xterm
 
+HERBSTLUFTWM_VERSION="v0.9.5"
+
 rm -rf ${HOME}/src/herbstluftwm
 git clone https://github.com/herbstluftwm/herbstluftwm.git ${HOME}/src/herbstluftwm
 cd ${HOME}/src/herbstluftwm

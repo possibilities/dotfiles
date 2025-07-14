@@ -1,6 +1,11 @@
 #!/bin/bash
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "${SCRIPT_DIR}/helpers.sh"
+
 echo "install nvm"
+
+NVM_VERSION=$(get_latest_version nvm-sh/nvm)
 
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v${NVM_VERSION}/install.sh | bash
 . ${HOME}/.nvm/nvm.sh
