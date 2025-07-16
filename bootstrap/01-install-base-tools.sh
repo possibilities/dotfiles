@@ -7,7 +7,6 @@ sudo apt install --yes \
   curl \
   zsh \
   git \
-  xclip \
   gnome-disk-utility \
   rsync \
   p7zip-full \

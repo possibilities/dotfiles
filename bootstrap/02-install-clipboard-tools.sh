@@ -1,5 +1,9 @@
 #!/bin/bash
 
+echo "Install X11 clipboard utilities"
+
+sudo apt install --yes xclip xsel
+
 echo "Install greenclip"
 
 if [ ! -f ~/.local/bin/greenclip ]; then
