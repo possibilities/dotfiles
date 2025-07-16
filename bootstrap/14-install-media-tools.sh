@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 echo "setup modprobe for obs virtual camera"
 sudo apt install --yes v4l2loopback-dkms

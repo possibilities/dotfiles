@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 get_latest_version() {
     local REDIRECTED_RELEASE_URL

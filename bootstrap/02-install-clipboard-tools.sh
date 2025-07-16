@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 echo "Install X11 clipboard utilities"
 
