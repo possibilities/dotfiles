@@ -6,19 +6,33 @@ source "${SCRIPT_DIR}/helpers.sh"
 
 NODE_VERSION=22
 
-echo "install nvm"
-
-NVM_VERSION=$(get_latest_version nvm-sh/nvm)
-
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v${NVM_VERSION}/install.sh | bash
-
-# Load NVM so we can use it right away
+# Load NVM if it exists
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
-nvm install ${NODE_VERSION}
-nvm alias default ${NODE_VERSION}
+# Check if NVM is installed
+if ! command -v nvm &> /dev/null; then
+    echo "install nvm"
+    NVM_VERSION=$(get_latest_version nvm-sh/nvm)
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v${NVM_VERSION}/install.sh | bash
+    
+    # Load NVM after installation
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+else
+    echo "nvm already installed ($(nvm --version))"
+fi
+
+# Check if Node.js version is installed
+if ! nvm ls ${NODE_VERSION} &> /dev/null; then
+    echo "install node.js v${NODE_VERSION}"
+    nvm install ${NODE_VERSION}
+    nvm alias default ${NODE_VERSION}
+else
+    echo "node.js v${NODE_VERSION} already installed"
+    nvm use ${NODE_VERSION}
+fi
 
 echo "install global npm packages"
 
