@@ -17,6 +17,7 @@ sudo apt install --yes \
   scrot \
   xdotool \
   wipe \
-  rsnapshot
+  rsnapshot \
+  mosh
 
 mkdir -p ~/.local/bin/
