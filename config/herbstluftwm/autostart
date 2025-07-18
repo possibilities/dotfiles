@@ -62,8 +62,10 @@ hc keybind $Mod-n spawn /usr/bin/flatpak run --branch=stable --arch=x86_64 --com
 hc keybind $Mod-Shift-b spawn brave --profile-directory=Default
 hc keybind $Mod-Shift-n spawn brave --profile-directory=Default -incognito
 
-hc keybind Control-Shift-Print spawn /home/mike/code/dotfiles/bin/flameshot-wrapper.sh gui
-hc keybind Control-Print spawn /home/mike/code/dotfiles/bin/flameshot-wrapper.sh screen
+hc keybind Control-Shift-Print spawn flameshot gui
+hc keybind Control-Print spawn flameshot screen
+hc keybind $Mod-Control-Shift-Print spawn /home/mike/code/dotfiles/bin/flameshot-wrapper.sh gui
+hc keybind $Mod-Control-Print spawn /home/mike/code/dotfiles/bin/flameshot-wrapper.sh screen
 
 hc keybind $Mod-h     focus left
 hc keybind $Mod-j     focus down
