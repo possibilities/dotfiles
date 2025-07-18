@@ -52,3 +52,8 @@ hooks:
       hooks:
         - type: command
           command: npx claude-code-generic-hooks store ~/.claude/hooks.db
+  UserPromptSubmit:
+    - matcher: ""
+      hooks:
+        - type: command
+          command: claude-code-generic-hooks store ~/.claude/hooks.db
