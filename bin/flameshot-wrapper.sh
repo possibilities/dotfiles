@@ -32,8 +32,11 @@ if [ -s "$FILEPATH" ]; then
     # Always notify about local save
     notify-send "Screenshot saved" "Saved to $FILEPATH (path copied to clipboard)"
     
-    # If we're on smallbird, also copy to fatbird
-    if [ "$(hostname)" = "smallbird" ]; then
+    # Get control machine
+    CONTROL_MACHINE=$(get-control-machine.sh 2>/dev/null)
+    
+    # If we're not on the control machine, sync to it
+    if [ -n "$CONTROL_MACHINE" ] && [ "$(hostname)" != "$CONTROL_MACHINE" ]; then
         # Sync in background but with proper handling
         (
             # Try to find a working SSH agent socket
@@ -58,14 +61,14 @@ if [ -s "$FILEPATH" ]; then
             sleep 1
             
             # Create remote directory if needed
-            ssh -o ConnectTimeout=10 -o PasswordAuthentication=no -o BatchMode=yes fatbird "mkdir -p ~/screenshots" 2>/dev/null
+            ssh -o ConnectTimeout=10 -o PasswordAuthentication=no -o BatchMode=yes "$CONTROL_MACHINE" "mkdir -p ~/screenshots" 2>/dev/null
             
             # Copy the file with connection options
-            scp -o ConnectTimeout=10 -o PasswordAuthentication=no -o BatchMode=yes "$FILEPATH" "fatbird:~/screenshots/" 2>/dev/null
+            scp -o ConnectTimeout=10 -o PasswordAuthentication=no -o BatchMode=yes "$FILEPATH" "$CONTROL_MACHINE:~/screenshots/" 2>/dev/null
             SCP_RESULT=$?
             
             if [ $SCP_RESULT -eq 0 ]; then
-                notify-send "Screenshot synced" "Successfully copied to fatbird"
+                notify-send "Screenshot synced" "Successfully copied to $CONTROL_MACHINE"
             else
                 # Log error for debugging with more details
                 {
@@ -74,7 +77,7 @@ if [ -s "$FILEPATH" ]; then
                     echo "ssh-add -l output:"
                     ssh-add -l 2>&1
                 } >> /tmp/flameshot-sync-errors.log
-                notify-send "Sync failed" "Could not copy to fatbird (check /tmp/flameshot-sync-errors.log)"
+                notify-send "Sync failed" "Could not copy to $CONTROL_MACHINE (check /tmp/flameshot-sync-errors.log)"
             fi
         ) &
     fi
