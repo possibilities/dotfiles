@@ -60,45 +60,6 @@ alias claude-upgrade='(
     fi
 )'
 
-bt-connect() {
-    local paired_devices=$(bluetoothctl devices Paired | grep -i "headphone\|earphone\|airpod\|buds\|wh-\|wf-")
-    
-    if [ -z "$paired_devices" ]; then
-        echo "No paired headphones found"
-        return 1
-    fi
-    
-    echo "$paired_devices" | while read -r line; do
-        local mac_address=$(echo "$line" | awk '{print $2}')
-        local device_name=$(echo "$line" | cut -d' ' -f3-)
-        
-        echo "Attempting to connect to $device_name ($mac_address)..."
-        bluetoothctl connect "$mac_address" && {
-            echo "Successfully connected to $device_name"
-            return 0
-        }
-    done
-}
-
-bt-disconnect() {
-    local connected_devices=$(bluetoothctl devices Connected | grep -i "headphone\|earphone\|airpod\|buds\|wh-\|wf-")
-    
-    if [ -z "$connected_devices" ]; then
-        echo "No connected headphones found"
-        return 1
-    fi
-    
-    echo "$connected_devices" | while read -r line; do
-        local mac_address=$(echo "$line" | awk '{print $2}')
-        local device_name=$(echo "$line" | cut -d' ' -f3-)
-        
-        echo "Disconnecting from $device_name ($mac_address)..."
-        bluetoothctl disconnect "$mac_address" && {
-            echo "Successfully disconnected from $device_name"
-        }
-    done
-}
-
 claude-work() {
     if [ $# -eq 0 ]; then
         dirty-confirm && claude-inject && claude --mcp-config ./.claude/inject-mcps.json
@@ -133,25 +94,6 @@ claude-work-continue() {
 
 commit-work() {
     rm -rf ./.claude ; commit-composer "$@"
-}
-
-
-gap() {
-    local clipboard_content=$(xclip -selection clipboard -o)
-    
-    if ! echo "$clipboard_content" | grep -q "git apply"; then
-        echo "Error: Clipboard doesn't contain a git apply command"
-        return 1
-    fi
-    
-    local patch_content=$(echo "$clipboard_content" | sed -n '/^diff --git/,/^EOF/p' | sed '$d')
-    
-    if [ -z "$patch_content" ]; then
-        echo "Error: Could not extract patch content"
-        return 1
-    fi
-    
-    echo "$patch_content" | git apply --3way
 }
 
 create-new-cli-app() {
@@ -376,73 +318,6 @@ release-all-projects() {
             echo "Run 'release-all-projects' without --dry-run to perform releases"
         fi
     fi
-}
-
-comment-destroyer-report() {
-    local base_dir="$HOME/code"
-    local report_file="$base_dir/docs/comment-destroyer-report.md"
-    local current_dir=$(pwd)
-    local skipped_projects=()
-    
-    # Ensure docs directory exists
-    mkdir -p "$base_dir/docs"
-    
-    # Start the report
-    echo "# Comment Destroyer Report" > "$report_file"
-    echo "Generated on: $(date)" >> "$report_file"
-    echo "" >> "$report_file"
-    
-    # Loop through projects
-    for dir in "$base_dir"/*; do
-        [ ! -d "$dir" ] && continue
-        
-        local project_name=$(basename "$dir")
-        
-        # Skip if no package.json
-        [ ! -f "$dir/package.json" ] && continue
-        
-        cd "$dir" || continue
-        
-        # Check if git repo is clean
-        if [ -n "$(git status --porcelain 2>/dev/null)" ]; then
-            skipped_projects+=("$project_name")
-            cd "$current_dir"
-            continue
-        fi
-        
-        # Run comment-destroyer
-        echo "Processing $project_name..."
-        comment-destroyer 2>/dev/null
-        
-        # Capture the diff
-        local diff_output=$(git diff)
-        
-        if [ -n "$diff_output" ]; then
-            echo "## $project_name" >> "$report_file"
-            echo '```diff' >> "$report_file"
-            echo "$diff_output" >> "$report_file"
-            echo '```' >> "$report_file"
-            echo "" >> "$report_file"
-        fi
-        
-        # Revert changes
-        git reset --hard >/dev/null 2>&1
-        
-        cd "$current_dir"
-    done
-    
-    # Add skipped projects section
-    if [ ${#skipped_projects[@]} -gt 0 ]; then
-        echo "## Skipped Projects (Dirty)" >> "$report_file"
-        echo "" >> "$report_file"
-        echo "The following projects were skipped because they had uncommitted changes:" >> "$report_file"
-        echo "" >> "$report_file"
-        for project in "${skipped_projects[@]}"; do
-            echo "- $project" >> "$report_file"
-        done
-    fi
-    
-    echo "Report generated at: $report_file"
 }
 
 update-release-scripts() {
