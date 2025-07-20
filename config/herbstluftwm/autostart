@@ -27,6 +27,7 @@ hc keybind $Mod-Shift-u spawn /home/mike/code/dotfiles/bin/unsplit.sh
 hc keybind $Mod-Shift-q quit
 hc keybind $Mod-Shift-r reload
 hc keybind $Mod-Shift-c close
+hc keybind $Mod-Control-x spawn xmodmap /home/mike/.Xmodmap
 
 hc keybind Control-Shift-$Mod-z spawn /home/mike/code/dotfiles/bin/clear-tag.sh
 
