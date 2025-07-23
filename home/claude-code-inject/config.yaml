@@ -33,11 +33,20 @@ hooks:
       hooks:
         - type: command
           command: claude-code-generic-hooks store ~/.claude/hooks.db
+  UserPromptSubmit:
+    - matcher: ""
+      hooks:
+        - type: command
+          command: claude-code-generic-hooks store ~/.claude/hooks.db
+        - type: command
+          command: claude-code-generic-hooks activity start ~/.claude/activity.db
   Stop:
     - matcher: ""
       hooks:
         - type: command
           command: claude-code-generic-hooks store ~/.claude/hooks.db
+        - type: command
+          command: claude-code-generic-hooks activity stop ~/.claude/activity.db
   SubagentStop:
     - matcher: ""
       hooks:
@@ -52,8 +61,3 @@ hooks:
       hooks:
         - type: command
           command: npx claude-code-generic-hooks store ~/.claude/hooks.db
-  UserPromptSubmit:
-    - matcher: ""
-      hooks:
-        - type: command
-          command: claude-code-generic-hooks store ~/.claude/hooks.db
