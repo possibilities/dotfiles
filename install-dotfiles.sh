@@ -49,55 +49,20 @@ do
   ln -sfT $PWD/$file $HOME/.ssh/$file_name
 done
 
-echo "generate meshnet SSH config"
+echo "link user scripts into ~/bin"
 
-mkdir -p $HOME/.ssh/config.d
-chmod 700 $HOME/.ssh/config.d
-
-# Generate meshnet SSH config (this will fail if nordvpn is not installed/logged in)
-$PWD/bin/generate-meshnet-ssh-config
-
-echo "generate meshnet hosts entries"
-
-# Generate meshnet hosts entries (this will fail if nordvpn is not installed/logged in)
-$PWD/bin/generate-meshnet-hosts
-
-echo "link scripts into /usr/local/bin"
+mkdir -p $HOME/bin
 
 for file in bin/*
 do
-  # Create a link with extension, TODO remove
   file_name=`basename $file`
-  echo "   * $file -> /usr/local/bin/$file_name"
-  sudo ln -sfT $PWD/$file /usr/local/bin/$file_name
-
+  echo "   * $file -> ~/bin/$file_name"
+  ln -sfT $PWD/$file $HOME/bin/$file_name
+  
   # Create a link without extension
   file_name_no_ext="${file_name%.*}"
-  echo "   * $file -> /usr/local/bin/$file_name_no_ext"
-  sudo ln -sfT $PWD/$file /usr/local/bin/$file_name_no_ext
-done
-
-echo "copy cronjobs into /etc/cron.d/"
-
-for file in cron/*
-do
-  file_name=`basename $file`
-  echo "   * $file -> /etc/cron.d/$file_name"
-  sudo rm -rf /etc/cron.d/$file_name
-  echo "# COPIED FROM DOTFILES DONT EDIT" | sudo tee -a /etc/cron.d/$file_name > /dev/null
-  echo "" | sudo tee -a /etc/cron.d/$file_name > /dev/null
-  sudo cat $PWD/$file |  sudo tee -a /etc/cron.d/$file_name > /dev/null
-done
-
-echo "copy X11 configuration files into /etc/X11/xorg.conf.d/"
-
-sudo mkdir -p /etc/X11/xorg.conf.d
-
-for file in xorg/xorg.conf.d/*
-do
-  file_name=`basename $file`
-  echo "   * $file -> /etc/X11/xorg.conf.d/$file_name"
-  sudo cp -f $PWD/$file /etc/X11/xorg.conf.d/$file_name
+  echo "   * $file -> ~/bin/$file_name_no_ext"
+  ln -sfT $PWD/$file $HOME/bin/$file_name_no_ext
 done
 
 echo "done installing dotfiles."
