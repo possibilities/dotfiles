@@ -8,6 +8,41 @@ if [ -e "$HOME/.private_environment" ]; then
   source "$HOME/.private_environment"
 fi
 
+# List all projects in ~/code with their names and descriptions
+list-projects() {
+  local code_dir="$HOME/code"
+  local max_name_length=0
+  local projects=()
+  
+  # Find all package.json files and get max name length
+  while IFS= read -r package_json; do
+    if [[ -f "$package_json" ]]; then
+      local dir=$(dirname "$package_json")
+      local name=$(jq -r '.name // ""' "$package_json" 2>/dev/null)
+      local description=$(jq -r '.description // ""' "$package_json" 2>/dev/null)
+      
+      if [[ -n "$name" ]]; then
+        projects+=("$name|$description|$dir")
+        if (( ${#name} > max_name_length )); then
+          max_name_length=${#name}
+        fi
+      fi
+    fi
+  done < <(find "$code_dir" -maxdepth 2 -name "package.json" -not -path "*/node_modules/*" 2>/dev/null | sort)
+  
+  # Print header
+  printf "\n%-${max_name_length}s  %s\n" "PROJECT" "DESCRIPTION"
+  printf "%${max_name_length}s  %s\n" | tr ' ' '-' | sed 's/./-/g'
+  
+  # Print projects
+  for project in "${projects[@]}"; do
+    IFS='|' read -r name description dir <<< "$project"
+    printf "%-${max_name_length}s  %s\n" "$name" "${description:-No description}"
+  done
+  
+  echo
+}
+
 # Ignore duplicate history entries
 setopt histignoredups
 

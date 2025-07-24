@@ -65,4 +65,30 @@ do
   ln -sfT $PWD/$file $HOME/bin/$file_name_no_ext
 done
 
+echo "link npm packages with bin entries"
+
+CODE_DIR="$HOME/code"
+
+if [ -d "$CODE_DIR" ]; then
+  for package_json in $(find "$CODE_DIR" -maxdepth 2 -name "package.json" -not -path "*/node_modules/*"); do
+    if command -v jq >/dev/null 2>&1; then
+      if jq -e '.bin' "$package_json" >/dev/null 2>&1; then
+        dir=$(dirname "$package_json")
+        package_name=$(jq -r '.name // "unknown"' "$package_json")
+        echo "   * linking npm package: $package_name from $dir"
+        (cd "$dir" && npm link) || echo "   ! failed to link $package_name"
+      fi
+    else
+      echo "   ! jq not installed, checking $package_json manually"
+      if grep -q '"bin"' "$package_json"; then
+        dir=$(dirname "$package_json")
+        echo "   * linking npm package from $dir"
+        (cd "$dir" && npm link) || echo "   ! failed to link from $dir"
+      fi
+    fi
+  done
+else
+  echo "   ! $CODE_DIR directory not found, skipping npm link"
+fi
+
 echo "done installing dotfiles."

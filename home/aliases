@@ -221,6 +221,15 @@ release-all-projects() {
     if [ "$dry_run" = true ]; then
         echo "=== DRY RUN MODE - No releases will be performed ==="
         echo
+    else
+        # Prompt for confirmation when not in dry-run mode
+        echo -n "This will release all projects with pending changes. Continue? [y/N] "
+        read -r response
+        if [[ ! "$response" =~ ^[Yy]$ ]]; then
+            echo "Aborted."
+            return 0
+        fi
+        echo
     fi
     
     local projects_found=0

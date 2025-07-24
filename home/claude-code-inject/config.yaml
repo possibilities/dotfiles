@@ -28,6 +28,10 @@ hooks:
       hooks:
         - type: command
           command: claude-code-generic-hooks store ~/.claude/hooks.db
+    - matcher: "ExitPlanMode"
+      hooks:
+        - type: command
+          command: claude-code-generic-hooks activity start ~/.claude/activity.db
   Notification:
     - matcher: ""
       hooks:
