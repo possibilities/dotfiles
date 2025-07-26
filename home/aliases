@@ -218,24 +218,11 @@ release-all-projects() {
         esac
     done
     
-    if [ "$dry_run" = true ]; then
-        echo "=== DRY RUN MODE - No releases will be performed ==="
-        echo
-    else
-        # Prompt for confirmation when not in dry-run mode
-        echo -n "This will release all projects with pending changes. Continue? [y/N] "
-        read -r response
-        if [[ ! "$response" =~ ^[Yy]$ ]]; then
-            echo "Aborted."
-            return 0
-        fi
-        echo
-    fi
-    
     local projects_found=0
     local projects_needing_release=0
     local current_dir=$(pwd)
     local dirty_projects=()
+    local releasable_projects=()
     
     # Iterate through directories in ~/code
     for dir in "$HOME/code"/*; do
@@ -285,22 +272,13 @@ release-all-projects() {
         
         if [ "$commits_since_tag" -gt 0 ]; then
             projects_needing_release=$((projects_needing_release + 1))
-            echo "📦 $project_name (v$current_version) - $commits_since_tag commits since last release"
+            
+            # Store project info for later display
+            releasable_projects+=("$project_name|$current_version|$commits_since_tag")
             
             # Check if project is dirty (has uncommitted changes)
-            if [ "$dry_run" = true ]; then
-                if [ -n "$(git status --porcelain)" ]; then
-                    dirty_projects+=("$project_name")
-                fi
-            fi
-            
-            if [ "$dry_run" = false ]; then
-                echo "   Running: pnpm run release:patch"
-                pnpm run release:patch
-                echo
-            else
-                echo "   Would run: pnpm run release:patch"
-                echo
+            if [ -n "$(git status --porcelain)" ]; then
+                dirty_projects+=("$project_name")
             fi
         fi
         
@@ -308,24 +286,68 @@ release-all-projects() {
         cd "$current_dir"
     done
     
+    # Display results and get confirmation
+    if [ "$dry_run" = true ]; then
+        echo "=== DRY RUN MODE - No releases will be performed ==="
+        echo
+    fi
+    
+    if [ $projects_needing_release -eq 0 ]; then
+        echo "No projects need releasing."
+        return 0
+    fi
+    
+    # Show releasable projects
+    echo "📦 Projects that need releasing:"
+    echo
+    for project_info in "${releasable_projects[@]}"; do
+        IFS='|' read -r name version commits <<< "$project_info"
+        echo "  - $name (v$version) - $commits commits since last release"
+    done
+    echo
+    
+    # Show warning about dirty projects if any
+    if [ ${#dirty_projects[@]} -gt 0 ]; then
+        echo -e "\033[33m⚠️  Warning: The following projects have uncommitted changes:\033[0m"
+        for project in "${dirty_projects[@]}"; do
+            echo -e "\033[33m   - $project\033[0m"
+        done
+        echo -e "\033[33mCommit or discard changes before releasing these projects.\033[0m"
+        echo
+    fi
+    
+    # Prompt for confirmation if not in dry-run mode
+    if [ "$dry_run" = false ]; then
+        echo -n "Release these $projects_needing_release projects? [y/N] "
+        read -r response
+        if [[ ! "$response" =~ ^[Yy]$ ]]; then
+            echo "Aborted."
+            return 0
+        fi
+        echo
+        
+        # Now perform the releases
+        for project_info in "${releasable_projects[@]}"; do
+            IFS='|' read -r project_name version commits <<< "$project_info"
+            
+            echo "📦 Releasing $project_name..."
+            cd "$HOME/code/$project_name" || continue
+            
+            echo "   Running: pnpm run release:patch"
+            pnpm run release:patch
+            echo
+            
+            cd "$current_dir"
+        done
+    fi
+    
     echo "═══════════════════════════════════════════════════════════"
     echo "Scanned $projects_found projects with release.sh"
     echo "$projects_needing_release projects need releasing"
     
-    if [ "$dry_run" = true ]; then
-        if [ ${#dirty_projects[@]} -gt 0 ]; then
-            echo
-            echo -e "\033[33m⚠️  Warning: The following projects have uncommitted changes:\033[0m"
-            for project in "${dirty_projects[@]}"; do
-                echo -e "\033[33m   - $project\033[0m"
-            done
-            echo -e "\033[33mCommit or discard changes before releasing these projects.\033[0m"
-        fi
-        
-        if [ "$projects_needing_release" -gt 0 ]; then
-            echo
-            echo "Run 'release-all-projects' without --dry-run to perform releases"
-        fi
+    if [ "$dry_run" = true ] && [ "$projects_needing_release" -gt 0 ]; then
+        echo
+        echo "Run 'release-all-projects' without --dry-run to perform releases"
     fi
 }
 
