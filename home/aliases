@@ -537,6 +537,9 @@ git-grep-all() {
     fi
     
     echo "Results saved to: $output_file"
+    
+    # Open the results file in the editor
+    "${EDITOR:-vim}" "$output_file"
 }
 
 show-dirty-projects() {
