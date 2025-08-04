@@ -1,0 +1,115 @@
+{
+  "model": "opus",
+  "permissions": {
+    "defaultMode": "plan"
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "claude-code-generic-hooks store ~/.claude/hooks.db"
+          },
+          {
+            "type": "command",
+            "command": "claude-code-generic-hooks yolo"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "claude-code-generic-hooks store ~/.claude/hooks.db"
+          }
+        ]
+      },
+      {
+        "matcher": "ExitPlanMode",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "claude-code-generic-hooks activity start ~/.claude/activity.db"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "claude-code-generic-hooks store ~/.claude/hooks.db"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "claude-code-generic-hooks store ~/.claude/hooks.db"
+          },
+          {
+            "type": "command",
+            "command": "claude-code-generic-hooks activity start ~/.claude/activity.db"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "claude-code-generic-hooks store ~/.claude/hooks.db"
+          },
+          {
+            "type": "command",
+            "command": "claude-code-generic-hooks activity stop ~/.claude/activity.db"
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "claude-code-generic-hooks store ~/.claude/hooks.db"
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "matcher": "auto",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npx claude-code-generic-hooks store ~/.claude/hooks.db"
+          }
+        ]
+      },
+      {
+        "matcher": "manual",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npx claude-code-generic-hooks store ~/.claude/hooks.db"
+          }
+        ]
+      }
+    ]
+  }
+}

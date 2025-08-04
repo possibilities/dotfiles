@@ -1,2 +1,2 @@
 commands:
-  run-agent: dirty-confirm && claude-code-inject && claude /work-on-dotfiles --mcp-config .claude/inject-mcps.json
+  run-agent: dirty-confirm && claude /work-on-dotfiles --mcp-config ~/code/dotfiles/claude/mcps.json --settings ~/code/dotfiles/claude/settings.json
