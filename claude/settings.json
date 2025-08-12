@@ -10,11 +10,11 @@
         "hooks": [
           {
             "type": "command",
-            "command": "claude-code-generic-hooks store ~/.claude/hooks.db"
+            "command": "claude-code-generic-hooks yolo"
           },
           {
             "type": "command",
-            "command": "claude-code-generic-hooks yolo"
+            "command": "claude-code-generic-hooks store ~/.claude/hooks.db"
           }
         ]
       }
@@ -26,15 +26,6 @@
           {
             "type": "command",
             "command": "claude-code-generic-hooks store ~/.claude/hooks.db"
-          }
-        ]
-      },
-      {
-        "matcher": "ExitPlanMode",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "claude-code-generic-hooks activity start ~/.claude/activity.db"
           }
         ]
       }
@@ -57,10 +48,6 @@
           {
             "type": "command",
             "command": "claude-code-generic-hooks store ~/.claude/hooks.db"
-          },
-          {
-            "type": "command",
-            "command": "claude-code-generic-hooks activity start ~/.claude/activity.db"
           }
         ]
       }
@@ -72,10 +59,6 @@
           {
             "type": "command",
             "command": "claude-code-generic-hooks store ~/.claude/hooks.db"
-          },
-          {
-            "type": "command",
-            "command": "claude-code-generic-hooks activity stop ~/.claude/activity.db"
           }
         ]
       }
@@ -103,6 +86,35 @@
       },
       {
         "matcher": "manual",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npx claude-code-generic-hooks store ~/.claude/hooks.db"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "startup",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npx claude-code-generic-hooks store ~/.claude/hooks.db"
+          }
+        ]
+      },
+      {
+        "matcher": "resume",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npx claude-code-generic-hooks store ~/.claude/hooks.db"
+          }
+        ]
+      },
+      {
+        "matcher": "clear",
         "hooks": [
           {
             "type": "command",
