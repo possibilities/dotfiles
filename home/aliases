@@ -46,20 +46,6 @@ alias copy='xclip -selection clipboard'
 alias clip='xclip -selection clipboard'
 alias clipboard='xclip -selection clipboard'
 
-alias claude-upgrade='(
-    echo "Checking for Claude updates..." && 
-    old_version=$(claude --version 2>/dev/null | grep -oP "\\d+\\.\\d+\\.\\d+") && 
-    echo "Current version: $old_version" && 
-    cd ~/.claude/local && 
-    npm update @anthropic-ai/claude-code && 
-    new_version=$(claude --version 2>/dev/null | grep -oP "\\d+\\.\\d+\\.\\d+") && 
-    if [ "$old_version" = "$new_version" ]; then 
-        echo "No updates available."; 
-    else 
-        echo "Successfully updated to version $new_version"; 
-    fi
-)'
-
 release-all-projects() {
     local dry_run=false
     
