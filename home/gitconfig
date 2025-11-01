@@ -82,3 +82,9 @@
 [credential "https://gist.github.com"]
 	helper = 
 	helper = !/usr/bin/gh auth git-credential
+[help]
+	autocorrect = prompt
+[gitbutler]
+	aiOpenAIKeyOption = butlerAPI
+	gitbutlerCommitter = 1
+	aiModelProvider = openai
