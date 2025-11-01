@@ -1,3 +1,6 @@
 home/vim/backups
 home/vim/plugged
 home/vim/autoload
+
+# Runtime state files
+config/herbstluftwm/border_state
