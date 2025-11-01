@@ -391,6 +391,7 @@ git-grep-all() {
 show-dirty-projects() {
     local current_dir=$(pwd)
     local dirty_count=0
+    local unpushed_count=0
     local total_count=0
     local show_details=false
     
@@ -430,8 +431,11 @@ show-dirty-projects() {
         
         # Check for uncommitted changes
         local status_output=$(git status --porcelain 2>/dev/null)
+        local is_dirty=false
+        local is_unpushed=false
         
         if [ -n "$status_output" ]; then
+            is_dirty=true
             dirty_count=$((dirty_count + 1))
             
             # Count different types of changes
@@ -461,6 +465,62 @@ show-dirty-projects() {
                 echo "$status_output" | sed 's/^/    /'
                 echo
             fi
+        else
+            # Not dirty, check if there are unpushed commits
+            # Get the current branch
+            local current_branch=$(git symbolic-ref --short HEAD 2>/dev/null)
+            
+            if [ -n "$current_branch" ]; then
+                # Check if branch has upstream
+                local upstream=$(git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null)
+                
+                if [ -n "$upstream" ]; then
+                    # Count commits ahead and behind
+                    local ahead_behind=$(git rev-list --left-right --count HEAD...$upstream 2>/dev/null)
+                    local ahead=$(echo "$ahead_behind" | awk '{print $1}')
+                    local behind=$(echo "$ahead_behind" | awk '{print $2}')
+                    
+                    if [ -n "$ahead" ] && [ "$ahead" -gt 0 ]; then
+                        is_unpushed=true
+                        unpushed_count=$((unpushed_count + 1))
+                        
+                        # Display project with unpushed commits
+                        echo -e "\033[33m↑\033[0m \033[1m$project_name\033[0m"
+                        echo -n "  "
+                        
+                        local push_summary="$ahead commits ahead"
+                        if [ -n "$behind" ] && [ "$behind" -gt 0 ]; then
+                            push_summary="$push_summary, $behind commits behind"
+                        fi
+                        
+                        echo -e "\033[90m($push_summary)\033[0m"
+                        
+                        # Show commit details if requested
+                        if [ "$show_details" = true ]; then
+                            echo "    Recent unpushed commits:"
+                            git log --oneline -n 3 @{u}..HEAD 2>/dev/null | sed 's/^/      /'
+                            echo
+                        fi
+                    fi
+                else
+                    # Branch exists but no upstream configured
+                    # Check if there are any commits at all
+                    local commit_count=$(git rev-list --count HEAD 2>/dev/null)
+                    if [ -n "$commit_count" ] && [ "$commit_count" -gt 0 ]; then
+                        is_unpushed=true
+                        unpushed_count=$((unpushed_count + 1))
+                        
+                        echo -e "\033[35m⚠\033[0m \033[1m$project_name\033[0m"
+                        echo -e "  \033[90m(no upstream configured, $commit_count local commits)\033[0m"
+                        
+                        if [ "$show_details" = true ]; then
+                            echo "    Recent commits:"
+                            git log --oneline -n 3 HEAD 2>/dev/null | sed 's/^/      /'
+                            echo
+                        fi
+                    fi
+                fi
+            fi
         fi
         
         cd "$current_dir"
@@ -470,13 +530,25 @@ show-dirty-projects() {
     echo
     echo -e "\033[1m═══════════════════════════════════════════════════════════\033[0m"
     
-    if [ $dirty_count -eq 0 ]; then
-        echo -e "\033[32m✓ All $total_count projects are clean!\033[0m"
+    if [ $dirty_count -eq 0 ] && [ $unpushed_count -eq 0 ]; then
+        echo -e "\033[32m✓ All $total_count projects are clean and pushed!\033[0m"
     else
-        echo -e "\033[33m⚠️  Found $dirty_count dirty projects out of $total_count total\033[0m"
+        local issues_found=false
+        
+        if [ $dirty_count -gt 0 ]; then
+            echo -e "\033[33m⚠️  Found $dirty_count dirty projects\033[0m"
+            issues_found=true
+        fi
+        
+        if [ $unpushed_count -gt 0 ]; then
+            echo -e "\033[33m⚠️  Found $unpushed_count projects with unpushed commits\033[0m"
+            issues_found=true
+        fi
+        
+        echo -e "\033[90mTotal projects scanned: $total_count\033[0m"
         
         if [ "$show_details" = false ]; then
-            echo -e "\033[90mRun 'show-dirty-projects --details' to see file changes\033[0m"
+            echo -e "\033[90mRun 'show-dirty-projects --details' to see more details\033[0m"
         fi
     fi
 }
