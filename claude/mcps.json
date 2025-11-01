@@ -17,12 +17,6 @@
         "@upstash/context7-mcp"
       ],
       "env": {}
-    },
-    "augments": {
-      "command": "augments-mcp-server",
-      "env": {
-        "AUGMENTS_CACHE_DIR": "/home/mike/.cache/augments-mcp-server"
-      }
     }
   }
 }
