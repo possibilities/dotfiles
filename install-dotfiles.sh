@@ -65,6 +65,31 @@ do
   ln -sfT $PWD/$file $HOME/bin/$file_name_no_ext
 done
 
+echo "link system config files into /etc (requires sudo)"
+
+if [ -d "etc" ]; then
+  for dir in etc/*
+  do
+    if [ -d "$dir" ]; then
+      dir_name=$(basename "$dir")
+      sudo mkdir -p "/etc/$dir_name"
+
+      for file in "$dir"/*
+      do
+        file_name=$(basename "$file")
+        echo "   * $file -> /etc/$dir_name/$file_name"
+        sudo ln -sfT "$PWD/$file" "/etc/$dir_name/$file_name"
+      done
+    fi
+  done
+
+  # Restart services that depend on system configs
+  if [ -f "etc/keyd/default.conf" ]; then
+    echo "   * restarting keyd service"
+    sudo systemctl restart keyd || echo "   ! keyd service not running"
+  fi
+fi
+
 echo "link npm packages with bin entries"
 
 CODE_DIR="$HOME/code"
