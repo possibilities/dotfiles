@@ -9,7 +9,7 @@ set nocompatible
 
 call plug#begin('~/.vim/plugged')
 
-Plug 'github/copilot.vim'
+" Plug 'github/copilot.vim'
 
 Plug 'jpalardy/vim-slime'
 
