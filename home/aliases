@@ -42,6 +42,11 @@ alias vd='nordvpn disconnect'
 alias vk='nordvpn set killswitch on'
 alias vko='nordvpn set killswitch off'
 
+# tailscale
+alias tss='tailscale status'
+alias tsu='sudo systemctl start tailscaled && sudo tailscale up'
+alias tsd='sudo tailscale down && sudo systemctl stop tailscaled'
+
 alias copy='xclip -selection clipboard'
 alias clip='xclip -selection clipboard'
 alias clipboard='xclip -selection clipboard'
