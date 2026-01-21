@@ -129,10 +129,10 @@ hc keybind Control-Alt-Shift-j spawn hc_resize_floated y-axis -$resize_floated_s
 hc keybind Control-Alt-Shift-k spawn hc_resize_floated y-axis +$resize_floated_step
 hc keybind Control-Alt-Shift-l spawn hc_resize_floated x-axis -$resize_floated_step
 
-hc keybind $Mod-r remove
+hc keybind $Mod-x remove
 hc keybind $Mod-s floating toggle
-hc keybind $Mod-f fullscreen toggle
-hc keybind $Mod-Shift-f set_attr clients.focus.floating toggle
+hc keybind $Mod-z fullscreen toggle
+hc keybind $Mod-Shift-z set_attr clients.focus.floating toggle
 
 # Cycle all layouts
 hc keybind $Mod-Shift-space \
@@ -159,16 +159,6 @@ hc keybind $Mod-Shift-Tab           cycle -1
 # Cycle all clients
 hc keybind $Mod-Control-Tab         cycle_all +1
 hc keybind $Mod-Control-Shift-Tab   cycle_all -1
-
-# Constrain fullscreen inside frame
-hc keybind $Mod-Control-f chain \
-  , attr clients.focus.ewmhrequests off \
-  , attr clients.focus.ewmhnotify on \
-  , attr clients.focus.fullscreen on \
-  , attr clients.focus.ewmhnotify off \
-  , set_attr clients.focus.fullscreen off \
-  , set_attr clients.focus.ewmhnotify on \
-  , sprintf CMD 'sleep 2 ; herbstclient attr clients.%s.ewmhrequests on' clients.focus.winid spawn bash -c CMD
 
 background_color='#000000'
 active_border_color='#ffffff'
