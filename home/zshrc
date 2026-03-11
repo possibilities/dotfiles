@@ -87,8 +87,15 @@ export NVM_DIR="$HOME/.nvm"
 test -r "~/.dir_colors" && eval $(dircolors ~/.dir_colors)
 
 # Ssh agent magic
-eval `keychain --eval --quiet --ignore-missing --agents ssh id_ed25519`
-eval `keychain --eval --quiet --ignore-missing --agents ssh id_rsa`
+if [ -n "$SSH_CONNECTION" ]; then
+  # Remote session — attach to existing agent, don't prompt
+  eval `keychain --eval --quiet --noask --ignore-missing --agents ssh id_ed25519`
+  eval `keychain --eval --quiet --noask --ignore-missing --agents ssh id_rsa`
+else
+  # Desktop session — prompt to unlock
+  eval `keychain --eval --quiet --ignore-missing --agents ssh id_ed25519`
+  eval `keychain --eval --quiet --ignore-missing --agents ssh id_rsa`
+fi
 
 # export PYENV_ROOT="$HOME/.pyenv"
 # command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
